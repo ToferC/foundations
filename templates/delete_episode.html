@@ -1,0 +1,45 @@
+{{ define "title"}}
+
+{{ $episode := .Episode.Episode }}
+
+<title>Delete {{ $episode.Name }}</title>
+
+{{ end }}
+
+{{define "content"}}
+
+{{ $episode := .Episode.Episode }}
+{{ $statistics := $episode.Statistics }}
+{{ $skills := $episode.Skills }}
+
+      <div class="container">
+        <h1>DELETE {{ $episode.Name }}</h1>
+        <div class="row">
+          <div class="col-sm-3 col-md-3 col-lg-3">
+            <h3>{{ $episode.Name }}</h3>
+            <img class ="card-img-top" data-src="" alt="Thumbnail"
+            style="width: 100%; display: block;" src="https://s3.amazonaws.com/foundations{{ .Episode.Image.Path }}"
+            data-holder-rendered="true">
+            <hr>
+            {{ $episode.Description }}
+            <form action="" method="POST">
+              <input class="btn btn-danger" type="submit" value="Delete">
+            </form>
+            <a href="/view_episode/{{ .Episode.ID }}" class="btn btn-primary">Return to Episode</a>
+          </div>
+      <div class="col-sm-3 col-md-3 col-lg-3">
+        <h3>Skills</h3>
+        {{ range $stat := $episode.Statistics }}
+        <h4>{{ $stat }}</h4>
+      {{ end }}
+      </div>
+      <div class="col-sm-3 col-md-3 col-lg-3">
+        
+      </div>
+      <div class="col-sm-3 col-md-3 col-lg-3">
+        <h3>Hit Locations</h3>
+          
+      </div>
+    </div>
+      </div>
+{{end}}
