@@ -3,7 +3,7 @@ package database
 import (
 	"github.com/go-pg/pg"
 	"github.com/go-pg/pg/orm"
-	"github.com/toferc/rq_web/models"
+	"github.com/toferc/foundations/models"
 )
 
 // InitDB initializes the DB Schema
@@ -17,12 +17,15 @@ func InitDB(db *pg.DB) error {
 
 func createSchema(db *pg.DB) error {
 	for _, model := range []interface{}{
-		(*models.CharacterModel)(nil),
-		(*models.CreatureModel)(nil),
-		(*models.HomelandModel)(nil),
-		(*models.OccupationModel)(nil),
-		(*models.CultModel)(nil),
+		(*models.Episode)(nil),
 		(*models.Image)(nil),
+		(*models.Video)(nil),
+		(*models.Practice)(nil),
+		(*models.Skill)(nil),
+		(*models.Stream)(nil),
+		(*models.LearningPoint)(nil),
+		(*models.KnowledgePoint)(nil),
+		(*models.LearningResource)(nil),
 		(*models.User)(nil)} {
 		err := db.CreateTable(model, &orm.CreateTableOptions{
 			Temp:        false,

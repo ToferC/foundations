@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/go-pg/pg"
-	"github.com/toferc/rq_web/models"
+	"github.com/toferc/foundations/models"
 )
 
 // SaveUser saves a User to the DB

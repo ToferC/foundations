@@ -44,7 +44,7 @@ func ListEpisodes(db *pg.DB) ([]*models.Episode, error) {
 	// Print names and PK
 	for i, e := range es {
 
-		fmt.Println(i, e.Name)
+		fmt.Println(i, e.Title)
 	}
 	return es, nil
 }

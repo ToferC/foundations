@@ -1,22 +1,23 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/go-pg/pg"
-	"github.com/toferc/rq_web/database"
-	"github.com/toferc/rq_web/models"
-	"github.com/toferc/runequest"
+	"github.com/toferc/foundations/database"
+	"github.com/toferc/foundations/models"
 )
 
 var db *pg.DB
 
 func init() {
-	os.Setenv("DBUser", "chris")
+	os.Setenv("DBUser", "data")
 	os.Setenv("DBPass", "12345")
-	os.Setenv("DBName", "runequest")
+	os.Setenv("DBName", "foundations")
 }
 
 func main() {
@@ -55,17 +56,17 @@ func main() {
 	for {
 		var username, email, password, password2 string
 
-		fmt.Println("Create SuperUser for Runequest")
+		fmt.Println("Create SuperUser for Foundations")
 
-		username = runequest.UserQuery("Enter user name (or hit Enter to quit): ")
+		username = UserQuery("Enter user name (or hit Enter to quit): ")
 
 		if username == "" {
 			break
 		}
 
-		email = runequest.UserQuery("Enter user email: ")
-		password = runequest.UserQuery("Enter password: ")
-		password2 = runequest.UserQuery("Re-enter password: ")
+		email = UserQuery("Enter user email: ")
+		password = UserQuery("Enter password: ")
+		password2 = UserQuery("Re-enter password: ")
 
 		hashedPassword, err := database.HashPassword(password)
 		if err != nil {
@@ -82,10 +83,22 @@ func main() {
 			Password: hashedPassword,
 			IsAdmin:  true,
 		}
+
 		database.SaveUser(db, &user)
 		fmt.Println(user)
 		fmt.Printf("Superuser %s created", user.UserName)
 		break
 	}
 
+}
+
+// UserQuery creates and question and returns the User's input as a string
+func UserQuery(q string) string {
+	question := bufio.NewReader(os.Stdin)
+	fmt.Print(q)
+	r, _ := question.ReadString('\n')
+
+	input := strings.Trim(r, " \n")
+
+	return input
 }
