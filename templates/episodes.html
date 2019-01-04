@@ -1,6 +1,6 @@
 {{ define "title"}}
 
-<title>Runequest Episode Roster</title>
+<title>Episodes</title>
 
 {{ end }}
 
@@ -21,22 +21,18 @@
               data-holder-rendered="true">
               <div class="card-body"></a>
                 <h5 class="card-title">{{ .Episode.Name }}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">{{ .Episode.Homeland.Name }} {{if .Episode.Occupation.Name }}| {{ .Episode.Occupation.Name }}{{end}} {{ if .Episode.Cult.Name }}| {{ .Episode.Cult.Name }}{{ end }}
+                <h6 class="card-subtitle mb-2 text-muted"></h6>
                 <h6>{{ .Author.UserName }}</h6>
 
                 <p class="card-text">
-                  {{ sliceString .Episode.Description 144 }}
+                  {{ sliceString .Episode.Tagline }}
                 </p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
                     <a class="btn btn-sm btn-primary"
                     href="/view_episode/{{ .ID }}">View</a>
                     {{ if eq $user .Author.UserName }}
-                    {{ if not .Episode.CreationSteps.Complete }}
-                      <a class="btn btn-sm btn-primary" href="/{{ generateEpisodeCreationURL .Episode.CreationSteps }}/{{ .ID }}">Resume Creation</a>
-                      {{ else }}
                       <a class="btn btn-sm btn-primary" href="/modify/{{ .ID }}">Modify</a>
-                    {{ end }}
                     {{ end }}
                     {{ if eq $IsAdmin "true" }}
                     <a class="btn btn-sm btn-danger"

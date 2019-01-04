@@ -305,8 +305,8 @@
                             </div>
                             <select type="text" class="form-control" id="Weapon-{{ add $m 1}}-Description" name="Weapon-{{ add $m 1}}-Description">
                               <option>{{ $weapon.Description }}</option>
-                              {{ range $wc := $weaponCategories }}
-                                  <option>{{ $wc }}</option>
+                              {{ range $wv := $weaponCategories }}
+                                  <option>{{ $wv }}</option>
                                 {{ end }}
                             </select>
                         </div>

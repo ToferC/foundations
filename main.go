@@ -24,19 +24,22 @@ import (
 )
 
 var (
-	db                  *pg.DB
-	svc                 *s3.S3
-	uploader            *s3manager.Uploader
-	DefaultEpisodeImage string
-	MaxMemory           int64
+	db       *pg.DB
+	svc      *s3.S3
+	uploader *s3manager.Uploader
 )
+
+// MaxMemory is the max upload size for images
+const MaxMemory = 2 * 1024 * 1024
+
+// DefaultEpisodeImage is a base image used as a default
+const DefaultEpisodeImage = "/media/shadow.jpeg"
 
 func init() {
 	fmt.Println("Initializing")
 	os.Setenv("DBUser", "chris")
 	os.Setenv("DBPass", "12345")
 	os.Setenv("DBName", "foundations")
-	MaxMemory := (2048 * 1000)
 }
 
 func main() {
@@ -147,7 +150,7 @@ func main() {
 	r.HandleFunc("/users/", UserIndexHandler)
 
 	r.HandleFunc("/episode/{id}", EpisodeHandler)
-	r.HandleFunc("/new/", NewEpisodeHandler)
+	r.HandleFunc("/new/", AddEpisodeHandler)
 	r.HandleFunc("/modify/{id}", ModifyEpisodeHandler)
 	r.HandleFunc("/delete/{id}", DeleteEpisodeHandler)
 

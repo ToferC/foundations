@@ -128,7 +128,7 @@ func LoginFunc(w http.ResponseWriter, req *http.Request) {
 	loggedIn := sessionMap["loggedin"]
 	isAdmin := sessionMap["isAdmin"]
 
-	wc := WebView{
+	wv := WebView{
 		SessionUser: username,
 		IsLoggedIn:  loggedIn,
 		IsAdmin:     isAdmin,
@@ -136,7 +136,7 @@ func LoginFunc(w http.ResponseWriter, req *http.Request) {
 
 	switch req.Method {
 	case "GET":
-		Render(w, "templates/login.html", wc)
+		Render(w, "templates/login.html", wv)
 	case "POST":
 		log.Print("Inside POST")
 		req.ParseForm()
@@ -165,7 +165,7 @@ func LoginFunc(w http.ResponseWriter, req *http.Request) {
 			http.Redirect(w, req, "/", 302)
 		} else {
 			log.Print("Invalid user " + username)
-			Render(w, "templates/login.html", wc)
+			Render(w, "templates/login.html", wv)
 		}
 	}
 }
@@ -188,7 +188,7 @@ func SignUpFunc(w http.ResponseWriter, req *http.Request) {
 	loggedIn := sessionMap["loggedin"]
 	isAdmin := sessionMap["isAdmin"]
 
-	wc := WebView{
+	wv := WebView{
 		SessionUser: username,
 		IsLoggedIn:  loggedIn,
 		IsAdmin:     isAdmin,
@@ -227,6 +227,6 @@ func SignUpFunc(w http.ResponseWriter, req *http.Request) {
 			http.Redirect(w, req, "/", 302)
 		}
 	} else if req.Method == "GET" {
-		Render(w, "templates/signup.html", wc)
+		Render(w, "templates/signup.html", wv)
 	}
 }

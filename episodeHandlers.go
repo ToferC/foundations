@@ -15,8 +15,8 @@ import (
 	"github.com/toferc/foundations/models"
 )
 
-// EpisodeIndexHandler renders the basic character roster page
-func EpisodeIndexHandler(w http.ResponseWriter, req *http.Request) {
+// SplashPageHandler renders the basic character roster page
+func SplashPageHandler(w http.ResponseWriter, req *http.Request) {
 
 	session, err := sessions.Store.Get(req, "session")
 
@@ -46,13 +46,13 @@ func EpisodeIndexHandler(w http.ResponseWriter, req *http.Request) {
 		}
 	}
 
-	wc := WebView{
+	wv := WebView{
 		SessionUser: username,
 		IsLoggedIn:  loggedIn,
 		IsAdmin:     isAdmin,
 		Episodes:    episodes,
 	}
-	Render(w, "templates/episode_index.html", wc)
+	Render(w, "templates/episode_index.html", wv)
 }
 
 // EpisodeHandler renders a character in a Web page
@@ -108,7 +108,7 @@ func EpisodeHandler(w http.ResponseWriter, req *http.Request) {
 		panic(err)
 	}
 
-	wc := WebView{
+	wv := WebView{
 		Episode:     ep,
 		IsAuthor:    IsAuthor,
 		IsLoggedIn:  loggedIn,
@@ -118,7 +118,7 @@ func EpisodeHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	// Render page
-	Render(w, "templates/view_episode.html", wc)
+	Render(w, "templates/view_episode.html", wv)
 
 }
 
@@ -156,7 +156,7 @@ func AddEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 		panic(err)
 	}
 
-	wc := WebView{
+	wv := WebView{
 		Episode:     &ep,
 		IsAuthor:    true,
 		SessionUser: username,
@@ -170,7 +170,7 @@ func AddEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 	if req.Method == "GET" {
 
 		// Render page
-		Render(w, "templates/add_episode.html", wc)
+		Render(w, "templates/add_episode.html", wv)
 
 	}
 
@@ -179,12 +179,6 @@ func AddEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 		err := req.ParseMultipartForm(MaxMemory)
 		if err != nil {
 			panic(err)
-		}
-
-		user, err := database.LoadUser(db, username)
-		if err != nil {
-			fmt.Println(err)
-			http.Redirect(w, req, "/", 302)
 		}
 
 		// Map default Episode to Character.Episodes
@@ -202,7 +196,7 @@ func AddEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 			// example path media/Major/TestImage/Jason_White.jpg
 			path := fmt.Sprintf("/media/%s/%s/%s",
 				ep.Author.UserName,
-				runequest.ToSnakeCase(ep.Episode.Name),
+				ToSnakeCase(ep.Title),
 				h.Filename,
 			)
 
@@ -302,7 +296,7 @@ func ModifyEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 		http.Redirect(w, req, "/", 302)
 	}
 
-	wc := WebView{
+	wv := WebView{
 		Episode:     ep,
 		IsAuthor:    IsAuthor,
 		SessionUser: username,
@@ -315,7 +309,7 @@ func ModifyEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 	if req.Method == "GET" {
 
 		// Render page
-		Render(w, "templates/modify_episode.html", wc)
+		Render(w, "templates/modify_episode.html", wv)
 
 	}
 
@@ -327,8 +321,8 @@ func ModifyEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 		}
 
 		// Update Episode here
-		ep.Name = req.FormValue("Name")
-		ep.Description = req.FormValue("Description")
+		ep.Title = req.FormValue("Title")
+		ep.Body = req.FormValue("Body")
 
 		// Upload image to s3
 		file, h, err := req.FormFile("image")
@@ -339,7 +333,7 @@ func ModifyEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 			// example path media/Major/TestImage/Jason_White.jpg
 			path := fmt.Sprintf("/media/%s/%s/%s",
 				ep.Author.UserName,
-				runequest.ToSnakeCase(ep.Episode.Name),
+				ToSnakeCase(ep.Title),
 				h.Filename,
 			)
 
@@ -421,7 +415,7 @@ func DeleteEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 
 	if ep.Image == nil {
 		ep.Image = new(models.Image)
-		ep.Image.Path = defaultEpisodeImage
+		ep.Image.Path = DefaultEpisodeImage
 	}
 
 	// Validate that User == Author
@@ -433,7 +427,7 @@ func DeleteEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 		http.Redirect(w, req, "/", 302)
 	}
 
-	wc := WebView{
+	wv := WebView{
 		Episode:     ep,
 		IsAuthor:    IsAuthor,
 		SessionUser: username,
@@ -444,7 +438,7 @@ func DeleteEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 	if req.Method == "GET" {
 
 		// Render page
-		Render(w, "templates/delete_episode.html", wc)
+		Render(w, "templates/delete_episode.html", wv)
 
 	}
 
