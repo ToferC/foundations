@@ -4,15 +4,14 @@ import (
 	"time"
 )
 
-// Episode represents a Busrides Episode
-type Episode struct {
-	ID               int64
+type Quiz struct {
 	Title            string
+	Questions        []*Question
 	Tagline          string
 	Body             string
 	SubTitle         string
 	Author           *User
-	Image            *Image
+	Images           []*Image
 	Videos           []*Video
 	Likes            int
 	PublishedOn      *time.Time
@@ -24,8 +23,7 @@ type Episode struct {
 	slug             string
 }
 
-// Edit represents an edit to content
-type Edit struct {
-	Description string
-	Date        *time.Time
+type Question struct {
+	Question string
+	Answer   int
 }

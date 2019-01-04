@@ -7,13 +7,15 @@ import (
 
 //User implements a generic user model
 type User struct {
-	ID        int64
-	UserName  string `sql:",unique"`
-	Email     string
-	Password  string
-	IsAdmin   bool
-	CreatedAt time.Time `sql:"default:now()"`
-	UpdatedAt time.Time
+	ID             int64
+	UserName       string `sql:",unique"`
+	Email          string
+	Password       string
+	IsAdmin        bool
+	LearnerProfile *LearnerProfile
+	Interests      *InterestMap
+	CreatedAt      time.Time `sql:"default:now()"`
+	UpdatedAt      time.Time
 }
 
 func (u User) String() string {

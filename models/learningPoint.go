@@ -7,4 +7,5 @@ type LearningPoint struct {
 	Description string
 	Slug        string
 	Tags        []*string
+	Difficulty  int
 }

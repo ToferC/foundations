@@ -21,13 +21,14 @@ import (
 
 	"github.com/go-pg/pg"
 	"github.com/toferc/foundations/database"
-	"github.com/toferc/foundations/models"
 )
 
 var (
-	db       *pg.DB
-	svc      *s3.S3
-	uploader *s3manager.Uploader
+	db                  *pg.DB
+	svc                 *s3.S3
+	uploader            *s3manager.Uploader
+	DefaultEpisodeImage string
+	MaxMemory           int64
 )
 
 func init() {
@@ -35,11 +36,12 @@ func init() {
 	os.Setenv("DBUser", "chris")
 	os.Setenv("DBPass", "12345")
 	os.Setenv("DBName", "foundations")
+	MaxMemory := (2048 * 1000)
 }
 
 func main() {
 
-	ar callback string
+	var callback string
 
 	if os.Getenv("ENVIRONMENT") == "production" {
 		// Production system
