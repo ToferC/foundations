@@ -6,6 +6,7 @@ import (
 
 // Experience represents a learner event
 type Experience struct {
+	ID             int64
 	Subject        *User
 	Verb           string
 	Skill          *Skill
@@ -13,8 +14,8 @@ type Experience struct {
 	LearningPoint  *LearningPoint
 	KnowledgePoint *KnowledgePoint
 	Noun           *LearningResource
-	OccurredAt     time.Time
-	Validated      bool
+	OccurredAt     time.Time `schema:"-"`
+	Validated      bool      `schema:"-"`
 	Difficulty     int
 	Depth          int
 }

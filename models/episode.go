@@ -6,22 +6,22 @@ import (
 
 // Episode represents a Busrides Episode
 type Episode struct {
-	ID               int64
+	ID               int64 `schema:"-"`
 	Title            string
 	Tagline          string
 	Body             string
 	SubTitle         string
-	Author           *User
+	Author           *User `schema:"-"`
 	Image            *Image
 	Videos           []*Video
-	Likes            int
-	PublishedOn      *time.Time
-	EditedOn         []*Edit
-	Tags             []*string
+	Likes            int       `schema:"-"`
+	PublishedOn      time.Time `schema:"-"`
+	Edits            []*Edit   `schema:"-"`
+	Tags             []string
 	LearningPoints   []*LearningPoint
 	DigitalStandards []string
 	BannerImage      *Image
-	slug             string
+	slug             string `schema:"-"`
 }
 
 // Edit represents an edit to content

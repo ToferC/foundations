@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Runequest RPG">
+    <meta name="description" content="Digital Foundations">
     <meta name="author" content="ToferC">
     <link rel="icon" href="../../favicon.ico">
 
@@ -22,11 +22,7 @@
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      {{ if ne $user ""}}
-        <a class="navbar-brand" href="/">Foundations</a>
-      {{ else }}
-        <a class="navbar-brand" href="/">Foundations</a>
-      {{ end }}
+        <a class="navbar-brand" href="/">Digital Foundations</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -34,7 +30,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li>
-      <a class="nav-link active" href="/">placeholder<span class="sr-only"></a></li>
+      <a class="nav-link active" href="/">My Learning<span class="sr-only"></a></li>
       <li>
       <a class="nav-link active" href="/">placeholder<span class="sr-only"></a></li>
       <li>
@@ -49,7 +45,7 @@
           Add Content
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/">Add Episode</a>
+          <a class="dropdown-item" href="/new/">Add Episode</a>
         </div>
       </li>
       {{ end }}
@@ -104,6 +100,8 @@
       <hr>
 {{ end }}
 
+      {{template "userframe" .}}
+      <br>
       {{template "content" .}}
 
     </div><!-- /.container -->

@@ -6,9 +6,9 @@ import (
 
 // Image  is the image and path for an Image
 type Image struct {
-	ID          int
+	ID          int64 `schema:"-"`
 	Title       string
 	Description string
-	Path        string
-	AddedOn     time.Time
+	Path        string    `schema:"-"`
+	AddedOn     time.Time `schema:"-"`
 }

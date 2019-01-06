@@ -2,71 +2,58 @@
 
 {{ $episode := .Episode }}
 
-<title>View {{ $episode.Name }}</title>
-
-<style>
-  table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
-
-  td,
-  th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
-
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  }
-</style>
+<title>View {{ $episode.Title }}</title>
 
 {{ end }}
 
 {{define "content"}}
 
-{{ $episode := .Episode.Episode }}
+{{ $episode := .Episode }}
 {{ $ID := .Episode.ID }}
 {{ $IsAuthor := .IsAuthor }}
 {{ $IsAdmin := .IsAdmin }}
 {{ $author := .Episode.Author }}
 
 <div class="container">
-  <hr>
   <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12">
       <h3>{{ $episode.Title }}</h3>
       <br>
 
-      <img class="card-img-top" data-src="" alt="Thumbnail" style="width: 100%; display: block;" src="https://s3.amazonaws.com/foundations{{ .Episode.Image.Path }}"
+      <img class="card-img-top" data-src="" alt="Thumbnail" style="width: 100%; display: block;" src="https://s3.amazonaws.com/foundationsapp{{ .Episode.Image.Path }}"
         data-holder-rendered="true">
 
       <p>Author: {{ $author.UserName }}</p>
-      <p>{{ $episode.Tagline }}</>
+      <p>{{ $episode.Tagline }}<p/>
         <hr>
-
-        <h5>$episode.Title</h5>
         <p>{{ $episode.Body }}</p>
         <hr>
         <p>Likes: {{ $episode.Likes }}</p>
         <p>Published: {{ $episode.PublishedOn }}</p>
+
+      <hr>
+      {{ if $episode.Videos }}
+        {{ range $video := $episode.Videos }}
+        <iframe width="560" height="315" src="{{ $video.Path }}" frameborder="0" allow="encrypted-media; gyroscope;" allowfullscreen></iframe>
+        {{ end }}
+      {{ end }}
+
+      <hr>
         <p>Tags</p>
         {{ range $tag := $episode.Tags }}
-          {{ $tag }}
+          <p>{{ $tag }}</p>
         {{ end }}
         <hr>
 
         <p>Learning Points</p>
         {{ range $lp := $episode.LearningPoints }}
-          {{ $lp }}
+          <p>{{ $lp }}</p>
         {{ end }}
         <hr>
 
         <p>Digital Standards</p>
         {{ range $ds := $episode.DigitalStandards }}
-          {{ $ds }}
+          <p>{{ $ds }}</p>
         {{ end }}
         <hr>
 

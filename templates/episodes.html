@@ -7,6 +7,7 @@
 {{define "content"}}
 {{ $user := .SessionUser }}
 {{ $IsAdmin := .IsAdmin }}
+{{ $episode := .Episode }}
 
 <h3>Open Episode Roster</h3>
 
@@ -17,15 +18,15 @@
             <div class="card mb-4 box-shadow">
               <a href="/view_episode/{{ .ID }}">
               <img class ="card-img-top" data-src="" alt="Thumbnail"
-              style="width: 100%; height: 50%; display: block;" src="https://s3.amazonaws.com/foundations{{ .Image.Path }}"
+              style="width: 100%; height: 50%; display: block;" src="https://s3.amazonaws.com/foundationsapp{{ .Image.Path }}"
               data-holder-rendered="true">
               <div class="card-body"></a>
-                <h5 class="card-title">{{ .Episode.Name }}</h5>
+                <h5 class="card-title">{{ .Title }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted"></h6>
                 <h6>{{ .Author.UserName }}</h6>
 
                 <p class="card-text">
-                  {{ sliceString .Episode.Tagline }}
+                  {{ .Tagline }}
                 </p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">

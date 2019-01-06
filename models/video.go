@@ -6,10 +6,10 @@ import (
 
 // Video  is the image and path for an Image
 type Video struct {
-	ID             int
+	ID             int64 `schema:"-"`
 	Title          string
 	Description    string
 	Path           string
 	LearningPoints []*LearningPoint
-	AddedOn        time.Time
+	AddedOn        time.Time `schema:"-"`
 }

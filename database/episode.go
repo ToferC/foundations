@@ -13,7 +13,7 @@ func SaveEpisode(db *pg.DB, e *models.Episode) error {
 	// Save episode in Database
 	_, err := db.Model(e).
 		OnConflict("(id) DO UPDATE").
-		Set("episode = ?episode").
+		Set("title = ?title").
 		Insert(e)
 	if err != nil {
 		panic(err)

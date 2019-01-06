@@ -97,8 +97,9 @@ func Render(w http.ResponseWriter, filename string, data interface{}) {
 	}
 
 	baseTemplate := "templates/layout.html"
+	userFrame := "templates/userframe.html"
 
-	tmpl[filename] = template.Must(template.New("").Funcs(funcMap).ParseFiles(filename, baseTemplate))
+	tmpl[filename] = template.Must(template.New("").Funcs(funcMap).ParseFiles(filename, baseTemplate, userFrame))
 
 	if err := tmpl[filename].ExecuteTemplate(w, "base", data); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

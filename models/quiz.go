@@ -5,6 +5,7 @@ import (
 )
 
 type Quiz struct {
+	ID               int64
 	Title            string
 	Questions        []*Question
 	Tagline          string
@@ -13,14 +14,14 @@ type Quiz struct {
 	Author           *User
 	Images           []*Image
 	Videos           []*Video
-	Likes            int
-	PublishedOn      *time.Time
-	EditedOn         []*Edit
+	Likes            int        `schema:"-"`
+	PublishedOn      *time.Time `schema:"-"`
+	EditedOn         []*Edit    `schema:"-"`
 	Tags             []*string
 	LearningPoints   []*LearningPoint
 	DigitalStandards []string
-	BannerImage      *Image
-	slug             string
+	BannerImage      *Image `schema:"-"`
+	slug             string `schema:"-"`
 }
 
 type Question struct {

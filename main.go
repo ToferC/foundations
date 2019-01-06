@@ -11,6 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/schema"
 
 	"github.com/dghubble/gologin"
 	"github.com/dghubble/gologin/google"
@@ -27,13 +28,14 @@ var (
 	db       *pg.DB
 	svc      *s3.S3
 	uploader *s3manager.Uploader
+	decoder  = schema.NewDecoder()
 )
 
 // MaxMemory is the max upload size for images
 const MaxMemory = 2 * 1024 * 1024
 
 // DefaultEpisodeImage is a base image used as a default
-const DefaultEpisodeImage = "/media/shadow.jpeg"
+const DefaultEpisodeImage = "/media/digital.jpg"
 
 func init() {
 	fmt.Println("Initializing")
@@ -73,7 +75,7 @@ func main() {
 			Database: os.Getenv("DBName"),
 		})
 		os.Setenv("CookieSecret", "kimchee-typhoon")
-		os.Setenv("BUCKET", "foundations")
+		os.Setenv("BUCKET", "foundationsapp")
 		os.Setenv("AWS_REGION", "us-east-1")
 
 		err := godotenv.Load()
@@ -134,6 +136,9 @@ func main() {
 		port = "8080"
 	}
 
+	// Set Schema ignoreunknownkeys to true
+	decoder.IgnoreUnknownKeys(true)
+
 	r := mux.NewRouter()
 
 	fmt.Println("Starting Webserver at port " + port)
@@ -149,7 +154,7 @@ func main() {
 
 	r.HandleFunc("/users/", UserIndexHandler)
 
-	r.HandleFunc("/episode/{id}", EpisodeHandler)
+	r.HandleFunc("/view_episode/{id}", EpisodeHandler)
 	r.HandleFunc("/new/", AddEpisodeHandler)
 	r.HandleFunc("/modify/{id}", ModifyEpisodeHandler)
 	r.HandleFunc("/delete/{id}", DeleteEpisodeHandler)

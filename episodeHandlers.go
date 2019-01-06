@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
@@ -52,7 +53,7 @@ func SplashPageHandler(w http.ResponseWriter, req *http.Request) {
 		IsAdmin:     isAdmin,
 		Episodes:    episodes,
 	}
-	Render(w, "templates/episode_index.html", wv)
+	Render(w, "templates/episodes.html", wv)
 }
 
 // EpisodeHandler renders a character in a Web page
@@ -103,18 +104,12 @@ func EpisodeHandler(w http.ResponseWriter, req *http.Request) {
 		ep.Image.Path = DefaultEpisodeImage
 	}
 
-	episodes, err := database.ListEpisodes(db)
-	if err != nil {
-		panic(err)
-	}
-
 	wv := WebView{
 		Episode:     ep,
 		IsAuthor:    IsAuthor,
 		IsLoggedIn:  loggedIn,
 		SessionUser: username,
 		IsAdmin:     isAdmin,
-		Episodes:    episodes,
 	}
 
 	// Render page
@@ -182,13 +177,24 @@ func AddEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 		}
 
 		// Map default Episode to Character.Episodes
-		ep := models.Episode{
-			Title: req.FormValue("Title"),
-			Body:  req.FormValue("Body"),
+		ep := models.Episode{}
+
+		author, err := database.LoadUser(db, username)
+		if err != nil {
+			fmt.Println(err)
+			http.Redirect(w, req, "/", 302)
+		}
+
+		ep.Author = author
+
+		// Pull form values into Episode via gorilla/schema
+		err = decoder.Decode(&ep, req.PostForm)
+		if err != nil {
+			panic(err)
 		}
 
 		// Upload image to s3
-		file, h, err := req.FormFile("image")
+		file, h, err := req.FormFile("ImagePath")
 		switch err {
 		case nil:
 			// Process image
@@ -227,13 +233,9 @@ func AddEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 
 		// Add other Episode fields
 
-		author, err := database.LoadUser(db, username)
-		if err != nil {
-			fmt.Println(err)
-			http.Redirect(w, req, "/", 302)
-		}
+		ep.PublishedOn = time.Now()
 
-		ep.Author = author
+		fmt.Println(ep.Tags)
 
 		err = database.SaveEpisode(db, &ep)
 		if err != nil {
