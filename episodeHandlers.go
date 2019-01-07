@@ -431,6 +431,10 @@ func DeleteEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 		ep.Image.Path = DefaultEpisodeImage
 	}
 
+	input := []byte(ep.Body)
+
+	output := template.HTML(blackfriday.Run(input))
+
 	// Validate that User == Author
 	IsAuthor := false
 
@@ -446,6 +450,7 @@ func DeleteEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 		SessionUser: username,
 		IsLoggedIn:  loggedIn,
 		IsAdmin:     isAdmin,
+		Markdown:    output,
 	}
 
 	if req.Method == "GET" {

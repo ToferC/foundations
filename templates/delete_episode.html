@@ -23,7 +23,8 @@
             style="width: 100%; display: block;" src="https://s3.amazonaws.com/foundationsapp{{ .Episode.Image.Path }}"
             data-holder-rendered="true">
             <hr>
-            {{ $episode.Tagline }}
+            {{ .Markdown }}
+            <hr>
             <form action="" method="POST">
               <input class="btn btn-danger" type="submit" value="Delete">
             </form>
