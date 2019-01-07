@@ -65,7 +65,7 @@ func main() {
 		db = pg.Connect(options)
 
 		// Set Google Oauth Callback
-		callback = "https://foundations.herokuapp.com/google/callback"
+		callback = "https://foundationsapp.herokuapp.com/google/callback"
 
 	} else {
 		// Not production
