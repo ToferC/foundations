@@ -46,7 +46,7 @@
 
               <hr>
 
-              <label for="Image">Primary Image</label>
+              <label for="ImagePath">Primary Image</label>
               <div class="input-group">
                 <div class="custom-file">
                   <input type="file" name="Image" class="custom-file-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
@@ -55,13 +55,14 @@
               </div>
 
               <hr>
-
+              <h4>Videos</h4>
+              {{ if $episode.Videos }}
               {{ range $i, $video := $episode.Videos }}
               <div class="input-group">
                 <div class="input-group-prepend">
-                <span class="input-group-text" id="Videos{{ $i }}.Title-addon">Videos{{ $i }}.Title</span>
+                <span class="input-group-text" id="Videos.{{ $i }}.Title-addon">Videos{{ $i }}.Title</span>
                 </div>
-                <input type="text" class="form-control" aria-describedby="Videos{{ $i }}.Title-addon" name="Videos{{ $i }}.Title" value ="{{ $video.Title }}">
+                <input type="text" class="form-control" aria-describedby="Videos.{{ $i }}.Title-addon" name="Videos.{{ $i }}.Title" value ="{{ $video.Title }}">
               </div>
 
               <div class="input-group">
@@ -73,7 +74,7 @@
 
               <div class="input-group">
                 <div class="input-group-prepend">
-                <span class="input-group-text" id="Videos.{{ $i }}.Path-addon">Videos.0.URL</span>
+                <span class="input-group-text" id="Videos.{{ $i }}.Path-addon">Videos.{{ $i }}.URL</span>
                 </div>
                 <input type="text" class="form-control" aria-describedby="Videos.{{ $i }}.Path-addon" name="Videos.{{ $i }}.Path" value ="{{ $video.Path }}">
               </div>
@@ -81,6 +82,89 @@
               <hr>
 
               {{ end }} <!-- End Videos -->
+
+              {{ else }} <!-- No videos - Create empty -->
+
+              <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="Videos.0.Title-addon">Videos.0.Title</span>
+                </div>
+                <input type="text" class="form-control" aria-describedby="Videos.0.Title-addon" name="Videos.0.Title" value ="">
+              </div>
+
+              <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="Videos.0.Description-addon">Videos.0.Description</span>
+                </div>
+                <input type="text" class="form-control" aria-describedby="Videos.0.Description-addon" name="Videos.0.Description" value ="">
+              </div>
+
+              <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="Videos.0.Path-addon">Videos.0.URL</span>
+                </div>
+                <input type="text" class="form-control" aria-describedby="Videos.0.Path-addon" name="Videos.0.Path" value ="" placeholder="Enter Share URL">
+              </div>
+
+              {{ end }} <!-- End IF -->
+
+              <hr>
+              <h4>Podcasts</h4>
+              {{ if $episode.Podcasts }}
+              {{ range $i, $podcast := $episode.Podcasts }}
+              <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="Podcasts.{{ $i }}.Title-addon">Podcasts.{{ $i }}.Title</span>
+                </div>
+                <input type="text" class="form-control" aria-describedby="Podcasts.{{ $i }}.Title-addon" name="Podcasts.{{ $i }}.Title" value ="{{ $podcast.Title }}">
+              </div>
+
+              <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="Podcasts.{{ $i }}.Description-addon">Podcasts.{{ $i }}.Description</span>
+                </div>
+                <input type="text" class="form-control" aria-describedby="Podcasts.{{ $i }}.Description-addon" name="Podcasts.{{ $i }}.Description" value ="{{ $podcast.Description }}">
+              </div>
+
+              <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="Podcasts.{{ $i }}.Path-addon">Podcasts.{{ $i }}.URL</span>
+                </div>
+                <input type="text" class="form-control" aria-describedby="Podcasts.{{ $i }}.Path-addon" name="Podcasts.{{ $i }}.Path" value ="{{ $podcast.Path }}">
+              </div>
+
+              <hr>
+
+              {{ end }} <!-- End Podcasts -->
+
+              {{ else }} <!-- No Podcasts - Create empty -->
+
+              <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="Podcasts.0.Title-addon">Podcasts.0.Title</span>
+                </div>
+                <input type="text" class="form-control" aria-describedby="Podcasts.0.Title-addon" name="Podcasts.0.Title" value ="">
+              </div>
+
+              <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="Podcasts.0.Description-addon">Podcasts.0.Description</span>
+                </div>
+                <input type="text" class="form-control" aria-describedby="Podcasts.0.Description-addon" name="Podcasts.0.Description" value ="">
+              </div>
+
+              <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="Podcasts.0.Path-addon">Podcasts.0.URL</span>
+                </div>
+                <input type="text" class="form-control" aria-describedby="Podcasts.0.Path-addon" name="Podcasts.0.Path" value ="" placeholder="Enter Share URL">
+              </div>
+
+              <hr> 
+              {{ end }} <!-- End IF -->
+
+
+              <h4>Tags</h4>
 
               {{ range $i, $tag := $episode.Tags }}
 

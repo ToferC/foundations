@@ -2,11 +2,14 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
 	"time"
+
+	"gopkg.in/russross/blackfriday.v2"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
@@ -91,8 +94,6 @@ func EpisodeHandler(w http.ResponseWriter, req *http.Request) {
 		fmt.Println("Unable to load Episode")
 	}
 
-	fmt.Println(ep)
-
 	IsAuthor := false
 
 	if username == ep.Author.UserName {
@@ -104,12 +105,17 @@ func EpisodeHandler(w http.ResponseWriter, req *http.Request) {
 		ep.Image.Path = DefaultEpisodeImage
 	}
 
+	input := []byte(ep.Body)
+
+	output := template.HTML(blackfriday.Run(input))
+
 	wv := WebView{
 		Episode:     ep,
 		IsAuthor:    IsAuthor,
 		IsLoggedIn:  loggedIn,
 		SessionUser: username,
 		IsAdmin:     isAdmin,
+		Markdown:    output,
 	}
 
 	// Render page
@@ -146,11 +152,6 @@ func AddEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 		Title: "New",
 	}
 
-	episodes, err := database.ListEpisodes(db)
-	if err != nil {
-		panic(err)
-	}
-
 	wv := WebView{
 		Episode:     &ep,
 		IsAuthor:    true,
@@ -159,7 +160,6 @@ func AddEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 		IsAdmin:     isAdmin,
 		Counter:     numToArray(7),
 		BigCounter:  numToArray(15),
-		Episodes:    episodes,
 	}
 
 	if req.Method == "GET" {
@@ -232,6 +232,10 @@ func AddEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 		}
 
 		// Add other Episode fields
+
+		for _, v := range ep.Videos {
+			v.Path = ConvertURLToEmbededURL(v.Path)
+		}
 
 		ep.PublishedOn = time.Now()
 
@@ -322,12 +326,14 @@ func ModifyEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 			panic(err)
 		}
 
-		// Update Episode here
-		ep.Title = req.FormValue("Title")
-		ep.Body = req.FormValue("Body")
+		// Pull form values into Episode via gorilla/schema
+		err = decoder.Decode(ep, req.PostForm)
+		if err != nil {
+			panic(err)
+		}
 
 		// Upload image to s3
-		file, h, err := req.FormFile("image")
+		file, h, err := req.FormFile("ImagePath")
 		switch err {
 		case nil:
 			// Prepess image
@@ -365,6 +371,10 @@ func ModifyEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 		}
 
 		// Do things
+
+		for _, v := range ep.Videos {
+			v.Path = ConvertURLToEmbededURL(v.Path)
+		}
 
 		// Insert Episode into App archive
 		err = database.UpdateEpisode(db, ep)

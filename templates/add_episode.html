@@ -41,7 +41,7 @@
 
               <hr>
 
-                <label for="Body">Body</label>
+                <label for="Body">Write your awesome blog here using Markdown</label>
                 <textarea class="form-control" aria-describedby="Body-addon" name="Body" rows="50" value ="{{ $episode.Body }}">{{ $episode.Body }}</textarea>
 
               <hr>
@@ -55,7 +55,7 @@
               </div>
 
               <hr>
-
+              <h4>Add Video</h4>
               <div class="input-group">
                 <div class="input-group-prepend">
                 <span class="input-group-text" id="Videos.0.Title-addon">Videos.0.Title</span>
@@ -74,10 +74,31 @@
                 <div class="input-group-prepend">
                 <span class="input-group-text" id="Videos.0.Path-addon">Videos.0.URL</span>
                 </div>
-                <input type="text" class="form-control" aria-describedby="Videos.0.Path-addon" name="Videos.0.Path" value ="">
+                <input type="text" class="form-control" aria-describedby="Videos.0.Path-addon" name="Videos.0.Path" value ="" placeholder="Enter YouTube Share URL">
               </div>
 
+              <hr>
+              <h4>Add Podcast</h4>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="Podcasts.0.Title-addon">Podcasts.0.Title</span>
+                </div>
+                <input type="text" class="form-control" aria-describedby="Podcasts.0.Title-addon" name="Podcasts.0.Title" value ="">
+              </div>
 
+              <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="Podcasts.0.Description-addon">Podcasts.0.Description</span>
+                </div>
+                <input type="text" class="form-control" aria-describedby="Podcasts.0.Description-addon" name="Podcasts.0.Description" value ="">
+              </div>
+
+              <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="Podcasts.0.Path-addon">Podcasts.0.URL</span>
+                </div>
+                <input type="text" class="form-control" aria-describedby="Podcasts.0.Path-addon" name="Podcasts.0.Path" value ="" placeholder="Enter Soundcloud Share URL">
+              </div>
 
               <hr>
 

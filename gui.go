@@ -27,6 +27,7 @@ type WebView struct {
 	IsAdmin     string
 
 	Episodes []*models.Episode
+	Markdown template.HTML
 
 	Counter    []int
 	MidCounter []int

@@ -14,6 +14,7 @@ type Episode struct {
 	Author           *User `schema:"-"`
 	Image            *Image
 	Videos           []*Video
+	Podcasts         []*Podcast
 	Likes            int       `schema:"-"`
 	PublishedOn      time.Time `schema:"-"`
 	Edits            []*Edit   `schema:"-"`
