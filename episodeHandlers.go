@@ -464,7 +464,7 @@ func DeleteEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 			fmt.Println("Deleted Episode")
 		}
 
-		url := fmt.Sprint("/episode_index/")
+		url := fmt.Sprint("/")
 
 		http.Redirect(w, req, url, http.StatusSeeOther)
 	}

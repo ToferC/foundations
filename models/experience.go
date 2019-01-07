@@ -9,13 +9,16 @@ type Experience struct {
 	ID             int64
 	Subject        *User
 	Verb           string
-	Skill          *Skill
+	Stream         *Stream
 	Practice       *Practice
-	LearningPoint  *LearningPoint
-	KnowledgePoint *KnowledgePoint
+	Skill          *Skill
+	LearningPoint  *[]LearningPoint
+	KnowledgePoint *[]KnowledgePoint
 	Noun           *LearningResource
 	OccurredAt     time.Time `schema:"-"`
 	Validated      bool      `schema:"-"`
+	Time           int
+	Value          int
 	Difficulty     int
 	Depth          int
 }
