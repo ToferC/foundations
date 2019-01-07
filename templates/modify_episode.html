@@ -86,9 +86,9 @@
 
               <div class="input-group">
                 <div class="input-group-prepend">
-                <span class="input-group-text" id="Tags.{{ $i }}-addon">Tags.{{ $i }}</span>
+                <span class="input-group-text" id="Tags-addon">Tag {{ add $i 1}}</span>
                 </div>
-                <input type="text" class="form-control" aria-describedby="Tags.{{ $i }}-addon" name="Tags.{{ $i }}" value ="{{ $tag }}">
+                <input type="text" class="form-control" aria-describedby="Tags-addon" name="Tags" value ="{{ $tag }}">
               </div>
 
               {{ end }}
