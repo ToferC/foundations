@@ -16,7 +16,8 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-12">
+    <div class="col-sm-0 col-md-1 col-lg-2"></div>
+    <div class="col-sm-12 col-md-10 col-lg-8">
       <h3>{{ $episode.Title }}</h3>
       <br>
 
@@ -28,23 +29,20 @@
       <h4>{{ $episode.Tagline }}</h4>
         <hr>
         <p>{{ .Markdown }}</p>
-        <hr>
-        <p>Likes: {{ $episode.Likes }}</p>
-        <p>Published: {{ $episode.PublishedOn }}</p>
 
       <hr>
       {{ if $episode.Videos }}
-        <h4>Videos</h4>
+        <h4>Watch</h4>
         {{ range $video := $episode.Videos }}
-        <iframe width="560" height="315" src="{{ $video.Path }}" frameborder="0" allow="encrypted-media; gyroscope;" allowfullscreen></iframe>
+        <iframe width="80%" height="400" src="{{ $video.Path }}" frameborder="0" allow="encrypted-media; gyroscope;" allowfullscreen title="{{ $video.Description }}"></iframe>
         {{ end }}
       {{ end }}
 
       <hr>
       {{ if $episode.Podcasts }}
-      <h4>Podcasts</h4>
+      <h4>Listen</h4>
         {{ range $podcast := $episode.Podcasts }}
-        <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url={{ $podcast.Path }}&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+        <iframe width="80%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url={{ $podcast.Path }}&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true" title="{{ $podcast.Description }}"></iframe>
         {{ end }}
       {{ end }}
 
@@ -69,12 +67,18 @@
         {{ end }}
         <hr>
 
+        <p>Likes: {{ $episode.Likes }}</p>
+        <p>Published: {{ $episode.PublishedOn }}</p>
+
+        <hr>
+
         {{ if (or $IsAuthor (eq $IsAdmin "true")) }}
         <a class="btn btn-primary" href="/modify/{{ $ID }}">Modify</a>
         <a class="btn btn-danger" href="/delete/{{ $ID }}">Delete</a>
         {{ end }}
 
     </div>
+    <div class="col-sm-0 col-md-1 col-lg-2"></div>
 
   </div> <!-- END Row-->
 

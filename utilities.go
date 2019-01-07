@@ -95,9 +95,9 @@ func ConvertURLToEmbededURL(s string) string {
 
 	if strings.Contains(s, "embed") {
 		return s
-	} else {
-		c = strings.Split(s, "youtu.be/")
 	}
+
+	c = strings.Split(s, "youtu.be/")
 	url := fmt.Sprintf("https://youtube.com/embed/%s", c[1])
 	return url
 }

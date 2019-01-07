@@ -21,13 +21,15 @@ type WebUser struct {
 type WebView struct {
 	User        *models.User
 	Episode     *models.Episode
+	Experience  *models.Experience
 	IsAuthor    bool
 	SessionUser string
 	IsLoggedIn  string
 	IsAdmin     string
 
-	Episodes []*models.Episode
-	Markdown template.HTML
+	Episodes    []*models.Episode
+	Experiences []*models.Experience
+	Markdown    template.HTML
 
 	Counter    []int
 	MidCounter []int
