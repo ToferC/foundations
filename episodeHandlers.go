@@ -235,6 +235,7 @@ func AddEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 
 		for _, v := range ep.Videos {
 			v.Path = ConvertURLToEmbededURL(v.Path)
+			// Call API to get Title and description
 		}
 
 		ep.PublishedOn = time.Now()

@@ -3,12 +3,12 @@ package main
 import (
 	"bufio"
 	"fmt"
-
 	"os"
 	"regexp"
 	"strings"
 
 	"github.com/gorilla/sessions"
+	"google.golang.org/api/youtube/v3"
 )
 
 func getUserSessionValues(s *sessions.Session) map[string]string {
@@ -100,4 +100,33 @@ func ConvertURLToEmbededURL(s string) string {
 	c = strings.Split(s, "youtu.be/")
 	url := fmt.Sprintf("https://youtube.com/embed/%s", c[1])
 	return url
+}
+
+func mapVideosListResults(response *youtube.VideoListResponse) map[string]string {
+
+	m := map[string]string{}
+
+	for _, item := range response.Items {
+		fmt.Println(item.Id, ": ", item.Snippet.Title)
+
+		switch item.Id {
+		case "Title":
+			m["Title"] = item.Id
+		case "Description":
+			m["Description"] = item.Id
+		}
+	}
+	return m
+}
+
+func videosListByID(service *youtube.Service, part string, id string) {
+	call := service.Videos.List(part)
+	if id != "" {
+		call = call.Id(id)
+	}
+	response, err := call.Do()
+	if err != nil {
+		fmt.Println(err)
+	}
+	mapVideosListResults(response)
 }
