@@ -6,7 +6,10 @@ import (
 
 // LearnerProfile represents a learner's experiences
 type LearnerProfile struct {
-	ID   int64
+	ID int64
+
+	Experiences []*Experience
+
 	slug string
 }
 

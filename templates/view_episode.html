@@ -34,7 +34,7 @@
       {{ if $episode.Videos }}
         <h4>Watch</h4>
         {{ range $video := $episode.Videos }}
-        <iframe width="80%" height="400" src="{{ $video.Path }}" frameborder="0" allow="encrypted-media; gyroscope;" allowfullscreen title="{{ $video.Description }}"></iframe>
+        <iframe width="100%" height="350" src="{{ $video.Path }}" frameborder="0" allow="encrypted-media; gyroscope;" allowfullscreen title="{{ $video.Description }}"></iframe>
         {{ end }}
       {{ end }}
 
@@ -42,7 +42,7 @@
       {{ if $episode.Podcasts }}
       <h4>Listen</h4>
         {{ range $podcast := $episode.Podcasts }}
-        <iframe width="80%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url={{ $podcast.Path }}&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true" title="{{ $podcast.Description }}"></iframe>
+        <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url={{ $podcast.Path }}&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true" title="{{ $podcast.Description }}"></iframe>
         {{ end }}
       {{ end }}
 
