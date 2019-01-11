@@ -18,7 +18,7 @@ type Episode struct {
 	Likes             int       `schema:"-"`
 	PublishedOn       time.Time `schema:"-"`
 	Edits             []*Edit   `schema:"-"`
-	Tags              []Text
+	Tags              []string
 	LearningPoints    []*LearningPoint
 	LearningResources []*LearningResource
 	DigitalStandards  []string
