@@ -12,7 +12,7 @@ type LearningResource struct {
 	Licence        string
 	Title          string
 	Description    string
-	Path           string    `schema:"-"`
+	Path           string
 	AddedOn        time.Time `schema:"-"`
 	LearningPoints []*LearningPoint
 }
