@@ -9,6 +9,7 @@ type Episode struct {
 	ID                int64 `schema:"-"`
 	Title             string
 	Tagline           string
+	SubTitle          string
 	Body              string
 	Author            *User `schema:"-"`
 	Image             *Image
