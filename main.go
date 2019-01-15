@@ -149,7 +149,7 @@ func main() {
 	r.HandleFunc("/login/", LoginFunc)
 	r.HandleFunc("/logout/", LogoutFunc)
 
-	r.HandleFunc("/learner_profile/{id}", ViewLearnerProfileHandler)
+	r.HandleFunc("/learner_profile/", ViewLearnerProfileHandler)
 
 	r.Handle("/google/login", google.StateHandler(stateConfig, google.LoginHandler(oauth2Config, nil)))
 	r.Handle("/google/callback", google.StateHandler(stateConfig, google.CallbackHandler(oauth2Config, googleLoginFunc(), nil)))
@@ -161,7 +161,7 @@ func main() {
 	r.HandleFunc("/modify/{id}", ModifyEpisodeHandler)
 	r.HandleFunc("/delete/{id}", DeleteEpisodeHandler)
 
-	r.HandleFunc("/add_experience/{{verb}}/", AddExperienceHandler)
+	r.HandleFunc("/add_experience/{verb}/", AddExperienceHandler)
 
 	http.Handle("/", r)
 

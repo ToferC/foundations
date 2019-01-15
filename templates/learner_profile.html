@@ -24,6 +24,6 @@
 
     <h4>Learning Resources Logged</h4>
     {{ range $lr := .LearningResources }}
-        <p>{{ $lr }}</p>
+        <p>{{ $lr }} | <a href="{{ $lr.Path}}">Link to Resource</a></p>
     {{ end }}
 {{ end }}

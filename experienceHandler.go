@@ -207,7 +207,7 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 			}
 		}
 
-		url := fmt.Sprintf("/learner_profile/%d", user.ID)
+		url := "/learner_profile/"
 
 		http.Redirect(w, req, url, http.StatusFound)
 	}

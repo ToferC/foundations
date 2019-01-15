@@ -4,9 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 
-	"github.com/gorilla/mux"
 	"github.com/thewhitetulip/Tasks/sessions"
 	"github.com/toferc/foundations/database"
 )
@@ -63,22 +61,11 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 	loggedIn := sessionMap["loggedin"]
 	isAdmin := sessionMap["isAdmin"]
 
-	vars := mux.Vars(req)
-	pk := vars["id"]
-
-	if len(pk) == 0 {
-		http.Redirect(w, req, "/", http.StatusSeeOther)
-	}
-
-	id, err := strconv.Atoi(pk)
-	if err != nil {
-		http.Redirect(w, req, "/", http.StatusSeeOther)
-	}
-
-	user, err := database.PKLoadUser(db, int64(id))
+	user, err := database.LoadUser(db, username)
 	if err != nil {
 		fmt.Println(err)
 		fmt.Println("Unable to load User")
+		http.Redirect(w, req, "/", http.StatusSeeOther)
 	}
 
 	exps, err := database.ListUserExperiences(db, username)
