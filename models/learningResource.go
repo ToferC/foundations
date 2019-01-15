@@ -16,7 +16,7 @@ type LearningResource struct {
 	Path           string    `sql:",unique"`
 	AddedOn        time.Time `schema:"-"`
 	LearningPoints []*LearningPoint
-	Experiences    []*Experience
+	Comments       string
 }
 
 func (lr *LearningResource) String() string {

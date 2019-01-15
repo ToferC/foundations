@@ -24,6 +24,7 @@ type Experience struct {
 	Time           int
 	Value          int
 	Difficulty     int
+	Points         int
 	Depth          int
 }
 

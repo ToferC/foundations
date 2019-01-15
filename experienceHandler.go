@@ -249,14 +249,12 @@ func ModifyExperienceHandler(w http.ResponseWriter, req *http.Request) {
 	IsAuthor := false
 
 	// Validate that User == Author
-	/*
 
-		if username == ex.user.UserName || isAdmin == "true" {
-			IsAuthor = true
-		} else {
-			http.Redirect(w, req, "/", 302)
-		}
-	*/
+	if username == ex.UserName || isAdmin == "true" {
+		IsAuthor = true
+	} else {
+		http.Redirect(w, req, "/", 302)
+	}
 
 	wv := WebView{
 		Experience:  ex,
@@ -341,13 +339,12 @@ func DeleteExperienceHandler(w http.ResponseWriter, req *http.Request) {
 
 	// Validate that User == Author
 	IsAuthor := false
-	/*
-		if username == ex.user.UserName || isAdmin == "true" {
-			IsAuthor = true
-		} else {
-			http.Redirect(w, req, "/", 302)
-		}
-	*/
+
+	if username == ex.UserName || isAdmin == "true" {
+		IsAuthor = true
+	} else {
+		http.Redirect(w, req, "/", 302)
+	}
 
 	wv := WebView{
 		Experience:  ex,

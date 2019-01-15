@@ -10,6 +10,11 @@ type LearnerProfile struct {
 
 	Experiences []*Experience
 
+	// LearningTargets and Current Learnings are maps of a year 2019 to a target 10000pts
+	LearningTargets map[string]int
+	CurrentLearning map[string]int
+	CurrentYear     string
+
 	slug string
 }
 
