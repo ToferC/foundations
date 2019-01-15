@@ -1,0 +1,127 @@
+{{ define "title"}}
+
+<title>Add Experience to Learning Profile</title>
+
+{{ end }}
+
+{{define "content"}}
+
+{{ $e := .Experience}}
+
+      <div class="container">
+        <hr>
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+            <h3>New Experience Form</h3>
+            <p>Fill in the fields below to add your experience</p>
+            <form action="" method="POST">
+
+              <div class="input-group">
+                  <div class="input-group-prepend">
+                <span class="input-group-text" id="Noun.Path-addon">URL</span>
+                </div>
+                <input type="text" class="form-control" aria-describedby="Noun.Path-addon" name="Noun.Path" value ="">
+              </div>
+
+              <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="Title-addon">Title</span>
+                </div>
+                <input type="text" class="form-control" aria-describedby="Title-addon" name="Noun.Title" value ="">
+              </div>
+
+              <div class="input-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="Description-addon">Description</span>
+                </div>
+                <input type="text" class="form-control" aria-describedby="Description-addon" name="Noun.Description" value ="">
+              </div>
+
+              <div class="input-group">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text" id="Stream-addon">Stream</span>
+                </div>
+                  <select type="text" class="form-control" id="Stream" name="Stream.Name" required>
+                    <option>Data Analysis</option>
+                    <option>Design</option>
+                    <option>Development/Cloud</option>
+                    <option>Disruptive Technology</option>
+                    <option>AI / Machine Learning</option>
+                  </select>
+              </div>
+
+              <hr>
+
+              <div class="input-group">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text" id="Practice-addon">Practice</span>
+                </div>
+                  <select type="text" class="form-control" id="Practice" name="Practice.Name" required>
+                    <option>Programming Basics</option>
+                    <option>Data Collection</option>
+                    <option>Data Preparation</option>
+                    <option>Data Exploration</option>
+                    <option>Data Analysis</option>
+                    <option>Storytelling</option>
+                    <option></option>
+                  </select>
+              </div>
+
+              <hr>
+
+              <div class="input-group">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text" id="Skill-addon">Skill</span>
+                </div>
+                  <select type="text" class="form-control" id="Skill" name="Skill.Name" required>
+                    <option>Variables</option>
+                    <option>Data Structures</option>
+                    <option>Loops</option>
+                    <option>Conditional Statements</option>
+                    <option>Functions & Classes</option>
+                    <option>Applications</option>
+                    <option></option>
+                  </select>
+              </div>
+
+             <hr>
+             <h4>Ratings</h4>
+             <p>Please enter ratings of 1-5 for the learning experience. This will let us make better recommendations to other people.</p>
+
+             <div class="input-group">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text" id="Time-addon">Time Spent/Required</span>
+                    </div>
+                    <input type="number" class="form-control" aria-describedby="Time-addon" name="Time" value ="">
+             </div>
+
+                  <hr>
+
+                  <div class="input-group">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text" id="Value-addon">Value</span>
+                        </div>
+                        <input type="number" class="form-control" aria-describedby="Value-addon" name="Value" value ="">
+                 </div>
+
+                      <hr>
+
+                      <div class="input-group">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text" id="Difficulty-addon">Difficulty of Material</span>
+                            </div>
+                            <input type="number" class="form-control" aria-describedby="Difficulty-addon" name="Difficulty" value ="">
+                     </div>
+
+            <hr>
+
+              <button class="brn btn-primary" type="submit" value="Save">Save</button>
+
+            </div>
+
+            
+            <hr>
+    </form>
+    </div>
+      </div>
+{{end}}

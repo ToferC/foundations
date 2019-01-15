@@ -22,6 +22,8 @@ func createSchema(db *pg.DB) error {
 		(*models.Video)(nil),
 		(*models.Podcast)(nil),
 		(*models.Practice)(nil),
+		(*models.Experience)(nil),
+		(*models.InterestMap)(nil),
 		(*models.Skill)(nil),
 		(*models.Stream)(nil),
 		(*models.LearningPoint)(nil),

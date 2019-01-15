@@ -1,26 +1,17 @@
 package main
 
-/*
-
 import (
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 	"time"
 
-	"gopkg.in/russross/blackfriday.v2"
-
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/gorilla/mux"
 	"github.com/thewhitetulip/Tasks/sessions"
 	"github.com/toferc/foundations/database"
 	"github.com/toferc/foundations/models"
 )
-
 
 // ListUserExperiencesHandler renders the basic character roster page
 func ListUserExperiencesHandler(w http.ResponseWriter, req *http.Request) {
@@ -44,13 +35,6 @@ func ListUserExperiencesHandler(w http.ResponseWriter, req *http.Request) {
 	experiences, err := database.ListExperiences(db)
 	if err != nil {
 		panic(err)
-	}
-
-	for _, ex := range experiences {
-		if ex.Image == nil {
-			ex.Image = new(models.Image)
-			ex.Image.Path = DefaultExperienceImage
-		}
 	}
 
 	wv := WebView{
@@ -97,28 +81,11 @@ func ViewExperienceHandler(w http.ResponseWriter, req *http.Request) {
 		fmt.Println("Unable to load Experience")
 	}
 
-	IsAuthor := false
-
-	if username == ex.Author.UserName {
-		IsAuthor = true
-	}
-
-	if ex.Image == nil {
-		ex.Image = new(models.Image)
-		ex.Image.Path = DefaultExperienceImage
-	}
-
-	input := []byte(ex.Body)
-
-	output := template.HTML(blackfriday.Run(input))
-
 	wv := WebView{
 		Experience:  ex,
-		IsAuthor:    IsAuthor,
 		IsLoggedIn:  loggedIn,
 		SessionUser: username,
 		IsAdmin:     isAdmin,
-		Markdown:    output,
 	}
 
 	// Render page
@@ -151,12 +118,14 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 		http.Redirect(w, req, "/", 302)
 	}
 
-	ex := models.Experience{
-		Title: "New",
-	}
+	vars := mux.Vars(req)
+	verb := vars["verb"]
+	fmt.Println(verb)
+
+	ex := &models.Experience{}
 
 	wv := WebView{
-		Experience:  &ex,
+		Experience:  ex,
 		IsAuthor:    true,
 		SessionUser: username,
 		IsLoggedIn:  loggedIn,
@@ -174,84 +143,71 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 
 	if req.Method == "POST" { // POST
 
-		err := req.ParseMultipartForm(MaxMemory)
+		err := req.ParseForm()
 		if err != nil {
 			panic(err)
 		}
 
 		// Map default Experience to Character.Experiences
-		ex := models.Experience{}
 
-		author, err := database.LoadUser(db, username)
+		user, err := database.LoadUser(db, username)
 		if err != nil {
 			fmt.Println(err)
 			http.Redirect(w, req, "/", 302)
 		}
 
-		ex.Author = author
-
+		// Error here
 		// Pull form values into Experience via gorilla/schema
-		err = decoder.Decode(&ex, req.PostForm)
+		err = decoder.Decode(ex, req.PostForm)
 		if err != nil {
 			panic(err)
 		}
 
-		// Upload image to s3
-		file, h, err := req.FormFile("ImagePath")
-		switch err {
-		case nil:
-			// Process image
-			defer file.Close()
-			// example path media/Major/TestImage/Jason_White.jpg
-			path := fmt.Sprintf("/media/%s/%s/%s",
-				ex.Author.UserName,
-				ToSnakeCase(ex.Title),
-				h.Filename,
-			)
-
-			_, err = uploader.Upload(&s3manager.UploadInput{
-				Bucket: aws.String(os.Getenv("BUCKET")),
-				Key:    aws.String(path),
-				Body:   file,
-			})
-			if err != nil {
-				log.Panic(err)
-				fmt.Println("Error uploading file ", err)
-			}
-			fmt.Printf("successfully uploaded %q to %q\n",
-				h.Filename, os.Getenv("BUCKET"))
-
-			ex.Image = new(models.Image)
-			ex.Image.Path = path
-
-			fmt.Println(path)
-
-		case http.ErrMissingFile:
-			log.Println("no file")
-
-		default:
-			log.Panic(err)
-			fmt.Println("Error getting file ", err)
-		}
-
 		// Add other Experience fields
 
-		for _, v := range ex.Videos {
-			v.Path = ConvertURLToEmbededURL(v.Path)
+		ex.OccurredAt = time.Now()
+		ex.Noun.AddedOn = time.Now()
+		ex.Noun.Author = username
+		ex.UserName = username
+		ex.Verb = verb
+
+		fmt.Println(ex)
+
+		// Save Experience in Database
+		err = database.SaveExperience(db, ex)
+		if err != nil {
+			log.Panic(err)
 		}
 
-		ex.PublishedOn = time.Now()
+		if user.LearnerProfile == nil {
+			user.LearnerProfile = &models.LearnerProfile{}
+		}
 
-		fmt.Println(ex.Tags)
+		user.LearnerProfile.Experiences = []*models.Experience{}
 
-		err = database.SaveExperience(db, &ex)
+		user.LearnerProfile.Experiences = append(user.LearnerProfile.Experiences, ex)
+
+		err = database.UpdateUser(db, user)
 		if err != nil {
 			log.Panic(err)
 		} else {
-			fmt.Println("Saved Experience")
+			fmt.Println("Saved Experience to user LearnerProfile")
 		}
 
-		url := fmt.Sprintf("/view_experience/%d", ex.ID)
+		lrExists := database.LearningResourceExists(db, ex.Noun.Path)
+		fmt.Println(lrExists)
+
+		if !lrExists {
+
+			database.SaveLearningResource(db, ex.Noun)
+			if err != nil {
+				log.Panic(err)
+			} else {
+				fmt.Println("Saved Learning Resource")
+			}
+		}
+
+		url := fmt.Sprintf("/learner_profile/%d", user.ID)
 
 		http.Redirect(w, req, url, http.StatusFound)
 	}
@@ -290,20 +246,17 @@ func ModifyExperienceHandler(w http.ResponseWriter, req *http.Request) {
 		fmt.Println(err)
 	}
 
-	if ex.Author == nil {
-		ex.Author = &models.User{
-			UserName: "",
-		}
-	}
-
-	// Validate that User == Author
 	IsAuthor := false
 
-	if username == ex.Author.UserName || isAdmin == "true" {
-		IsAuthor = true
-	} else {
-		http.Redirect(w, req, "/", 302)
-	}
+	// Validate that User == Author
+	/*
+
+		if username == ex.user.UserName || isAdmin == "true" {
+			IsAuthor = true
+		} else {
+			http.Redirect(w, req, "/", 302)
+		}
+	*/
 
 	wv := WebView{
 		Experience:  ex,
@@ -335,49 +288,7 @@ func ModifyExperienceHandler(w http.ResponseWriter, req *http.Request) {
 			panic(err)
 		}
 
-		// Upload image to s3
-		file, h, err := req.FormFile("ImagePath")
-		switch err {
-		case nil:
-			// Prexess image
-			defer file.Close()
-			// example path media/Major/TestImage/Jason_White.jpg
-			path := fmt.Sprintf("/media/%s/%s/%s",
-				ex.Author.UserName,
-				ToSnakeCase(ex.Title),
-				h.Filename,
-			)
-
-			_, err = uploader.Upload(&s3manager.UploadInput{
-				Bucket: aws.String(os.Getenv("BUCKET")),
-				Key:    aws.String(path),
-				Body:   file,
-			})
-			if err != nil {
-				log.Panic(err)
-				fmt.Println("Error uploading file ", err)
-			}
-			fmt.Printf("successfully uploaded %q to %q\n",
-				h.Filename, os.Getenv("BUCKET"))
-
-			ex.Image = new(models.Image)
-			ex.Image.Path = path
-
-			fmt.Println(path)
-
-		case http.ErrMissingFile:
-			log.Println("no file")
-
-		default:
-			log.Panic(err)
-			fmt.Println("Error getting file ", err)
-		}
-
 		// Do things
-
-		for _, v := range ex.Videos {
-			v.Path = ConvertURLToEmbededURL(v.Path)
-		}
 
 		// Insert Experience into App archive
 		err = database.UpdateExperience(db, ex)
@@ -428,19 +339,15 @@ func DeleteExperienceHandler(w http.ResponseWriter, req *http.Request) {
 		fmt.Println(err)
 	}
 
-	if ex.Image == nil {
-		ex.Image = new(models.Image)
-		ex.Image.Path = DefaultExperienceImage
-	}
-
 	// Validate that User == Author
 	IsAuthor := false
-
-	if username == ex.Author.UserName || isAdmin == "true" {
-		IsAuthor = true
-	} else {
-		http.Redirect(w, req, "/", 302)
-	}
+	/*
+		if username == ex.user.UserName || isAdmin == "true" {
+			IsAuthor = true
+		} else {
+			http.Redirect(w, req, "/", 302)
+		}
+	*/
 
 	wv := WebView{
 		Experience:  ex,
@@ -471,5 +378,3 @@ func DeleteExperienceHandler(w http.ResponseWriter, req *http.Request) {
 		http.Redirect(w, req, url, http.StatusSeeOther)
 	}
 }
-
-*/

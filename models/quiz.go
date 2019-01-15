@@ -4,6 +4,7 @@ import (
 	"time"
 )
 
+// Quiz represents a test of a user's knowledge
 type Quiz struct {
 	ID               int64
 	Title            string
@@ -24,7 +25,9 @@ type Quiz struct {
 	slug             string `schema:"-"`
 }
 
+// Question is an question in a quiz
 type Question struct {
-	Question string
-	Answer   int
+	Question      string
+	Answers       []string
+	CorrectAnswer int
 }

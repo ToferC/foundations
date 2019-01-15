@@ -1,19 +1,23 @@
 package models
 
 import (
+	"errors"
+	"fmt"
 	"time"
+
+	"github.com/go-pg/pg"
 )
 
 // Experience represents a learner event
 type Experience struct {
 	ID             int64
-	Subject        *User
+	UserName       string
 	Verb           string
 	Stream         *Stream
 	Practice       *Practice
 	Skill          *Skill
-	LearningPoint  *[]LearningPoint
-	KnowledgePoint *[]KnowledgePoint
+	LearningPoint  *[]LearningPoint  `schema:"-"`
+	KnowledgePoint *[]KnowledgePoint `schema:"-"`
 	Noun           *LearningResource
 	OccurredAt     time.Time `schema:"-"`
 	Validated      bool      `schema:"-"`
@@ -21,4 +25,42 @@ type Experience struct {
 	Value          int
 	Difficulty     int
 	Depth          int
+}
+
+func (e *Experience) String() string {
+
+	tString := e.OccurredAt.Format("2006-01-02")
+	text := ""
+
+	text += fmt.Sprintf("\n%s - Learning: %s, Stream: %s, Practice: %s, Skill: %s, Learning Resource: %s",
+		tString,
+		e.Verb,
+		e.Stream.Name,
+		e.Practice.Name,
+		e.Skill.Name,
+		e.Noun.Title,
+	)
+	return text
+}
+
+// GetExperience is an API for Experience
+func (e *Experience) GetExperience(db *pg.DB) error {
+	return errors.New("Not implemented")
+}
+
+// UpdateExperience is an API for Experience
+func (e *Experience) UpdateExperience(db *pg.DB) error {
+	return errors.New("Not Implemented")
+}
+
+// DeleteExperience is an API for Experience
+func (e *Experience) DeleteExperience(db *pg.DB) error {
+	return errors.New("Not Implemented")
+
+}
+
+// CreateExperience is an API for Experience
+func (e *Experience) CreateExperience(db *pg.DB) error {
+	return errors.New("Not Implemented")
+
 }

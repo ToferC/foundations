@@ -1,0 +1,29 @@
+{{ define "title"}}
+
+{{ $user := .User }}
+
+<title>View {{ $user.UserName }}</title>
+
+{{ end }}
+
+{{define "content"}}
+
+{{ $user := .User }}
+{{ $experiences := .Experiences}}
+
+
+    {{ $user.UserName }}
+    {{ $user.Email}}
+
+    <hr>
+
+    <h4>Experiences</h4>
+    {{ range $e := $experiences }}
+        <p>{{ $e }} | <a href="{{ $e.Noun.Path}}">Link to Resource</a></p>
+    {{ end }}
+
+    <h4>Learning Resources Logged</h4>
+    {{ range $lr := .LearningResources }}
+        <p>{{ $lr }}</p>
+    {{ end }}
+{{ end }}

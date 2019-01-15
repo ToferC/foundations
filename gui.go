@@ -27,9 +27,12 @@ type WebView struct {
 	IsLoggedIn  string
 	IsAdmin     string
 
-	Episodes    []*models.Episode
-	Experiences []*models.Experience
-	Markdown    template.HTML
+	Episodes          []*models.Episode
+	Experiences       []*models.Experience
+	LearningResources []*models.LearningResource
+	Markdown          template.HTML
+
+	Users []*models.User
 
 	Counter    []int
 	MidCounter []int

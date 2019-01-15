@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"time"
 
-	"gopkg.in/russross/blackfriday.v2"
+	blackfriday "gopkg.in/russross/blackfriday.v2"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
@@ -233,9 +233,13 @@ func AddEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 
 		// Add other Episode fields
 
-		for _, v := range ep.Videos {
-			v.Path = ConvertURLToEmbededURL(v.Path)
-			// Call API to get Title and description
+		if len(ep.Videos) > 0 {
+			for _, v := range ep.Videos {
+				if v.Path != "" {
+					v.Path = ConvertURLToEmbededURL(v.Path)
+					// Call API to get Title and description
+				}
+			}
 		}
 
 		ep.PublishedOn = time.Now()

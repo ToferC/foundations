@@ -32,13 +32,8 @@ func (q *insertQuery) AppendQuery(b []byte) ([]byte, error) {
 		return nil, q.q.stickyErr
 	}
 
-	var err error
-
 	if len(q.q.with) > 0 {
-		b, err = q.q.appendWith(b)
-		if err != nil {
-			return nil, err
-		}
+		b = q.q.appendWith(b)
 	}
 
 	b = append(b, "INSERT INTO "...)
@@ -122,7 +117,7 @@ func (q *insertQuery) AppendQuery(b []byte) ([]byte, error) {
 		b = appendReturningFields(b, q.returningFields)
 	}
 
-	return b, nil
+	return b, q.q.stickyErr
 }
 
 func (q *insertQuery) appendValues(b []byte, fields []*Field, v reflect.Value) []byte {

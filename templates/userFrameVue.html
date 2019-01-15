@@ -1,0 +1,66 @@
+{{ define "userframe" }}
+
+<h2>My Experiences</h2>
+                    <ul class="list-group">
+                        <li class="list-group-item" v-for="experience in experiences">
+                            {{ experience.name }}
+                            <span class="pull-right">
+                                <button class="btn btn-xs btn-danger" v-on:click="deleteExperience($index)">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </button>
+                            </span>
+                        </li>
+                    </ul>
+
+<div class="input-group">
+    <input type="text" 
+        class="form-control" 
+        placeholder="New Experience" 
+        v-on:keyup.enter="createExperience"
+        v-model="newExperience.name">
+    <span class="input-group-btn">
+        <button class="btn btn-primary" type="button" v-on:click="createExperience">Create</button>
+    </span>
+</div><!-- /input-group -->
+
+
+<script>
+        new Vue({
+            el: 'body',
+
+            data: {
+                experiences: [],
+                newExperience: {}
+            },
+
+      // This is run whenever the page is loaded to make sure we have a current experience list
+            created: function() {
+    // Use the vue-resource $http client to fetch data from the /experiences route
+                this.$http.get('/experiences').then(function(response) {
+                    this.experiences = response.data.items ? response.data.items : []
+                })
+            },
+
+            methods: {
+                createExperience: function() {
+                    if (!$.trim(this.newExperience.name)) {
+                        this.newExperience = {}
+                        return
+                    }
+
+         // Post the new experience to the /experiences route using the $http client
+                    this.$http.put('/experiences', this.newExperience).success(function(response) {
+                        this.newExperience.id = response.created
+                        this.experiences.push(this.newExperience)
+                        console.log("Experience created!")
+                        console.log(this.newExperience)
+                        this.newExperience = {}
+                    }).error(function(error) {
+                        console.log(error)
+                    });
+                },
+            }
+        })
+    </script>  
+
+{{ end }}

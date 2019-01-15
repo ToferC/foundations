@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -12,7 +13,21 @@ type LearningResource struct {
 	Licence        string
 	Title          string
 	Description    string
-	Path           string
+	Path           string    `sql:",unique"`
 	AddedOn        time.Time `schema:"-"`
 	LearningPoints []*LearningPoint
+	Experiences    []*Experience
+}
+
+func (lr *LearningResource) String() string {
+	text := ""
+
+	tString := lr.AddedOn.Format("2006-01-02")
+
+	text += fmt.Sprintf("\n%s, Author: %s, Added on: %s",
+		lr.Title,
+		lr.Author,
+		tString,
+	)
+	return text
 }

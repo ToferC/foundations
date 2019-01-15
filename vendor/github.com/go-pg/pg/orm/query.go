@@ -29,6 +29,7 @@ func (q *joinQuery) AppendOn(app *condAppender) {
 
 type Query struct {
 	db        DB
+	fmter     QueryFormatter
 	stickyErr error
 
 	model         TableModel
@@ -54,8 +55,6 @@ type Query struct {
 	selFor       *queryParamsAppender
 }
 
-var _ queryAppender = (*Query)(nil)
-
 func NewQuery(db DB, model ...interface{}) *Query {
 	return (&Query{}).DB(db).Model(model...)
 }
@@ -71,10 +70,6 @@ func (q *Query) New() *Query {
 	return cp
 }
 
-func (q *Query) AppendQuery(b []byte) ([]byte, error) {
-	return selectQuery{q: q}.AppendQuery(b)
-}
-
 // Copy returns copy of the Query.
 func (q *Query) Copy() *Query {
 	var modelValues map[string]*queryParamsAppender
@@ -87,12 +82,14 @@ func (q *Query) Copy() *Query {
 
 	copy := &Query{
 		db:        q.db,
+		fmter:     q.fmter,
 		stickyErr: q.stickyErr,
 
 		model:         q.model,
 		implicitModel: q.implicitModel,
 		deleted:       q.deleted,
 
+		with:        q.with[:len(q.with):len(q.with)],
 		tables:      q.tables[:len(q.tables):len(q.tables)],
 		columns:     q.columns[:len(q.columns):len(q.columns)],
 		set:         q.set[:len(q.set):len(q.set)],
@@ -109,9 +106,7 @@ func (q *Query) Copy() *Query {
 		offset:      q.offset,
 		selFor:      q.selFor,
 	}
-	for _, with := range q.with {
-		copy = copy.With(with.name, with.query.Copy())
-	}
+
 	return copy
 }
 
@@ -124,9 +119,6 @@ func (q *Query) err(err error) *Query {
 
 func (q *Query) DB(db DB) *Query {
 	q.db = db
-	for _, with := range q.with {
-		with.query.db = db
-	}
 	return q
 }
 
@@ -1088,10 +1080,26 @@ func (q *Query) CopyTo(w io.Writer, query interface{}, params ...interface{}) (R
 
 func (q *Query) FormatQuery(b []byte, query string, params ...interface{}) []byte {
 	params = append(params, q.model)
+	if q.fmter != nil {
+		return q.fmter.FormatQuery(b, query, params...)
+	}
 	if q.db != nil {
 		return q.db.FormatQuery(b, query, params...)
 	}
 	return formatter.Append(b, query, params...)
+}
+
+var _ FormatAppender = (*Query)(nil)
+
+func (q *Query) AppendFormat(b []byte, f QueryFormatter) []byte {
+	cp := q.Copy()
+	cp.fmter = f
+	bb, err := selectQuery{q: cp}.AppendQuery(b)
+	if err != nil {
+		q.err(err)
+		return types.AppendError(b, err)
+	}
+	return bb
 }
 
 // Exists returns true or false depending if there are any rows matching the query.
@@ -1267,8 +1275,7 @@ func (q *Query) appendReturning(b []byte) []byte {
 	return b
 }
 
-func (q *Query) appendWith(b []byte) ([]byte, error) {
-	var err error
+func (q *Query) appendWith(b []byte) []byte {
 	b = append(b, "WITH "...)
 	for i, with := range q.with {
 		if i > 0 {
@@ -1276,16 +1283,11 @@ func (q *Query) appendWith(b []byte) ([]byte, error) {
 		}
 		b = types.AppendField(b, with.name, 1)
 		b = append(b, " AS ("...)
-
-		b, err = selectQuery{q: with.query}.AppendQuery(b)
-		if err != nil {
-			return nil, err
-		}
-
+		b = with.query.AppendFormat(b, q)
 		b = append(b, ')')
 	}
 	b = append(b, ' ')
-	return b, nil
+	return b
 }
 
 func (q *Query) isSliceModel() bool {
