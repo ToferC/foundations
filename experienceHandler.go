@@ -166,8 +166,8 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 		// Add other Experience fields
 
 		ex.OccurredAt = time.Now()
-		ex.Noun.AddedOn = time.Now()
-		ex.Noun.Author = username
+		ex.LearningResource.AddedOn = time.Now()
+		ex.LearningResource.Author = username
 		ex.UserName = username
 		ex.Verb = verb
 
@@ -194,12 +194,12 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 			fmt.Println("Saved Experience to user LearnerProfile")
 		}
 
-		lrExists := database.LearningResourceExists(db, ex.Noun.Path)
+		lrExists := database.LearningResourceExists(db, ex.LearningResource.Path)
 		fmt.Println(lrExists)
 
 		if !lrExists {
 
-			database.SaveLearningResource(db, ex.Noun)
+			database.SaveLearningResource(db, ex.LearningResource)
 			if err != nil {
 				log.Panic(err)
 			} else {
