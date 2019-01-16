@@ -19,7 +19,7 @@
 
     <h4>Experiences</h4>
     {{ range $e := $experiences }}
-        <p>{{ $e }} | <a href="{{ $e.Noun.Path}}">Link to Resource</a></p>
+        <p>{{ $e }} | <a href="{{ $e.LearningResource.Path }}">Link to Resource</a></p>
     {{ end }}
 
     <h4>Learning Resources Logged</h4>
