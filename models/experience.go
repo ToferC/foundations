@@ -31,12 +31,11 @@ func (e *Experience) String() string {
 	tString := e.OccurredAt.Format("2006-01-02")
 	text := ""
 
-	text += fmt.Sprintf("\n%s - Learning: %s, Stream: %s, Practice: %s, Skill: %s, Learning Resource: %s",
+	text += fmt.Sprintf("\n[%s] %s, Topic: %s, Standard: %s, Learning Resource: %s",
 		tString,
 		e.Verb,
 		e.Stream.Name,
 		e.Practice.Name,
-		e.Skill.Name,
 		e.LearningResource.Title,
 	)
 	return text
