@@ -20,13 +20,15 @@
     <h4>Experiences</h4>
     {{ range $e := $experiences }}
         <p>{{ $e }} | <a href="{{ $e.LearningResource.Path }}">Link to Resource</a></p>
-        <p>Value: {{ $e.Value }}, Time Required: {{ $e.Time }}, Difficulty: {{ $e.Difficulty }}</p>
+        <p>Value: {{ $e.Value }}, Time Required: {{ $e.Time }}, Difficulty: {{ $e.Difficulty }}
+        </p>
         <hr>
     {{ end }}
 
     <h4>Learning Resources Logged</h4>
     {{ range $lr := .LearningResources }}
-        <p>{{ $lr }} | <a href="{{ $lr.Path}}">Link to Resource</a></p>
+        <p>{{ $lr }} | <a href="{{ $lr.Path}}">Link</a></p>
+        Tags: {{ range $tag := $lr.Tags }}{{ $tag }} | {{ end }}
         <hr>
     {{ end }}
 {{ end }}
