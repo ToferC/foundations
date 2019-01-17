@@ -18,6 +18,7 @@ type LearningResource struct {
 	LearningPoints  []*LearningPoint
 	KnowledgePoints []*KnowledgePoint
 	Comments        string
+	Tags            []string
 }
 
 func (lr *LearningResource) String() string {
