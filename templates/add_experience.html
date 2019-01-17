@@ -80,7 +80,6 @@
                     <option>Conditional Statements</option>
                     <option>Functions & Classes</option>
                     <option>Applications</option>
-                    <option></option>
                   </select>
               </div>
 
@@ -92,8 +91,13 @@
                     <div class="input-group-prepend">
                     <span class="input-group-text" id="Time-addon">Time Spent/Required</span>
                     </div>
-                    <input type="number" class="form-control" aria-describedby="Time-addon" name="Time" value ="">
-             </div>
+                    <select type="number" class="form-control" id="Time" name="Time" required>
+                      <option value="1">1: A few minutes</option>
+                      <option value="2">2: 30 - 60 mins</option>
+                      <option value="3">3: a few hours</option>
+                      <option value="4">4: a few days</option>
+                      <option value="5">5: multi-week</option>
+                    </select>             </div>
 
                   <hr>
 
@@ -101,8 +105,14 @@
                         <div class="input-group-prepend">
                         <span class="input-group-text" id="Value-addon">Value</span>
                         </div>
-                        <input type="number" class="form-control" aria-describedby="Value-addon" name="Value" value ="">
-                 </div>
+                        <select type="number" class="form-control" id="Value" name="Value" required>
+                          <option value="1">1: Little value</option>
+                          <option value="2">2: Pretty useful</option>
+                          <option value="3">3: Solid learning</option>
+                          <option value="4">4: A lot of useful content</option>
+                          <option value="5">5: Amazing learning experience</option>
+                        </select> 
+                      </div>
 
                       <hr>
 
@@ -110,8 +120,14 @@
                             <div class="input-group-prepend">
                             <span class="input-group-text" id="Difficulty-addon">Difficulty of Material</span>
                             </div>
-                            <input type="number" class="form-control" aria-describedby="Difficulty-addon" name="Difficulty" value ="">
-                     </div>
+                            <select type="number" class="form-control" id="Difficulty" name="Difficulty" required>
+                              <option value="1">1: Easy</option>
+                              <option value="2">2: Some tricky concepts</option>
+                              <option value="3">3: Moderately difficult</option>
+                              <option value="4">4: Advanced</option>
+                              <option value="5">5: Highly advanced</option>
+                            </select>                      
+                          </div>
 
             <hr>
 
