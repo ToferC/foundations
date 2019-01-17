@@ -20,7 +20,8 @@
     <h4>Experiences</h4>
     {{ range $e := $experiences }}
         <p>{{ $e }} | <a href="{{ $e.LearningResource.Path }}">Link to Resource</a></p>
-        <p>Value: {{ $e.Value }}, Time Required: {{ $e.Time }}, Difficulty: {{ $e.Difficulty }}
+        <p>Value: {{ $e.Value }}, Time Required: {{ $e.Time }}, Difficulty: {{ $e.Difficulty }} | 
+        <a class="btn btn-sm btn-info" href="/delete_experience/{{ $e.ID }}">X</a>
         </p>
         <hr>
     {{ end }}

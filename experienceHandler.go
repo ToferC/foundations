@@ -370,7 +370,7 @@ func DeleteExperienceHandler(w http.ResponseWriter, req *http.Request) {
 			fmt.Println("Deleted Experience")
 		}
 
-		url := fmt.Sprint("/experience_index/")
+		url := fmt.Sprint("/learner_profile/")
 
 		http.Redirect(w, req, url, http.StatusSeeOther)
 	}
