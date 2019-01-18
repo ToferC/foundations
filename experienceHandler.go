@@ -171,6 +171,10 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 		ex.UserName = username
 		ex.Verb = verb
 
+		// Determine Points for experience - default calculation
+
+		ex.Points = (ex.Time + ex.Value + ex.Difficulty) * 100
+
 		fmt.Println(ex)
 
 		// Save Experience in Database
@@ -183,9 +187,15 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 			user.LearnerProfile = &models.LearnerProfile{}
 		}
 
-		user.LearnerProfile.Experiences = []*models.Experience{}
+		if user.LearnerProfile.LearningTargets == nil {
+			user.LearnerProfile.LearningTargets = map[string][]int{
+				"2019": []int{10000, 0},
+			}
+			user.LearnerProfile.CurrentYear = "2019"
+		}
 
-		user.LearnerProfile.Experiences = append(user.LearnerProfile.Experiences, ex)
+		profile := user.LearnerProfile
+		profile.LearningTargets[profile.CurrentYear][1] += ex.Points
 
 		err = database.UpdateUser(db, user)
 		if err != nil {

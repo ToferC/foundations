@@ -10,23 +10,30 @@
 
 {{ $user := .User }}
 {{ $experiences := .Experiences}}
+{{ $targets := $user.LearnerProfile.LearningTargets}}
+{{ $currentYear := $user.LearnerProfile.CurrentYear }}
+{{ $progress := percent (index $targets $currentYear 1) (index $targets $currentYear 0) }}
 
 
-    {{ $user.UserName }}
+    <h3>{{ $user.UserName }}</h3>
     {{ $user.Email}}
-
+    <hr>
+    <h4>Learning Progress for {{ $currentYear }}</h4>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{ index $targets $currentYear 1 }}" aria-valuemin="0" aria-valuemax="{{ index $targets $currentYear 0 }}" style="width:{{ $progress }}%">{{ index $targets $currentYear 1 }} / {{ index $targets $currentYear 0 }}</div>
+    </div>
     <hr>
 
-    <h4>Experiences</h4>
+    <h3>Experiences</h3>
     {{ range $e := $experiences }}
         <p>{{ $e }} | <a href="{{ $e.LearningResource.Path }}">Link</a></p>
         <p>Value: {{ $e.Value }}, Time Required: {{ $e.Time }}, Difficulty: {{ $e.Difficulty }} | 
-        <a class="btn btn-sm btn-info" href="/delete_experience/{{ $e.ID }}">X</a>
+        <a class="btn btn-sm" href="/delete_experience/{{ $e.ID }}">X</a>
         </p>
         <hr>
     {{ end }}
 
-    <h4>Learning Resources Logged</h4>
+    <h3>Learning Library</h3>
     {{ range $lr := .LearningResources }}
         <p>{{ $lr }} | <a href="{{ $lr.Path}}">Link</a></p>
         Tags: {{ range $tag := $lr.Tags }}{{ $tag }} | {{ end }}

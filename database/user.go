@@ -7,8 +7,17 @@ import (
 	"github.com/toferc/foundations/models"
 )
 
+var baseMap = map[string][]int{
+	"2019": []int{10000, 0},
+}
+
 // SaveUser saves a User to the DB
 func SaveUser(db *pg.DB, u *models.User) error {
+
+	u.LearnerProfile = &models.LearnerProfile{
+		LearningTargets: baseMap,
+		CurrentYear:     "2019",
+	}
 
 	// Save User in Database
 	_, err := db.Model(u).
@@ -117,6 +126,10 @@ func CreateGoogleUser(db *pg.DB, username, email string) (*models.User, error) {
 	u := models.User{
 		UserName: username,
 		Email:    email,
+		LearnerProfile: &models.LearnerProfile{
+			LearningTargets: baseMap,
+			CurrentYear:     "2019",
+		},
 	}
 
 	err := SaveUser(db, &u)

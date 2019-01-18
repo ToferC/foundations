@@ -69,6 +69,14 @@ func multiply(a, b int) int {
 	return a * b
 }
 
+func divide(a, b int) int {
+	return a / b
+}
+
+func percent(a, b int) float32 {
+	return (float32(a) / float32(b)) * 100.0
+}
+
 func isIn(s []int, t int) bool {
 	for _, n := range s {
 		if n == t {
@@ -97,6 +105,8 @@ func Render(w http.ResponseWriter, filename string, data interface{}) {
 		"subtract":    subtract,
 		"add":         add,
 		"multiply":    multiply,
+		"divide":      divide,
+		"percent":     percent,
 		"isIn":        isIn,
 		"sliceString": sliceString,
 		"isInString":  isInString,
