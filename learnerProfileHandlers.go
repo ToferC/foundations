@@ -93,8 +93,12 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 
 	for _, ex := range exps {
 		categories[ex.Stream.Name] += ex.Points
-		categories["max"] += ex.Points * 2
+		categories["max"] += ex.Points
 	}
+
+	add := float32(categories["max"]) * 1.3
+
+	categories["max"] = int(add)
 
 	wv := WebView{
 		User:              user,

@@ -26,9 +26,8 @@ func (lr *LearningResource) String() string {
 
 	tString := lr.AddedOn.Format("2006-01-02")
 
-	text += fmt.Sprintf("\n%s, Added by: %s (%s)",
+	text += fmt.Sprintf("\n%s (%s)",
 		lr.Title,
-		lr.Author,
 		tString,
 	)
 	return text
