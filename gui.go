@@ -32,6 +32,8 @@ type WebView struct {
 	LearningResources []*models.LearningResource
 	Markdown          template.HTML
 
+	CategoryMap map[string]int
+
 	Users []*models.User
 
 	Counter    []int

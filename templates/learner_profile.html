@@ -13,6 +13,7 @@
 {{ $targets := $user.LearnerProfile.LearningTargets}}
 {{ $currentYear := $user.LearnerProfile.CurrentYear }}
 {{ $progress := percent (index $targets $currentYear 1) (index $targets $currentYear 0) }}
+{{ $categorymap := .CategoryMap}}
 
 
     <h3>{{ $user.UserName }}</h3>
@@ -22,16 +23,46 @@
     <div class="progress">
         <div class="progress-bar" role="progressbar" aria-valuenow="{{ index $targets $currentYear 1 }}" aria-valuemin="0" aria-valuemax="{{ index $targets $currentYear 0 }}" style="width:{{ $progress }}%">{{ index $targets $currentYear 1 }} / {{ index $targets $currentYear 0 }}</div>
     </div>
+    <br>
+
+    <h4>Categories</h4>
+    {{ range $k, $v := $categorymap }}
+        {{ if ne $k "max" }}
+        
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{ $v }}" aria-valuemin="0" aria-valuemax='{{ index $categorymap "max" }}' style='width:{{percent $v (index $categorymap "max") }}%'>{{ $k }}: {{ $v }}</div>
+        </div>
+        {{ end }}
+    {{ end }}
+
     <hr>
 
     <h3>Experiences</h3>
+    <div class="row">
     {{ range $e := $experiences }}
-        <p>{{ $e }} | <a href="{{ $e.LearningResource.Path }}">Link</a></p>
-        <p>Value: {{ $e.Value }}, Time Required: {{ $e.Time }}, Difficulty: {{ $e.Difficulty }} | 
-        <a class="btn btn-sm" href="/delete_experience/{{ $e.ID }}">X</a>
+    <div class="col-md-4">
+        <div class="card mb-4 box-shadow">
+    <div class="card-body"></a>
+        <h5 class="card-title">{{ $e.LearningResource.Title }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ $e.Stream.Name }}</h6>
+
+        <p class="card-text">
+            Value: {{ $e.Value }}, Time Required: {{ $e.Time }}, Difficulty: {{ $e.Difficulty }}
         </p>
-        <hr>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+            <a class="btn btn-sm btn-primary"
+            href="{{ $e.LearningResource.Path }}">View</a>
+                <a class="btn btn-sm btn-danger" href="/delete_experience/{{ $e.ID }}">X</a>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
     {{ end }}
+      </div>
+
+        <hr>
 
     <h3>Learning Library</h3>
     {{ range $lr := .LearningResources }}

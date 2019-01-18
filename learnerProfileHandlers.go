@@ -68,6 +68,15 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 		http.Redirect(w, req, "/", http.StatusSeeOther)
 	}
 
+	// Validate that User == Author
+	IsAuthor := false
+
+	if username == user.UserName || isAdmin == "true" {
+		IsAuthor = true
+	} else {
+		http.Redirect(w, req, "/", 302)
+	}
+
 	exps, err := database.ListUserExperiences(db, username)
 	if err != nil {
 		fmt.Println(err)
@@ -78,13 +87,13 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 		fmt.Println(err)
 	}
 
-	// Validate that User == Author
-	IsAuthor := false
+	// Determine learning category values
 
-	if username == user.UserName || isAdmin == "true" {
-		IsAuthor = true
-	} else {
-		http.Redirect(w, req, "/", 302)
+	categories := map[string]int{"max": 100}
+
+	for _, ex := range exps {
+		categories[ex.Stream.Name] += ex.Points
+		categories["max"] += ex.Points * 2
 	}
 
 	wv := WebView{
@@ -95,6 +104,7 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 		IsAdmin:           isAdmin,
 		LearningResources: lrs,
 		Experiences:       exps,
+		CategoryMap:       categories,
 	}
 
 	// Render page
