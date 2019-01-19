@@ -3,6 +3,9 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
 	"os"
 	"regexp"
 	"strings"
@@ -100,6 +103,59 @@ func ConvertURLToEmbededURL(s string) string {
 	c = strings.Split(s, "youtu.be/")
 	url := fmt.Sprintf("https://youtube.com/embed/%s", c[1])
 	return url
+}
+
+func getWebPageDetails(url string, targets ...string) []string {
+
+	webPageInfo := []string{}
+
+	response, err := http.Get(url)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer response.Body.Close()
+
+	// Get response body as string
+	dataInBytes, err := ioutil.ReadAll(response.Body)
+	pageContent := string(dataInBytes)
+
+	for _, t := range targets {
+		targetIndexes, err := findSubString(t, pageContent)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(3)
+		}
+
+		targetStartIndex := targetIndexes[0]
+		targetEndIndex := targetIndexes[1]
+
+		resultString := []byte(pageContent[targetStartIndex:targetEndIndex])
+
+		webPageInfo = append(webPageInfo, string(resultString))
+	}
+
+	return webPageInfo
+}
+
+func findSubString(s, pageContent string) ([]int, error) {
+	// Find substrings
+
+	startString := fmt.Sprintf("<%s>", s)
+	endString := fmt.Sprintf("</%s>", s)
+
+	startIndex := strings.Index(pageContent, startString)
+	if startIndex == -1 {
+		return []int{}, fmt.Errorf("No %s index found", s)
+	}
+
+	// Advance to end of index to grab target
+	startIndex += len(startString)
+
+	endIndex := strings.Index(pageContent, endString)
+	if endIndex == -1 {
+		return []int{}, fmt.Errorf("No %s index found", s)
+	}
+	return []int{startIndex, endIndex}, nil
 }
 
 func mapVideosListResults(response *youtube.VideoListResponse) map[string]string {

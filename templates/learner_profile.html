@@ -28,10 +28,11 @@
     <h4>Categories</h4>
     {{ range $k, $v := $categorymap }}
         {{ if ne $k "max" }}
-        
+        {{ $k }}
         <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="{{ $v }}" aria-valuemin="0" aria-valuemax='{{ index $categorymap "max" }}' style='width:{{percent $v (index $categorymap "max") }}%'>{{ $k }}: {{ $v }}</div>
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{ $v }}" aria-valuemin="0" aria-valuemax='{{ index $categorymap "max" }}' style='width:{{percent $v (index $categorymap "max") }}%'>{{ $v }}</div>
         </div>
+        <br>
         {{ end }}
     {{ end }}
 

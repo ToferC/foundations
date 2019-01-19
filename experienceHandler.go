@@ -120,7 +120,6 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 
 	vars := mux.Vars(req)
 	verb := vars["verb"]
-	fmt.Println(verb)
 
 	ex := &models.Experience{}
 
@@ -164,6 +163,8 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 		}
 
 		// Add other Experience fields
+
+		ex.LearningResource.Title = getWebPageDetails(ex.LearningResource.Path, "title")[0]
 
 		ex.OccurredAt = time.Now()
 		ex.LearningResource.AddedOn = time.Now()

@@ -96,9 +96,9 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 		categories["max"] += ex.Points
 	}
 
-	add := float32(categories["max"]) * 1.3
+	//add := float32(categories["max"]) * 1.1
 
-	categories["max"] = int(add)
+	//categories["max"] = int(add)
 
 	wv := WebView{
 		User:              user,
