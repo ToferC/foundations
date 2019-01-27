@@ -1,0 +1,75 @@
+{{ define "title"}}
+
+<title>Create your Learner Profile</title>
+
+{{ end }}
+
+{{define "content"}}
+
+{{ $user := .User}}
+{{ $lp := $user.LearnerProfile}}
+{{ $interests := $user.Interests.Streams }}
+
+
+      <div class="container">
+        <hr>
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+            <h3>Awesome!</h3>
+            <h4>Please rate your current skill level and your learning targets.</h4>
+            <hr>
+            <form action="" method="POST">
+
+                  
+                  {{ range $s := $interests }}
+                  <h4>{{ $s.Name }}</h4>
+                  <h5>I am a(n):</h5>
+
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                      <label class="btn btn-primary active">
+                        <input type="radio" name="{{ $s.Name }}-Novice" id="option1" autocomplete="off" checked> Novice
+                      </label>
+                      <label class="btn btn-primary">
+                        <input type="radio" name="{{ $s.Name }}-Experienced" id="option2" autocomplete="off"> Experienced
+                      </label>
+                      <label class="btn btn-primary">
+                        <input type="radio" name="{{ $s.Name }}-Professional" id="option3" autocomplete="off"> Professional
+                      </label>
+                      <label class="btn btn-primary">
+                          <input type="radio" name="{{ $s.Name }}-Expert" id="option4" autocomplete="off"> Expert
+                        </label>
+                    </div>
+                    <br><br>
+
+                  <h5>In {{ $user.LearnerProfile.CurrentYear }}, I want to learn:</h5>
+
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                      <label class="btn btn-success active">
+                        <input type="radio" name="{{ $s.Name }}-1000" id="option1" autocomplete="off" checked> A little
+                      </label>
+                      <label class="btn btn-success">
+                        <input type="radio" name="{{ $s.Name }}-5000" id="option2" autocomplete="off"> A fair amount
+                      </label>
+                      <label class="btn btn-success">
+                        <input type="radio" name="{{ $s.Name }}-10000" id="option3" autocomplete="off"> Lots
+                      </label>
+                      <label class="btn btn-success">
+                          <input type="radio" name="{{ $s.Name }}-25000" id="option4" autocomplete="off"> All the things
+                        </label>
+                    </div>
+
+                    <hr>
+
+                    {{ end }}
+              <hr>
+
+              <button class="brn btn-primary" type="submit" value="Save">Save your interests</button>
+
+            </div>
+
+            
+            <hr>
+    </form>
+    </div>
+      </div>
+{{end}}

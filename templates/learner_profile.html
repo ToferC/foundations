@@ -10,6 +10,7 @@
 
 {{ $user := .User }}
 {{ $experiences := .Experiences}}
+{{ $interests := $user.Interests}}
 {{ $targets := $user.LearnerProfile.LearningTargets}}
 {{ $currentYear := $user.LearnerProfile.CurrentYear }}
 {{ $progress := percent (index $targets $currentYear 1) (index $targets $currentYear 0) }}
@@ -18,6 +19,11 @@
 
     <h3>{{ $user.UserName }}</h3>
     {{ $user.Email}}
+    <hr>
+    <h4>Interests</h4>
+        {{ range $s := $interests.Streams }}
+            <p>{{ $s.Name }}</p>
+        {{ end }}
     <hr>
     <h4>Learning Progress for {{ $currentYear }}</h4>
     <div class="progress">

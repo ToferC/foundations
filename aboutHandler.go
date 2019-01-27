@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/thewhitetulip/Tasks/sessions"
-	"github.com/toferc/rq_web/models"
+	"github.com/toferc/foundations/models"
 )
 
 // AboutHandler renders a character in a Web page

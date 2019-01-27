@@ -1,0 +1,44 @@
+{{ define "title"}}
+
+<title>Create your Learner Profile</title>
+
+{{ end }}
+
+{{define "content"}}
+
+{{ $user := .User}}
+{{ $lp := $user.LearnerProfile}}
+
+
+      <div class="container">
+        <hr>
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+            <h3>Welcome {{ $user.UserName }} </h3>
+            <p>User provides light-weight info to tailor their learning experience.</p>
+            <form action="" method="POST">
+
+              <hr>
+              <h4>Select the themes that interest you.</h4>
+              <p>This information will help us show you content that's meaningful to you.</p>
+
+              <div class="btn-group-toggle" data-toggle="buttons">
+                  
+                  {{ range $s := .Architecture }}
+                    <label class="btn btn-primary active">
+                      <input type="checkbox" name="{{ $s.Name }}" checked autocomplete="off">{{ $s.Name }}
+                    </label>
+                    {{ end }}
+                </div>
+              <hr>
+
+              <button class="brn btn-primary" type="submit" value="Save">Save your interests</button>
+
+            </div>
+
+            
+            <hr>
+    </form>
+    </div>
+      </div>
+{{end}}

@@ -8,6 +8,7 @@ type Practice struct {
 	Name        string
 	Description string
 	Tags        []*string
+	Skills      []*Skill
 	Slug        string `schema:"-"`
 }
 

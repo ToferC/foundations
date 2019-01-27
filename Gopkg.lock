@@ -174,22 +174,6 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:ed30aafa70f85d9191a78fddecde74aeecc27cd3d32d563b18b730fbe7266786"
-  name = "github.com/toferc/rq_web"
-  packages = ["models"]
-  pruneopts = "UT"
-  revision = "4c8ddbc076c3097dd0d9de0a731c29df497b754c"
-
-[[projects]]
-  branch = "master"
-  digest = "1:0b95f02f8b87e31fc5caeb8fa45207864cab30847691235ca9a1e222c6dcd826"
-  name = "github.com/toferc/runequest"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "9b641a4d0817e2a3ea8f962f2fe9d37c7a8ad891"
-
-[[projects]]
-  branch = "master"
   digest = "1:318fbcf92cf6f5f01a8e28059612a09671e8d446c1be41020171dd3eeb3dfb9e"
   name = "golang.org/x/crypto"
   packages = [
@@ -291,7 +275,6 @@
     "github.com/gorilla/sessions",
     "github.com/joho/godotenv",
     "github.com/thewhitetulip/Tasks/sessions",
-    "github.com/toferc/rq_web/models",
     "golang.org/x/crypto/bcrypt",
     "golang.org/x/oauth2",
     "golang.org/x/oauth2/google",

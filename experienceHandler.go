@@ -124,13 +124,14 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 	ex := &models.Experience{}
 
 	wv := WebView{
-		Experience:  ex,
-		IsAuthor:    true,
-		SessionUser: username,
-		IsLoggedIn:  loggedIn,
-		IsAdmin:     isAdmin,
-		Counter:     numToArray(7),
-		BigCounter:  numToArray(15),
+		Experience:   ex,
+		IsAuthor:     true,
+		SessionUser:  username,
+		IsLoggedIn:   loggedIn,
+		IsAdmin:      isAdmin,
+		Counter:      numToArray(7),
+		BigCounter:   numToArray(15),
+		Architecture: baseArchitecture,
 	}
 
 	if req.Method == "GET" {

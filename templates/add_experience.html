@@ -52,55 +52,14 @@
                     <span class="input-group-text" id="Stream-addon">Topic</span>
                 </div>
                   <select type="text" class="form-control" id="Stream" name="Stream.Name" required>
-                    <option>Digital Government</option>
-                    <option>Digital Literacy</option>
-                    <option>Design Thinking</option>
-                    <option>Disruptive Tech</option>
-                    <option>Data Analysis</option>
-                    <option>AI / Machine Learning</option>
-                    <option>Development</option>
-                    <option>DevOps / Cloud</option>
-                  </select>
-              </div>
-
-              <hr>
-              <!--
-              <div class="input-group">
-                    <div class="input-group-prepend">
-                    <span class="input-group-text" id="Practice-addon">Digital Standard</span>
-                </div>
-                  <select type="text" class="form-control" id="Practice" name="Practice.Name" required>
-                    <option>User-centric design</option>
-                    <option>Agile / Iteration</option>
-                    <option>Open by default</option>
-                    <option>Open Standards & Solutions</option>
-                    <option>Security & Privacy</option>
-                    <option>Accessibility</option>
-                    <option>Empowering people</option>
-                    <option>Responsible Use</option>
-                    <option>Ethical & Inclusive</option>
-                    <option>Collaboration</option>
+                    {{ range $s := .Architecture }}
+                      <option>{{ $s.Name }}</option>
+                    {{ end }}
                   </select>
               </div>
 
               <hr>
               
-                <div class="input-group">
-                      <div class="input-group-prepend">
-                      <span class="input-group-text" id="Skill-addon">Skill</span>
-                  </div>
-                    <select type="text" class="form-control" id="Skill" name="Skill.Name" required>
-                      <option>Variables</option>
-                      <option>Data Structures</option>
-                      <option>Loops</option>
-                      <option>Conditional Statements</option>
-                      <option>Functions & Classes</option>
-                      <option>Applications</option>
-                    </select>
-                </div>
-  
-               <hr>
-              -->
              <h4>Ratings</h4>
              <p>Users enter ratings of 1-5 for the learning experience. This will let us make better recommendations to other people as well as calculate points.</p>
 
