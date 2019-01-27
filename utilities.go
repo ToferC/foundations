@@ -105,7 +105,7 @@ func ConvertURLToEmbededURL(s string) string {
 	return url
 }
 
-func getWebPageDetails(url string, targets ...string) []string {
+func getWebPageDetails(url string, targets ...string) ([]string, error) {
 
 	webPageInfo := []string{}
 
@@ -122,8 +122,8 @@ func getWebPageDetails(url string, targets ...string) []string {
 	for _, t := range targets {
 		targetIndexes, err := findSubString(t, pageContent)
 		if err != nil {
-			fmt.Println(err)
-			os.Exit(3)
+			log.Fatal(err)
+			return []string{}, err
 		}
 
 		targetStartIndex := targetIndexes[0]
@@ -134,7 +134,7 @@ func getWebPageDetails(url string, targets ...string) []string {
 		webPageInfo = append(webPageInfo, string(resultString))
 	}
 
-	return webPageInfo
+	return webPageInfo, nil
 }
 
 func findSubString(s, pageContent string) ([]int, error) {

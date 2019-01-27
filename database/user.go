@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/go-pg/pg"
 	"github.com/toferc/foundations/models"
@@ -51,7 +52,7 @@ func LoadUser(db *pg.DB, username string) (*models.User, error) {
 		Limit(1).
 		Select()
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 		return new(models.User), err
 	}
 	return user, nil

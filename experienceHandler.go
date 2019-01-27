@@ -164,24 +164,45 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 
 		// Add other Experience fields
 
-		ex.LearningResource.Title = getWebPageDetails(ex.LearningResource.Path, "title")[0]
-
-		ex.OccurredAt = time.Now()
+		scrapeArray, err := getWebPageDetails(ex.LearningResource.Path, "title")
+		if err != nil {
+			fmt.Println("Not a valid Web page or page lacking title")
+		}
+		ex.LearningResource.Title = scrapeArray[0]
 		ex.LearningResource.AddedOn = time.Now()
-		ex.LearningResource.Author = username
+		// ex.LearningResource.Author = username
+
 		ex.UserName = username
 		ex.Verb = verb
+		ex.OccurredAt = time.Now()
+
+		// See if LearningResource exists and create if needed
+		lrExists := database.LearningResourceExists(db, ex.LearningResource.Path)
+		fmt.Println(lrExists)
+
+		if !lrExists {
+			fmt.Println("Learning Resource not found in DB")
+			database.SaveLearningResource(db, ex.LearningResource)
+			if err != nil {
+				log.Fatal(err)
+			} else {
+				fmt.Println("Saved Learning Resource")
+			}
+		} else {
+			ex.LearningResource, _ = database.LoadLearningResource(db, ex.LearningResource.Path)
+		}
 
 		// Determine Points for experience - default calculation
 
 		ex.Points = (ex.Time + ex.Value + ex.Difficulty) * 100
+		ex.LearningResourceID = ex.LearningResource.ID
 
 		fmt.Println(ex)
 
 		// Save Experience in Database
 		err = database.SaveExperience(db, ex)
 		if err != nil {
-			log.Panic(err)
+			log.Fatal(err)
 		}
 
 		if user.LearnerProfile == nil {
@@ -203,19 +224,6 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 			log.Panic(err)
 		} else {
 			fmt.Println("Saved Experience to user LearnerProfile")
-		}
-
-		lrExists := database.LearningResourceExists(db, ex.LearningResource.Path)
-		fmt.Println(lrExists)
-
-		if !lrExists {
-
-			database.SaveLearningResource(db, ex.LearningResource)
-			if err != nil {
-				log.Panic(err)
-			} else {
-				fmt.Println("Saved Learning Resource")
-			}
 		}
 
 		url := "/learner_profile/"

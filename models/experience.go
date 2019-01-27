@@ -10,20 +10,23 @@ import (
 
 // Experience represents a learner event
 type Experience struct {
-	ID               int64
-	UserName         string
-	Verb             string
-	Stream           *Stream
-	Practice         *Practice
-	Skill            *Skill
-	LearningResource *LearningResource
-	OccurredAt       time.Time `schema:"-"`
-	Validated        bool      `schema:"-"`
-	Time             int
-	Value            int
-	Difficulty       int
-	Points           int
-	Depth            int
+	ID                 int64
+	UserName           string
+	Verb               string
+	Stream             *Stream
+	Practice           *Practice
+	Skill              *Skill
+	LearningResourceID int64
+	LearningResource   *LearningResource
+	OccurredAt         time.Time `schema:"-"`
+	Validated          bool      `schema:"-"`
+	Time               int
+	Value              int
+	Difficulty         int
+	Points             int
+	Depth              int
+	Comments           string
+	Tags               []string
 }
 
 func (e *Experience) String() string {

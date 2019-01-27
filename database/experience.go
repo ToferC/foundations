@@ -53,7 +53,10 @@ func ListExperiences(db *pg.DB) ([]*models.Experience, error) {
 func ListUserExperiences(db *pg.DB, username string) ([]*models.Experience, error) {
 	var exs []*models.Experience
 
-	_, err := db.Query(&exs, `SELECT * FROM experiences WHERE user_name = ?`, username)
+	err := db.Model(&exs).
+		Where("user_name = ?", username).
+		Column("experience.*", "LearningResource").
+		Select()
 
 	if err != nil {
 		return []*models.Experience{}, err
@@ -61,8 +64,7 @@ func ListUserExperiences(db *pg.DB, username string) ([]*models.Experience, erro
 
 	// Print names and PK
 	for i, ex := range exs {
-
-		fmt.Println(i, ex)
+		fmt.Println(i, ex.LearningResource.Title, ex.LearningResource.ID, ex.LearningResourceID)
 	}
 	return exs, nil
 }

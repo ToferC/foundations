@@ -68,6 +68,8 @@ func LearningResourceExists(db *pg.DB, path string) bool {
 }
 
 // ListUserLearningResources queries User's LR and add to slice
+// Cutting
+/*
 func ListUserLearningResources(db *pg.DB, username string) ([]*models.LearningResource, error) {
 	var lrs []*models.LearningResource
 
@@ -84,6 +86,7 @@ func ListUserLearningResources(db *pg.DB, username string) ([]*models.LearningRe
 	}
 	return lrs, nil
 }
+*/
 
 //LoadLearningResource will load a learningresource from path
 func LoadLearningResource(db *pg.DB, path string) (*models.LearningResource, error) {

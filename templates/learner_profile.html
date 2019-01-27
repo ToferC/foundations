@@ -41,6 +41,7 @@
     <h3>Experiences</h3>
     <div class="row">
     {{ range $e := $experiences }}
+        {{ if $e.LearningResource }}
     <div class="col-md-4">
         <div class="card mb-4 box-shadow">
     <div class="card-body"></a>
@@ -48,11 +49,12 @@
         <h6 class="card-subtitle mb-2 text-muted">{{ $e.Stream.Name }}</h6>
 
         <p class="card-text">
-            {{ $e.LearningResource.Comments }}
+            {{ $e.Comments }}
             <br>
             Value: {{ $e.Value }}<br> 
             Time: {{ $e.Time }}<br>
             Difficulty: {{ $e.Difficulty }}
+            Tags: {{ range $tag := $e.Tags }}{{ $tag }} | {{ end }}</p>
         </p>
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
@@ -64,6 +66,7 @@
       </div>
       </div>
     </div>
+    {{ end }} <!-- End If -->
     {{ end }}
       </div>
 
@@ -73,7 +76,6 @@
     <p>Will sort by category</p>
     {{ range $lr := .LearningResources }}
         <p><strong>{{ $lr }}</strong> | <a href="{{ $lr.Path}}">Link</a><br>
-        Tags: {{ range $tag := $lr.Tags }}{{ $tag }} | {{ end }}</p>
         <hr>
     {{ end }}
 {{ end }}

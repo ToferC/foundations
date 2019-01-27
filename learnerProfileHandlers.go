@@ -7,6 +7,7 @@ import (
 
 	"github.com/thewhitetulip/Tasks/sessions"
 	"github.com/toferc/foundations/database"
+	"github.com/toferc/foundations/models"
 )
 
 // ListLearnerProfileHandler renders the basic character roster page
@@ -63,7 +64,7 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 
 	user, err := database.LoadUser(db, username)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 		fmt.Println("Unable to load User")
 		http.Redirect(w, req, "/", http.StatusSeeOther)
 	}
@@ -79,12 +80,17 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 
 	exps, err := database.ListUserExperiences(db, username)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 
-	lrs, err := database.ListUserLearningResources(db, username)
-	if err != nil {
-		fmt.Println(err)
+	lrs := []*models.LearningResource{}
+	lrStrings := []string{}
+
+	for _, ex := range exps {
+		if !isInString(lrStrings, ex.LearningResource.Path) {
+			lrs = append(lrs, ex.LearningResource)
+			lrStrings = append(lrStrings, ex.LearningResource.Path)
+		}
 	}
 
 	// Determine learning category values
@@ -95,10 +101,6 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 		categories[ex.Stream.Name] += ex.Points
 		categories["max"] += ex.Points
 	}
-
-	//add := float32(categories["max"]) * 1.1
-
-	//categories["max"] = int(add)
 
 	wv := WebView{
 		User:              user,
