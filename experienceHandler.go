@@ -210,10 +210,21 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 
 		streams := user.Interests.Streams
 
+		foundStream := false
+
 		for _, s := range streams {
 			if s.Name == ex.Stream.Name {
 				s.LearningTargets[user.LearnerProfile.CurrentYear][1] += ex.Points
+				foundStream = true
 			}
+		}
+
+		if !foundStream {
+			// Learning is learning in a new stream. Open it at the basic level
+			user.Interests.Streams = append(user.Interests.Streams, ex.Stream)
+			user.Interests.Streams[len(user.Interests.Streams)-1].LearningTargets[user.LearnerProfile.CurrentYear][0] = 1000
+			user.Interests.Streams[len(user.Interests.Streams)-1].LearningTargets[user.LearnerProfile.CurrentYear][1] += ex.Points
+			user.Interests.Streams[len(user.Interests.Streams)-1].Expertise = 1
 		}
 
 		err = database.UpdateUser(db, user)
