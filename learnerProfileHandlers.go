@@ -201,10 +201,19 @@ func AddLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 
 		fmt.Println(req.Form)
 
+		currentTime := time.Now().Year()
+		currentYear := strconv.Itoa(currentTime)
+
+		user.LearnerProfile.CurrentYear = currentYear
+
 		for _, stream := range baseArchitecture {
 			if req.FormValue(stream.Name) != "" {
 				user.Interests.Streams = append(user.Interests.Streams, &models.Stream{
 					Name: stream.Name,
+					LearningTargets: map[string][]int{
+						user.LearnerProfile.CurrentYear: []int{1000, 0},
+					},
+					Expertise: 1,
 				})
 			}
 		}
@@ -278,11 +287,6 @@ func AddRatingTargetHandler(w http.ResponseWriter, req *http.Request) {
 	if user.Interests == nil {
 		user.Interests = &models.InterestMap{}
 	}
-
-	currentTime := time.Now().Year()
-	currentYear := strconv.Itoa(currentTime)
-
-	user.LearnerProfile.CurrentYear = currentYear
 
 	wv := WebView{
 		User:         user,
