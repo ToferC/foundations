@@ -27,16 +27,16 @@
                   <h5>I am a(n):</h5>
 
                   <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                      <label class="btn btn-primary active">
+                      <label class="btn btn-primary {{ if eq $s.Expertise 1 }}active{{ end }}">
                         <input type="radio" name="{{ $s.Name }}-Skill" value="1" id="option1" autocomplete="off" checked> Novice
                       </label>
-                      <label class="btn btn-primary">
+                      <label class="btn btn-primary {{ if eq $s.Expertise 2 }}active{{ end }}">
                         <input type="radio" name="{{ $s.Name }}-Skill" value="2" id="option2" autocomplete="off"> Experienced
                       </label>
-                      <label class="btn btn-primary">
+                      <label class="btn btn-primary {{ if eq $s.Expertise 3 }}active{{ end }}">
                         <input type="radio" name="{{ $s.Name }}-Skill" value="3" id="option3" autocomplete="off"> Professional
                       </label>
-                      <label class="btn btn-primary">
+                      <label class="btn btn-primary {{ if eq $s.Expertise 4 }}active{{ end }}">
                           <input type="radio" name="{{ $s.Name }}-Skill" value="4" id="option4" autocomplete="off"> Expert
                         </label>
                     </div>
@@ -45,22 +45,23 @@
                   <h5>In {{ $user.LearnerProfile.CurrentYear }}, I want to learn:</h5>
 
                   <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                      <label class="btn btn-success active">
-                        <input type="radio" name="{{ $s.Name }}-Target" value="1000" id="option1" autocomplete="off" checked> A little
+                      <label class="btn btn-success {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 1000 }}active{{ end }}">
+                        <input type="radio" name="{{ $s.Name }}-Target" value="1000" id="option1" autocomplete="off" {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 1000 }}checked{{ end }}> A little
                       </label>
-                      <label class="btn btn-success">
-                        <input type="radio" name="{{ $s.Name }}-Target" value="5000" id="option2" autocomplete="off"> A fair amount
+                      <label class="btn btn-success {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 5000 }}active{{ end }}">
+                        <input type="radio" name="{{ $s.Name }}-Target" value="5000" id="option2" autocomplete="off" {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 5000 }}checked{{ end }}> A fair amount
                       </label>
-                      <label class="btn btn-success">
-                        <input type="radio" name="{{ $s.Name }}-Target" value="10000" id="option3" autocomplete="off"> Lots
+                      <label class="btn btn-success {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 10000 }}active{{ end }}">
+                        <input type="radio" name="{{ $s.Name }}-Target" value="10000" id="option3" autocomplete="off" {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 10000 }}checked{{ end }}> Lots
                       </label>
-                      <label class="btn btn-success">
-                          <input type="radio" name="{{ $s.Name }}-Target" value="25000" id="option4" autocomplete="off"> All the things
+                      <label class="btn btn-success {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 25000 }}active{{ end }}">
+                          <input type="radio" name="{{ $s.Name }}-Target" value="25000" id="option4" autocomplete="off" {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 25000 }}checked{{ end }}> All the things
                         </label>
                     </div>
 
                     <br><br>
                     <h5>I'm interested in the following areas:</h5>
+                    <!-- Need to add active & checked based on selected -->
                     
                     <div class="btn-group-toggle" data-toggle="buttons">
                       

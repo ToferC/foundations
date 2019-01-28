@@ -18,29 +18,26 @@
 
 
     <h3>{{ $user.UserName }}</h3>
-    {{ $user.Email}}
+    {{ $user.Email}} <a class="btn btn-primary" href="/add_rating_target">Update Learning Objectives</a>
     <hr>
-    <h4>Interests</h4>
-        {{ range $s := $interests.Streams }}
-            <p>{{ $s.Name }} - Target: {{ index $s.LearningTargets $currentYear 0 }}pts, Skill: {{ $s.Expertise }}<br>
-            {{ range $p := $s.Practices }}
-                {{ $p.Name }} | 
-            {{ end }}</p>
-        {{ end }}
-    <hr>
+
     <h4>Learning Progress for {{ $currentYear }}</h4>
     <div class="progress">
         <div class="progress-bar" role="progressbar" aria-valuenow="{{ index $categorymap "currentTotal" }}" aria-valuemin="0" aria-valuemax="{{ index $categorymap "targetTotal" }}" style="width:{{ $progress }}%">{{ index $categorymap "currentTotal" }} / {{ index $categorymap "targetTotal" }}</div>
     </div>
-    <br>
+    <hr>
 
     <h4>Categories</h4>
+    <hr>
     {{ range $s := $interests.Streams }}
-        {{ $s.Name }}
+        <h5><strong>{{ $s.Name }}</strong> - Skill: {{ $s.Expertise }}</h5>
         <div class="progress">
             <div class="progress-bar" role="progressbar" aria-valuenow="{{ index $s.LearningTargets $currentYear 1 }}" aria-valuemin="0" aria-valuemax='{{ index $s.LearningTargets $currentYear 0 }}' style='width:{{percent (index $s.LearningTargets $currentYear 1) (index $s.LearningTargets $currentYear 0) }}%'>{{ index $s.LearningTargets $currentYear 1 }}</div>
         </div>
-        <br>
+        <p><strong>Interests</strong>: {{ range $p := $s.Practices }}
+                {{ $p.Name }} | 
+            {{ end }}</p>
+            <hr>
     {{ end }}
 
     <hr>

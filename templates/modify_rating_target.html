@@ -1,0 +1,89 @@
+{{ define "title"}}
+
+<title>Create your Learner Profile</title>
+
+{{ end }}
+
+{{define "content"}}
+
+{{ $user := .User}}
+{{ $lp := $user.LearnerProfile}}
+{{ $interests := $user.Interests.Streams }}
+{{ $architecture := .Architecture }}
+
+
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+            <h3>Awesome work {{ $user.UserName }}!</h3>
+            <h4>Please rate your current skill level and your learning targets.</h4>
+            <hr>
+            <form action="" method="POST">
+
+                  
+                  {{ range $s := $interests }}
+                  <h4><strong>{{ $s.Name }}</strong></h4>
+                  <br>
+                  <h5>I am a(n):</h5>
+
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                      <label class="btn btn-primary active">
+                        <input type="radio" name="{{ $s.Name }}-Skill" value="1" id="option1" autocomplete="off" {{ if eq $s.Expertise 1 }}checked{{ end }}> Novice
+                      </label>
+                      <label class="btn btn-primary">
+                        <input type="radio" name="{{ $s.Name }}-Skill" value="2" id="option2" autocomplete="off" {{ if eq $s.Expertise 2 }}checked{{ end }}> Experienced
+                      </label>
+                      <label class="btn btn-primary">
+                        <input type="radio" name="{{ $s.Name }}-Skill" value="3" id="option3" autocomplete="off" {{ if eq $s.Expertise 3 }}checked{{ end }}> Professional
+                      </label>
+                      <label class="btn btn-primary">
+                          <input type="radio" name="{{ $s.Name }}-Skill" value="4" id="option4" autocomplete="off" {{ if eq $s.Expertise 4 }}checked{{ end }}> Expert
+                        </label>
+                    </div>
+                    <br><br>
+
+                  <h5>In {{ $user.LearnerProfile.CurrentYear }}, I want to learn:</h5>
+
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                      <label class="btn btn-success active">
+                        <input type="radio" name="{{ $s.Name }}-Target" value="1000" id="option1" autocomplete="off" checked> A little
+                      </label>
+                      <label class="btn btn-success">
+                        <input type="radio" name="{{ $s.Name }}-Target" value="5000" id="option2" autocomplete="off"> A fair amount
+                      </label>
+                      <label class="btn btn-success">
+                        <input type="radio" name="{{ $s.Name }}-Target" value="10000" id="option3" autocomplete="off"> Lots
+                      </label>
+                      <label class="btn btn-success">
+                          <input type="radio" name="{{ $s.Name }}-Target" value="25000" id="option4" autocomplete="off"> All the things
+                        </label>
+                    </div>
+
+                    <br><br>
+                    <h5>I'm interested in the following areas:</h5>
+                    
+                    <div class="btn-group-toggle" data-toggle="buttons">
+                      
+                      {{ range $stream := $architecture }}
+                        {{ if eq $s.Name $stream.Name}}
+                          {{ range $p := $stream.Practices }}
+                            <label class="btn btn-primary">
+                              <input type="checkbox" name="{{ $p.Name }}" autocomplete="off">{{ $p.Name }}
+                            </label>
+                          {{ end }} <!-- End practice range -->
+                        {{ end }} <!-- End if-->
+                      {{ end }} <!-- End range-->
+                    </div>
+                    <hr>
+                    {{ end }} <!-- End master loop -->
+
+              <button class="brn btn-primary" type="submit" value="Save">Save your preferences</button>
+
+            </div>
+
+            
+            <hr>
+    </form>
+    </div>
+      </div>
+{{end}}
