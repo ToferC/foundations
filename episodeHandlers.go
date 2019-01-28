@@ -55,6 +55,7 @@ func SplashPageHandler(w http.ResponseWriter, req *http.Request) {
 		IsLoggedIn:  loggedIn,
 		IsAdmin:     isAdmin,
 		Episodes:    episodes,
+		UserFrame:   true,
 	}
 	Render(w, "templates/episodes.html", wv)
 }
@@ -116,6 +117,7 @@ func EpisodeHandler(w http.ResponseWriter, req *http.Request) {
 		SessionUser: username,
 		IsAdmin:     isAdmin,
 		Markdown:    output,
+		UserFrame:   true,
 	}
 
 	// Render page

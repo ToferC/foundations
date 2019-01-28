@@ -41,6 +41,7 @@ func AboutHandler(w http.ResponseWriter, req *http.Request) {
 
 	wv := WebView{
 		SessionUser: username,
+		UserFrame:   true,
 	}
 
 	// Render page

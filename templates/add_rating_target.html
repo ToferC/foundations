@@ -9,34 +9,35 @@
 {{ $user := .User}}
 {{ $lp := $user.LearnerProfile}}
 {{ $interests := $user.Interests.Streams }}
+{{ $architecture := .Architecture }}
 
 
       <div class="container">
-        <hr>
         <div class="row">
           <div class="col-sm-12 col-md-12 col-lg-12">
-            <h3>Awesome!</h3>
+            <h3>Awesome work {{ $user.UserName }}!</h3>
             <h4>Please rate your current skill level and your learning targets.</h4>
             <hr>
             <form action="" method="POST">
 
                   
                   {{ range $s := $interests }}
-                  <h4>{{ $s.Name }}</h4>
+                  <h4><strong>{{ $s.Name }}</strong></h4>
+                  <br>
                   <h5>I am a(n):</h5>
 
                   <div class="btn-group btn-group-toggle" data-toggle="buttons">
                       <label class="btn btn-primary active">
-                        <input type="radio" name="{{ $s.Name }}-Novice" id="option1" autocomplete="off" checked> Novice
+                        <input type="radio" name="{{ $s.Name }}-Skill" value="1" id="option1" autocomplete="off" checked> Novice
                       </label>
                       <label class="btn btn-primary">
-                        <input type="radio" name="{{ $s.Name }}-Experienced" id="option2" autocomplete="off"> Experienced
+                        <input type="radio" name="{{ $s.Name }}-Skill" value="2" id="option2" autocomplete="off"> Experienced
                       </label>
                       <label class="btn btn-primary">
-                        <input type="radio" name="{{ $s.Name }}-Professional" id="option3" autocomplete="off"> Professional
+                        <input type="radio" name="{{ $s.Name }}-Skill" value="3" id="option3" autocomplete="off"> Professional
                       </label>
                       <label class="btn btn-primary">
-                          <input type="radio" name="{{ $s.Name }}-Expert" id="option4" autocomplete="off"> Expert
+                          <input type="radio" name="{{ $s.Name }}-Skill" value="4" id="option4" autocomplete="off"> Expert
                         </label>
                     </div>
                     <br><br>
@@ -45,25 +46,38 @@
 
                   <div class="btn-group btn-group-toggle" data-toggle="buttons">
                       <label class="btn btn-success active">
-                        <input type="radio" name="{{ $s.Name }}-1000" id="option1" autocomplete="off" checked> A little
+                        <input type="radio" name="{{ $s.Name }}-Target" value="1000" id="option1" autocomplete="off" checked> A little
                       </label>
                       <label class="btn btn-success">
-                        <input type="radio" name="{{ $s.Name }}-5000" id="option2" autocomplete="off"> A fair amount
+                        <input type="radio" name="{{ $s.Name }}-Target" value="5000" id="option2" autocomplete="off"> A fair amount
                       </label>
                       <label class="btn btn-success">
-                        <input type="radio" name="{{ $s.Name }}-10000" id="option3" autocomplete="off"> Lots
+                        <input type="radio" name="{{ $s.Name }}-Target" value="10000" id="option3" autocomplete="off"> Lots
                       </label>
                       <label class="btn btn-success">
-                          <input type="radio" name="{{ $s.Name }}-25000" id="option4" autocomplete="off"> All the things
+                          <input type="radio" name="{{ $s.Name }}-Target" value="25000" id="option4" autocomplete="off"> All the things
                         </label>
                     </div>
 
+                    <br><br>
+                    <h5>I'm interested in the following areas:</h5>
+                    
+                    <div class="btn-group-toggle" data-toggle="buttons">
+                      
+                      {{ range $stream := $architecture }}
+                        {{ if eq $s.Name $stream.Name}}
+                          {{ range $p := $stream.Practices }}
+                            <label class="btn btn-primary">
+                              <input type="checkbox" name="{{ $p.Name }}" autocomplete="off">{{ $p.Name }}
+                            </label>
+                          {{ end }} <!-- End practice range -->
+                        {{ end }} <!-- End if-->
+                      {{ end }} <!-- End range-->
+                    </div>
                     <hr>
+                    {{ end }} <!-- End master loop -->
 
-                    {{ end }}
-              <hr>
-
-              <button class="brn btn-primary" type="submit" value="Save">Save your interests</button>
+              <button class="brn btn-primary" type="submit" value="Save">Save your preferences</button>
 
             </div>
 

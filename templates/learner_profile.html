@@ -13,8 +13,8 @@
 {{ $interests := $user.Interests}}
 {{ $targets := $user.LearnerProfile.LearningTargets}}
 {{ $currentYear := $user.LearnerProfile.CurrentYear }}
-{{ $progress := percent (index $targets $currentYear 1) (index $targets $currentYear 0) }}
 {{ $categorymap := .CategoryMap}}
+{{ $progress := percent (index $categorymap "currentTotal") (index $categorymap "targetTotal") }}
 
 
     <h3>{{ $user.UserName }}</h3>
@@ -22,24 +22,25 @@
     <hr>
     <h4>Interests</h4>
         {{ range $s := $interests.Streams }}
-            <p>{{ $s.Name }}</p>
+            <p>{{ $s.Name }} - Target: {{ index $s.LearningTargets $currentYear 0 }}pts, Skill: {{ $s.Expertise }}<br>
+            {{ range $p := $s.Practices }}
+                {{ $p.Name }} | 
+            {{ end }}</p>
         {{ end }}
     <hr>
     <h4>Learning Progress for {{ $currentYear }}</h4>
     <div class="progress">
-        <div class="progress-bar" role="progressbar" aria-valuenow="{{ index $targets $currentYear 1 }}" aria-valuemin="0" aria-valuemax="{{ index $targets $currentYear 0 }}" style="width:{{ $progress }}%">{{ index $targets $currentYear 1 }} / {{ index $targets $currentYear 0 }}</div>
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{ index $categorymap "currentTotal" }}" aria-valuemin="0" aria-valuemax="{{ index $categorymap "targetTotal" }}" style="width:{{ $progress }}%">{{ index $categorymap "currentTotal" }} / {{ index $categorymap "targetTotal" }}</div>
     </div>
     <br>
 
     <h4>Categories</h4>
-    {{ range $k, $v := $categorymap }}
-        {{ if ne $k "max" }}
-        {{ $k }}
+    {{ range $s := $interests.Streams }}
+        {{ $s.Name }}
         <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="{{ $v }}" aria-valuemin="0" aria-valuemax='{{ index $categorymap "max" }}' style='width:{{percent $v (index $categorymap "max") }}%'>{{ $v }}</div>
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{ index $s.LearningTargets $currentYear 1 }}" aria-valuemin="0" aria-valuemax='{{ index $s.LearningTargets $currentYear 0 }}' style='width:{{percent (index $s.LearningTargets $currentYear 1) (index $s.LearningTargets $currentYear 0) }}%'>{{ index $s.LearningTargets $currentYear 1 }}</div>
         </div>
         <br>
-        {{ end }}
     {{ end }}
 
     <hr>

@@ -15,6 +15,7 @@ type WebUser struct {
 	IsLoggedIn  string
 	IsAdmin     string
 	Users       []*models.User
+	UserFrame   bool
 }
 
 // WebView is a framework to send objects & data to a Web view
@@ -26,6 +27,7 @@ type WebView struct {
 	SessionUser string
 	IsLoggedIn  string
 	IsAdmin     string
+	UserFrame   bool
 
 	Episodes          []*models.Episode
 	Experiences       []*models.Experience

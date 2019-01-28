@@ -155,8 +155,8 @@ func main() {
 	r.Handle("/google/callback", google.StateHandler(stateConfig, google.CallbackHandler(oauth2Config, googleLoginFunc(), nil)))
 
 	r.HandleFunc("/users/", UserIndexHandler)
-	r.HandleFunc("/add_learner_profile/{id}", AddLearnerProfileHandler)
-	r.HandleFunc("/add_rating_target/{id}", AddRatingTargetHandler)
+	r.HandleFunc("/add_learner_profile", AddLearnerProfileHandler)
+	r.HandleFunc("/add_rating_target", AddRatingTargetHandler)
 
 	r.HandleFunc("/view_episode/{id}", EpisodeHandler)
 	r.HandleFunc("/new/", AddEpisodeHandler)

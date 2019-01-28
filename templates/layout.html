@@ -98,7 +98,10 @@
       <hr>
 {{ end }}
 
-      {{template "userframe" .}}
+      {{ if .UserFrame }}
+        {{template "userframe" .}}
+      {{ end }}
+
       <br>
       {{template "content" .}}
 

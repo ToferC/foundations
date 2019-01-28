@@ -7,6 +7,7 @@ type Practice struct {
 	ID          int64 `schema:"-"`
 	Name        string
 	Description string
+	Image       *Image
 	Tags        []*string
 	Skills      []*Skill
 	Slug        string `schema:"-"`

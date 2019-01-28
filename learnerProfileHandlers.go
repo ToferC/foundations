@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/thewhitetulip/Tasks/sessions"
 	"github.com/toferc/foundations/database"
@@ -39,6 +41,7 @@ func ListLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 		IsLoggedIn:  loggedIn,
 		IsAdmin:     isAdmin,
 		Users:       users,
+		UserFrame:   true,
 	}
 	Render(w, "templates/learners.html", wv)
 }
@@ -93,9 +96,19 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 		}
 	}
 
-	// Determine learning category values
+	// Determine overall progression
 
-	categories := map[string]int{"max": 100}
+	var targetTotal, currentTotal int
+
+	for _, s := range user.Interests.Streams {
+		targetTotal += s.LearningTargets[user.LearnerProfile.CurrentYear][0]
+		currentTotal += s.LearningTargets[user.LearnerProfile.CurrentYear][1]
+	}
+
+	categories := map[string]int{
+		"currentTotal": currentTotal,
+		"targetTotal":  targetTotal,
+	}
 
 	for _, ex := range exps {
 		categories[ex.Stream.Name] += ex.Points
@@ -111,6 +124,7 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 		LearningResources: lrs,
 		Experiences:       exps,
 		CategoryMap:       categories,
+		UserFrame:         true,
 	}
 
 	// Render page
@@ -217,7 +231,7 @@ func AddLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 			fmt.Println("Saved LearnerProfile to user LearnerProfile")
 		}
 
-		url := "/add_rating_target/" + string(user.ID)
+		url := "/add_rating_target"
 
 		http.Redirect(w, req, url, http.StatusFound)
 	}
@@ -265,7 +279,10 @@ func AddRatingTargetHandler(w http.ResponseWriter, req *http.Request) {
 		user.Interests = &models.InterestMap{}
 	}
 
-	categories := map[string]int{"max": 100}
+	currentTime := time.Now().Year()
+	currentYear := strconv.Itoa(currentTime)
+
+	user.LearnerProfile.CurrentYear = currentYear
 
 	wv := WebView{
 		User:         user,
@@ -273,7 +290,6 @@ func AddRatingTargetHandler(w http.ResponseWriter, req *http.Request) {
 		IsLoggedIn:   loggedIn,
 		SessionUser:  username,
 		IsAdmin:      isAdmin,
-		CategoryMap:  categories,
 		Architecture: baseArchitecture,
 	}
 
@@ -294,27 +310,44 @@ func AddRatingTargetHandler(w http.ResponseWriter, req *http.Request) {
 		fmt.Println(req.Form)
 
 		for _, stream := range baseArchitecture {
-			if req.FormValue(stream.Name) != "" {
-				user.Interests.Streams = append(user.Interests.Streams, &models.Stream{
-					Name: stream.Name,
-				})
+			for _, iStream := range user.Interests.Streams {
+				if iStream.Name == stream.Name {
+					// Pull data from form
+					skill := req.FormValue(fmt.Sprintf("%s-Skill", iStream.Name))
+					sN, err := strconv.Atoi(skill)
+					if err != nil {
+						log.Panic(err)
+						sN = 1
+					}
+
+					iStream.Expertise = sN
+
+					target := req.FormValue(fmt.Sprintf("%s-Target", iStream.Name))
+					tN, err := strconv.Atoi(target)
+					if err != nil {
+						log.Panic(err)
+						tN = 1000
+					}
+
+					if iStream.LearningTargets == nil {
+						iStream.LearningTargets = map[string][]int{
+							user.LearnerProfile.CurrentYear: []int{tN, 0},
+						}
+					} else {
+						iStream.LearningTargets[user.LearnerProfile.CurrentYear][0] = tN
+					}
+
+					for _, p := range stream.Practices {
+						if req.FormValue(p.Name) != "" {
+							iStream.Practices = append(iStream.Practices, p)
+						}
+					}
+
+				} // End inner loop
 			}
 		}
 
 		fmt.Println(user.Interests.Streams)
-
-		/*
-			if user.LearnerProfile == nil {
-				user.LearnerProfile = &models.LearnerProfile{}
-			}
-
-			if user.LearnerProfile.LearningTargets == nil {
-				user.LearnerProfile.LearningTargets = map[string][]int{
-					"2019": []int{10000, 0},
-				}
-				user.LearnerProfile.CurrentYear = "2019"
-			}
-		*/
 
 		err = database.UpdateUser(db, user)
 		if err != nil {

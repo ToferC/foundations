@@ -14,23 +14,54 @@
         <hr>
         <div class="row">
           <div class="col-sm-12 col-md-12 col-lg-12">
-            <h3>Welcome {{ $user.UserName }} </h3>
-            <p>User provides light-weight info to tailor their learning experience.</p>
+            <h3>Welcome to Foundations, {{ $user.UserName }} </h3>
             <form action="" method="POST">
 
-              <hr>
-              <h4>Select the themes that interest you.</h4>
-              <p>This information will help us show you content that's meaningful to you.</p>
+              <br>
+              <h4>It's fantastic to have you here. Foundations is a new take on organizational learning that puts you in charge.</h4>
+              <p>Foundations is designed to let you learn in your own way and to record your learning in an easy to export format that you can
+                  bring directly to your manager to show them what you've accomplished.</p>
+              <p>We'd like to start by getting to know you a bit. This information will help us set up your learning as well as bring you content that's important to you.</p>
 
-              <div class="btn-group-toggle" data-toggle="buttons">
-                  
-                  {{ range $s := .Architecture }}
-                    <label class="btn btn-primary active">
-                      <input type="checkbox" name="{{ $s.Name }}" checked autocomplete="off">{{ $s.Name }}
-                    </label>
-                    {{ end }}
+            <!--
+                <div class="btn-group-toggle" data-toggle="buttons">
+                    
+                    {{ range $s := .Architecture }}
+                      <label class="btn btn-primary active">
+                        <input type="checkbox" name="{{ $s.Name }}" checked autocomplete="off">{{ $s.Name }}
+                      </label>
+                      {{ end }}
                 </div>
-              <hr>
+                <hr>
+            -->
+            <h4>Choose one or more categories from the cards below.</h4>
+
+              <div class="row">
+                    {{ range $s := .Architecture }}
+                    <div class="col-md-4">
+                        <div class="card mb-4 box-shadow">
+                                <img class ="card-img-top" data-src="" alt="Thumbnail"
+                                style="width: 100%; height: 50%; display: block;" src="{{ $s.Image.Path }}"
+                                data-holder-rendered="true">
+                    <div class="card-body"></a>
+                        <h5 class="card-title">{{ $s.Name }}</h5>
+                
+                        <p class="card-text">
+                            {{ sliceString $s.Description 128 }}
+                        </p>
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-primary">
+                                    <input type="checkbox" name="{{ $s.Name }}" autocomplete="off">Choose {{ $s.Name }}
+                                </label>
+                            </div>
+                        </div>
+                      </div>
+                      </div>
+                    </div>
+                    {{ end }}
+                      </div>
 
               <button class="brn btn-primary" type="submit" value="Save">Save your interests</button>
 

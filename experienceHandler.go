@@ -42,6 +42,7 @@ func ListUserExperiencesHandler(w http.ResponseWriter, req *http.Request) {
 		IsLoggedIn:  loggedIn,
 		IsAdmin:     isAdmin,
 		Experiences: experiences,
+		UserFrame:   true,
 	}
 	Render(w, "templates/experiences.html", wv)
 }
@@ -86,6 +87,7 @@ func ViewExperienceHandler(w http.ResponseWriter, req *http.Request) {
 		IsLoggedIn:  loggedIn,
 		SessionUser: username,
 		IsAdmin:     isAdmin,
+		UserFrame:   true,
 	}
 
 	// Render page
@@ -206,19 +208,13 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 			log.Fatal(err)
 		}
 
-		if user.LearnerProfile == nil {
-			user.LearnerProfile = &models.LearnerProfile{}
-		}
+		streams := user.Interests.Streams
 
-		if user.LearnerProfile.LearningTargets == nil {
-			user.LearnerProfile.LearningTargets = map[string][]int{
-				"2019": []int{10000, 0},
+		for _, s := range streams {
+			if s.Name == ex.Stream.Name {
+				s.LearningTargets[user.LearnerProfile.CurrentYear][1] += ex.Points
 			}
-			user.LearnerProfile.CurrentYear = "2019"
 		}
-
-		profile := user.LearnerProfile
-		profile.LearningTargets[profile.CurrentYear][1] += ex.Points
 
 		err = database.UpdateUser(db, user)
 		if err != nil {

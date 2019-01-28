@@ -49,12 +49,16 @@ func UserIndexHandler(w http.ResponseWriter, req *http.Request) {
 		IsLoggedIn:  loggedIn,
 		IsAdmin:     isAdmin,
 		Users:       users,
+		UserFrame:   true,
 	}
 
 	Render(w, "templates/index_users.html", wu)
 }
 
 func googleLoginFunc() http.Handler {
+
+	newUser := false
+
 	fn := func(w http.ResponseWriter, req *http.Request) {
 
 		session, err := sessions.Store.Get(req, "session")
@@ -76,6 +80,7 @@ func googleLoginFunc() http.Handler {
 			if err != nil {
 				fmt.Println(err)
 			}
+			newUser = true
 		}
 
 		if user.IsAdmin {
@@ -87,7 +92,12 @@ func googleLoginFunc() http.Handler {
 		session.Save(req, w)
 		log.Print("user ", googleUser.Name, " is authenticated")
 		fmt.Println(session.Values)
-		http.Redirect(w, req, "/", 302)
+
+		if newUser {
+			http.Redirect(w, req, "/add_learner_profile", 302)
+		} else {
+			http.Redirect(w, req, "/", 302)
+		}
 	}
 	return http.HandlerFunc(fn)
 }
@@ -224,7 +234,7 @@ func SignUpFunc(w http.ResponseWriter, req *http.Request) {
 			session.Save(req, w)
 			log.Print("user ", username, " is authenticated")
 			fmt.Println(session.Values)
-			http.Redirect(w, req, "/", 302)
+			http.Redirect(w, req, "/add_learner_profile", 302)
 		}
 	} else if req.Method == "GET" {
 		Render(w, "templates/signup.html", wv)
