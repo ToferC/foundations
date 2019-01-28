@@ -42,7 +42,35 @@ var baseArchitecture = []models.Stream{
 			},
 		},
 	},
-	// Stream 2
+	// Stream
+	models.Stream{
+		Name: "Digital Literacy",
+		Image: &models.Image{
+			Path: "https://s3.amazonaws.com/foundationsapp/static/digital_literacy.jpg",
+		},
+		Description: "the ability to use a range of technological tools for varied purposes.",
+		Practices: []*models.Practice{
+			&models.Practice{
+				Name: "Creativity & Collaboration",
+			},
+			&models.Practice{
+				Name: "Curation",
+			},
+			&models.Practice{
+				Name: "Understanding Technology",
+			},
+			&models.Practice{
+				Name: "Critical Thinking & Evaluation",
+			},
+			&models.Practice{
+				Name: "Cultural & Social Impacts",
+			},
+			&models.Practice{
+				Name: "Problem Solving",
+			},
+		},
+	},
+	// Stream
 	models.Stream{
 		Name: "Design",
 		Image: &models.Image{
@@ -180,6 +208,12 @@ var baseArchitecture = []models.Stream{
 				Name: "Data Manipulation",
 			},
 			&models.Practice{
+				Name: "Coding Basics",
+			},
+			&models.Practice{
+				Name: "Pandas / DataFrames",
+			},
+			&models.Practice{
 				Name: "Natural Language Processing",
 			},
 			&models.Practice{
@@ -202,7 +236,44 @@ var baseArchitecture = []models.Stream{
 			},
 		},
 	},
-	// Stream 6
+	// Stream
+	models.Stream{
+		Name: "AI / Machine Learning",
+		Image: &models.Image{
+			Path: "https://s3.amazonaws.com/foundationsapp/static/ai.jpg",
+		},
+		Description: "Machine learning is an application of artificial intelligence (AI) that provides systems the ability to automatically learn and improve from experience without being explicitly programmed. Machine learning focuses on the development of computer programs that can access data and use it learn for themselves.",
+		Practices: []*models.Practice{
+			&models.Practice{
+				Name: "Unsupervised Learning",
+			},
+			&models.Practice{
+				Name: "Supervised Learning",
+			},
+			&models.Practice{
+				Name: "Reinforcement Learning",
+			},
+			&models.Practice{
+				Name: "LSTMs",
+			},
+			&models.Practice{
+				Name: "GANs",
+			},
+			&models.Practice{
+				Name: "Deep Learning / Neural Networks",
+			},
+			&models.Practice{
+				Name: "Statistics",
+			},
+			&models.Practice{
+				Name: "Streaming Data",
+			},
+			&models.Practice{
+				Name: "Big Data",
+			},
+		},
+	},
+	// Stream
 	models.Stream{
 		Name: "DevOps",
 		Image: &models.Image{
@@ -233,5 +304,4 @@ var baseArchitecture = []models.Stream{
 			},
 		},
 	},
-	// Stream 7
 }
