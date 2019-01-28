@@ -122,7 +122,7 @@ func getWebPageDetails(url string, targets ...string) ([]string, error) {
 	for _, t := range targets {
 		targetIndexes, err := findSubString(t, pageContent)
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println(err)
 			return []string{}, err
 		}
 

@@ -170,8 +170,13 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 		scrapeArray, err := getWebPageDetails(ex.LearningResource.Path, "title")
 		if err != nil {
 			fmt.Println("Not a valid Web page or page lacking title")
+			ex.LearningResource.Title = fmt.Sprintf("%s | %s | %s learning resource",
+				user.UserName,
+				verb,
+				ex.Stream)
+		} else {
+			ex.LearningResource.Title = scrapeArray[0]
 		}
-		ex.LearningResource.Title = scrapeArray[0]
 		ex.LearningResource.AddedOn = time.Now()
 		// ex.LearningResource.Author = username
 
@@ -222,8 +227,10 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 		if !foundStream {
 			// Learning is learning in a new stream. Open it at the basic level
 			user.Interests.Streams = append(user.Interests.Streams, ex.Stream)
-			user.Interests.Streams[len(user.Interests.Streams)-1].LearningTargets[user.LearnerProfile.CurrentYear][0] = 1000
-			user.Interests.Streams[len(user.Interests.Streams)-1].LearningTargets[user.LearnerProfile.CurrentYear][1] += ex.Points
+			user.Interests.Streams[len(user.Interests.Streams)-1].LearningTargets = map[string][]int{
+				user.LearnerProfile.CurrentYear: []int{1000, ex.Points},
+			}
+
 			user.Interests.Streams[len(user.Interests.Streams)-1].Expertise = 1
 		}
 
