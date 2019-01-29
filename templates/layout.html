@@ -33,11 +33,17 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li>
-      <a class="nav-link active" href="/learner_profile/">My Learning<span class="sr-only"></a>
+      {{ if ne $user ""}}
+      <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              My Learning</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="nav-link active" href="/learner_profile/">Learning Profile<span class="sr-only"></a>
+        <a class="nav-link active" href="/add_learner_profile">Update Interests<span class="sr-only"></a>
+        <a class="nav-link active" href="/add_rating_target">Update Objectives<span class="sr-only"></a>
+          </div>
       </li>
             
-      {{ if ne $user ""}}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Add Content

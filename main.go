@@ -164,6 +164,7 @@ func main() {
 	r.HandleFunc("/delete/{id}", DeleteEpisodeHandler)
 
 	r.HandleFunc("/add_experience/{verb}/", AddExperienceHandler)
+	r.HandleFunc("/add_experience_practices/{id}", AddExperiencePracticesHandler)
 	r.HandleFunc("/delete_experience/{id}", DeleteExperienceHandler)
 
 	http.Handle("/", r)

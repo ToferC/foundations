@@ -14,8 +14,8 @@ type Experience struct {
 	UserName           string
 	Verb               string
 	Stream             *Stream
-	Practice           *Practice
-	Skill              *Skill
+	Practices          []*Practice
+	Skills             []*Skill
 	LearningResourceID int64
 	LearningResource   *LearningResource
 	OccurredAt         time.Time `schema:"-"`
@@ -34,13 +34,19 @@ func (e *Experience) String() string {
 	tString := e.OccurredAt.Format("2006-01-02")
 	text := ""
 
-	text += fmt.Sprintf("\n[%s] %s | Topic: %s, Standard: %s, Learning Resource: %s",
+	text += fmt.Sprintf("\n[%s] %s | Topic: %s, Learning Resource: %s",
 		tString,
 		e.Verb,
 		e.Stream.Name,
-		e.Practice.Name,
 		e.LearningResource.Title,
 	)
+
+	if e.Practices != nil {
+		for _, p := range e.Practices {
+			text += fmt.Sprintf("%s | ", p.Name)
+		}
+	}
+
 	return text
 }
 

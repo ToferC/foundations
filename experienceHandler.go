@@ -208,7 +208,7 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 		fmt.Println(ex)
 
 		// Save Experience in Database
-		err = database.SaveExperience(db, ex)
+		eID, err := database.SaveExperience(db, ex)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -239,6 +239,96 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 			log.Panic(err)
 		} else {
 			fmt.Println("Saved Experience to user LearnerProfile")
+		}
+
+		url := fmt.Sprintf("/add_experience_practices/%d", eID)
+
+		http.Redirect(w, req, url, http.StatusFound)
+	}
+}
+
+// AddExperiencePracticesHandler adds Stream.Practices to a user-generated experience
+func AddExperiencePracticesHandler(w http.ResponseWriter, req *http.Request) {
+
+	// Get session values or redirect to Login
+	session, err := sessions.Store.Get(req, "session")
+
+	if err != nil {
+		log.Println("error identifying session")
+		http.Redirect(w, req, "/login/", 302)
+		return
+		// in case of error
+	}
+
+	// Prex for user authentication
+	sessionMap := getUserSessionValues(session)
+
+	username := sessionMap["username"]
+	loggedIn := sessionMap["loggedin"]
+	isAdmin := sessionMap["isAdmin"]
+
+	if username == "" {
+		// Add user message
+		http.Redirect(w, req, "/", 302)
+	}
+
+	vars := mux.Vars(req)
+	idString := vars["id"]
+
+	id, err := strconv.Atoi(idString)
+	if err != nil {
+		http.Redirect(w, req, "/", 302)
+	}
+
+	ex, err := database.PKLoadExperience(db, int64(id))
+	if err != nil {
+		http.Redirect(w, req, "/", 302)
+	}
+
+	ex.Practices = []*models.Practice{}
+
+	wv := WebView{
+		Experience:   ex,
+		IsAuthor:     true,
+		SessionUser:  username,
+		IsLoggedIn:   loggedIn,
+		IsAdmin:      isAdmin,
+		Counter:      numToArray(7),
+		BigCounter:   numToArray(15),
+		Architecture: baseArchitecture,
+	}
+
+	if req.Method == "GET" {
+
+		// Render page
+		Render(w, "templates/add_experience_practices.html", wv)
+
+	}
+
+	if req.Method == "POST" { // POST
+
+		err := req.ParseForm()
+		if err != nil {
+			panic(err)
+		}
+
+		// Add practices to user.Stream
+		for _, stream := range baseArchitecture {
+			if stream.Name == ex.Stream.Name {
+				for pk, pv := range stream.Practices {
+					if req.FormValue(pk) != "" {
+						ex.Practices = append(ex.Practices, pv)
+					}
+				}
+			}
+		}
+
+		fmt.Println(ex)
+
+		// Save Experience in Database
+		_, err = database.UpdateExperience(db, ex)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 		url := "/learner_profile/"
@@ -323,7 +413,7 @@ func ModifyExperienceHandler(w http.ResponseWriter, req *http.Request) {
 		// Do things
 
 		// Insert Experience into App archive
-		err = database.UpdateExperience(db, ex)
+		_, err = database.UpdateExperience(db, ex)
 		if err != nil {
 			panic(err)
 		} else {

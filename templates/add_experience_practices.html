@@ -1,0 +1,44 @@
+{{ define "title"}}
+
+<title>Add Experience to Learning Profile</title>
+
+{{ end }}
+
+{{define "content"}}
+
+{{ $e := .Experience}}
+
+      <div class="container">
+        <hr>
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+            <h3>What areas of {{ $e.Stream.Name }} did this experience touch on?</h3>
+            <p>Choose as many as you need.</p>
+            <form action="" method="POST">
+
+                <h4>Practices</h4>
+              
+                    <div class="btn-group-toggle" data-toggle="buttons">
+                      
+                            {{ range $stream := .Architecture }}
+                              {{ if eq $e.Stream.Name $stream.Name}}
+                                {{ range $p := $stream.Practices }}
+                                  <label class="btn btn-primary">
+                                    <input type="checkbox" name="{{ $p.Name }}" autocomplete="off">{{ $p.Name }}
+                                  </label>
+                                {{ end }} <!-- End practice range -->
+                              {{ end }} <!-- End if-->
+                            {{ end }} <!-- End architecture Stream range-->
+                          </div>
+                          <hr>
+
+              <button class="brn btn-primary" type="submit" value="Save">Add Experience Practices</button>
+
+            </div>
+
+            
+            <hr>
+    </form>
+    </div>
+      </div>
+{{end}}

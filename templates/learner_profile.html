@@ -18,8 +18,6 @@
 
     <h3>{{ $user.UserName }}</h3>
     {{ $user.Email}} 
-    <a class="btn btn-primary" href="/add_learner_profile">Update Categories</a>
-    <a class="btn btn-primary" href="/add_rating_target">Update Objectives</a>
     <hr>
 
     <h4>Overall Learning Progress for {{ $currentYear }}</h4>
@@ -28,6 +26,7 @@
     </div>
     <hr>
 
+    <div class="container">
     <h4>Categories</h4>
     <hr>
     {{ range $k, $v := $user.Streams }}
@@ -40,6 +39,7 @@
             {{ end }}</p>
             <hr>
     {{ end }}
+        </div>
 
     <hr>
 
@@ -52,13 +52,14 @@
     <div class="card-body"></a>
         <h5 class="card-title">{{ $e.LearningResource.Title }}</h5>
         <h6 class="card-subtitle mb-2 text-muted">{{ $e.Stream.Name }}</h6>
+        <p>{{ range $p := $e.Practices }}{{ $p.Name }} | {{ end }}</p>
 
         <p class="card-text">
             {{ $e.Comments }}
             <br>
             Value: {{ $e.Value }}<br> 
             Time: {{ $e.Time }}<br>
-            Difficulty: {{ $e.Difficulty }}
+            Difficulty: {{ $e.Difficulty }}<br>
             Tags: {{ range $tag := $e.Tags }}{{ $tag }} | {{ end }}</p>
         </p>
         <div class="d-flex justify-content-between align-items-center">

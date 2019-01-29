@@ -8,7 +8,7 @@ import (
 )
 
 // SaveExperience saves a Experience to the DB
-func SaveExperience(db *pg.DB, e *models.Experience) error {
+func SaveExperience(db *pg.DB, e *models.Experience) (int64, error) {
 
 	// Save experience in Database
 	_, err := db.Model(e).
@@ -18,17 +18,17 @@ func SaveExperience(db *pg.DB, e *models.Experience) error {
 	if err != nil {
 		panic(err)
 	}
-	return err
+	return e.ID, err
 }
 
 // UpdateExperience updates a runequest experience
-func UpdateExperience(db *pg.DB, e *models.Experience) error {
+func UpdateExperience(db *pg.DB, e *models.Experience) (int64, error) {
 
 	err := db.Update(e)
 	if err != nil {
 		panic(err)
 	}
-	return err
+	return e.ID, err
 }
 
 // ListExperiences queries Experience names and add to slice
@@ -71,7 +71,7 @@ func ListUserExperiences(db *pg.DB, username string) ([]*models.Experience, erro
 
 // PKLoadExperience loads a single experience from the DB by pk
 func PKLoadExperience(db *pg.DB, pk int64) (*models.Experience, error) {
-	// Select user by Primary Key
+	// Select experience by Primary Key
 	e := &models.Experience{ID: pk}
 	err := db.Select(e)
 
