@@ -13,7 +13,7 @@
         <div class="row">
           <div class="col-sm-12 col-md-12 col-lg-12">
             <h3>New Experience Form</h3>
-            <p>User fills in the fields below to record their experience</p>
+            <p>Please fill in the fields below to record your experience</p>
             <form action="" method="POST">
 
               
@@ -26,8 +26,7 @@
               
 
               <hr>
-              <h4>Learning Resource Details</h4>
-              <p>This should be collected through Web scraping or an API wherever possible.</p>
+              <h4>Details</h4>
               <!--
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -46,10 +45,9 @@
 
               <hr>
               <h4>Learning Architecture Links</h4>
-              <p>Data connections to the Digital Academy Learning Architecture. Also great to automate out of the way.</p>
               <div class="input-group">
                     <div class="input-group-prepend">
-                    <span class="input-group-text" id="Stream-addon">Topic</span>
+                    <span class="input-group-text" id="Stream-addon">Category</span>
                 </div>
                   <select type="text" class="form-control" id="Stream" name="Stream.Name" required>
                     {{ range $s := .Architecture }}
@@ -61,7 +59,7 @@
               <hr>
               
              <h4>Ratings</h4>
-             <p>Users enter ratings of 1-5 for the learning experience. This will let us make better recommendations to other people as well as calculate points.</p>
+             <p>Please enter ratings of 1-5 for your learning experience. This will let us make better recommendations to other people as well as calculate your progress.</p>
 
              <div class="input-group">
                     <div class="input-group-prepend">
@@ -107,7 +105,7 @@
 
             <hr>
             <h4>Tags</h4>
-            <p>Allow users to create their own tags for search and analysis.</p>
+            <p>Add personal tags to describe your experience.</p>
 
             <div class="input-group">
               <div class="input-group-prepend">
@@ -132,7 +130,7 @@
 
             <hr>
 
-              <button class="brn btn-primary" type="submit" value="Save">Save</button>
+              <button class="brn btn-primary" type="submit" value="Save">Record Experience</button>
 
             </div>
 
