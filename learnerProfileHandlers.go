@@ -219,9 +219,11 @@ func AddLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 				_, ok := user.Streams[stream.Name]
 				if !ok {
 					user.Streams[stream.Name] = &models.Stream{
-						Name:      stream.Name,
-						Practices: map[string]*models.Practice{},
-						Selected:  true,
+						Name:        stream.Name,
+						Practices:   map[string]*models.Practice{},
+						Description: stream.Description,
+						Image:       stream.Image,
+						Selected:    true,
 					}
 				}
 			}

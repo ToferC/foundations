@@ -22,13 +22,15 @@
 
                   
                   {{ range $k, $s := $user.Streams }}
-                  <h4><strong>{{ $k }}</strong></h4>
-                  <br>
+                  <h3><strong>{{ $k }}</strong></h3>
+                  <p>{{ $s.Description }}</p>
+                  <hr>
+                  <h4>Select your current skill level and your learning target for {{ $user.LearnerProfile.CurrentYear }}</h4>
                   <h5>I am a(n):</h5>
 
                   <div class="btn-group btn-group-toggle" data-toggle="buttons">
                       <label class="btn btn-primary {{ if eq $s.Expertise 1 }}active{{ end }}">
-                        <input type="radio" name="{{ $s.Name }}-Skill" value="1" id="option1" autocomplete="off" {{ if eq $s.Expertise 1 }}checked{{ end }}> Novice
+                        <input type="radio" name="{{ $s.Name }}-Skill" value="1" id="option1" autocomplete="off" {{ if eq $s.Expertise 1 }}checked{{ end }}> Beginner
                       </label>
                       <label class="btn btn-primary {{ if eq $s.Expertise 2 }}active{{ end }}">
                         <input type="radio" name="{{ $s.Name }}-Skill" value="2" id="option2" autocomplete="off" {{ if eq $s.Expertise 2 }}checked{{ end }}> Experienced
@@ -45,13 +47,13 @@
                   <h5>In {{ $user.LearnerProfile.CurrentYear }}, I want to learn:</h5>
 
                   <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                      <label class="btn btn-success {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 1000 }}active{{ end }}">
+                      <label class="btn btn-primary {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 1000 }}active{{ end }}">
                         <input type="radio" name="{{ $s.Name }}-Target" value="1000" id="option1" autocomplete="off" {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 1000 }}checked{{ end }}> A little
                       </label>
-                      <label class="btn btn-success {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 5000 }}active{{ end }}">
+                      <label class="btn btn-primary {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 5000 }}active{{ end }}">
                         <input type="radio" name="{{ $s.Name }}-Target" value="5000" id="option2" autocomplete="off" {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 5000 }}checked{{ end }}> A fair amount
                       </label>
-                      <label class="btn btn-success {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 10000 }}active{{ end }}">
+                      <label class="btn btn-primary {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 10000 }}active{{ end }}">
                         <input type="radio" name="{{ $s.Name }}-Target" value="10000" id="option3" autocomplete="off" {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 10000 }}checked{{ end }}> Lots
                       </label>
                       <label class="btn btn-success {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 25000 }}active{{ end }}">
@@ -62,6 +64,7 @@
                     <br><br>
                     <h5>I'm interested in the following areas:</h5>
                     <!-- Need to add active & checked based on selected -->
+                    <p>Choose one or more {{ $k }} areas that you'd like to explore.</p>
                     
                     <div class="btn-group-toggle" data-toggle="buttons">
                       
