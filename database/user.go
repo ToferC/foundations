@@ -19,6 +19,8 @@ func SaveUser(db *pg.DB, u *models.User) error {
 		CurrentYear:     "2019",
 	}
 
+	u.Streams = map[string]*models.Stream{}
+
 	// Save User in Database
 	_, err := db.Model(u).
 		OnConflict("(id) DO UPDATE").
@@ -123,19 +125,20 @@ func CreateGoogleUser(db *pg.DB, username, email string) (*models.User, error) {
 
 	fmt.Println(username, "no password", email)
 
-	u := models.User{
+	u := &models.User{
 		UserName: username,
 		Email:    email,
 		LearnerProfile: &models.LearnerProfile{
 			LearningTargets: baseMap,
 			CurrentYear:     "2019",
 		},
+		Streams: map[string]*models.Stream{},
 	}
 
-	err := SaveUser(db, &u)
+	err := SaveUser(db, u)
 	if err != nil {
 		return &models.User{UserName: "New"}, err
 	}
 
-	return &u, nil
+	return u, nil
 }

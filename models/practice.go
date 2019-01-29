@@ -10,6 +10,7 @@ type Practice struct {
 	Image       *Image
 	Tags        []*string
 	Skills      []*Skill
+	Selected    bool
 	Slug        string `schema:"-"`
 }
 

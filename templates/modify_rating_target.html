@@ -8,7 +8,7 @@
 
 {{ $user := .User}}
 {{ $lp := $user.LearnerProfile}}
-{{ $interests := $user.Interests.Streams }}
+{{ $interests := $user.Streams }}
 {{ $architecture := .Architecture }}
 
 
@@ -46,7 +46,7 @@
 
                   <div class="btn-group btn-group-toggle" data-toggle="buttons">
                       <label class="btn btn-success active">
-                        <input type="radio" name="{{ $s.Name }}-Target" value="1000" id="option1" autocomplete="off" checked> A little
+                        <input type="radio" name="{{ $s.Name }}-Target" value="1000" id="option1" autocomplete="off" {{ if eq (index $s.LearningTargets $user.LearningProfile.CurrentYear 0) 1000 }}checked{{ end }}> A little
                       </label>
                       <label class="btn btn-success">
                         <input type="radio" name="{{ $s.Name }}-Target" value="5000" id="option2" autocomplete="off"> A fair amount

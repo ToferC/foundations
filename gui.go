@@ -40,9 +40,10 @@ type WebView struct {
 
 	Users []*models.User
 
-	Counter    []int
-	MidCounter []int
-	BigCounter []int
+	Counter     []int
+	MidCounter  []int
+	BigCounter  []int
+	StringArray []string
 
 	Flashes []interface{}
 }

@@ -100,7 +100,7 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 
 	var targetTotal, currentTotal int
 
-	for _, s := range user.Interests.Streams {
+	for _, s := range user.Streams {
 		targetTotal += s.LearningTargets[user.LearnerProfile.CurrentYear][0]
 		currentTotal += s.LearningTargets[user.LearnerProfile.CurrentYear][1]
 	}
@@ -169,11 +169,19 @@ func AddLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 
 	// Determine learning category values
 
-	if user.Interests == nil {
-		user.Interests = &models.InterestMap{}
+	stringArray := []string{}
+
+	for _, s := range baseArchitecture {
+		for k := range user.Streams {
+			if k == s.Name {
+				stringArray = append(stringArray, k)
+			}
+		}
 	}
 
-	categories := map[string]int{"max": 100}
+	if user.Streams == nil {
+		user.Streams = map[string]*models.Stream{}
+	}
 
 	wv := WebView{
 		User:         user,
@@ -181,7 +189,7 @@ func AddLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 		IsLoggedIn:   loggedIn,
 		SessionUser:  username,
 		IsAdmin:      isAdmin,
-		CategoryMap:  categories,
+		StringArray:  stringArray,
 		Architecture: baseArchitecture,
 	}
 
@@ -208,30 +216,28 @@ func AddLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 
 		for _, stream := range baseArchitecture {
 			if req.FormValue(stream.Name) != "" {
-				user.Interests.Streams = append(user.Interests.Streams, &models.Stream{
-					Name: stream.Name,
-					LearningTargets: map[string][]int{
-						user.LearnerProfile.CurrentYear: []int{1000, 0},
-					},
-					Expertise: 1,
-				})
+				_, ok := user.Streams[stream.Name]
+				if !ok {
+					user.Streams[stream.Name] = &models.Stream{
+						Name:      stream.Name,
+						Practices: map[string]*models.Practice{},
+						Selected:  true,
+					}
+				}
 			}
 		}
 
-		fmt.Println(user.Interests.Streams)
-
-		/*
-			if user.LearnerProfile == nil {
-				user.LearnerProfile = &models.LearnerProfile{}
-			}
-
-			if user.LearnerProfile.LearningTargets == nil {
-				user.LearnerProfile.LearningTargets = map[string][]int{
-					"2019": []int{10000, 0},
+		// Add Learning Targets and base interests if needed
+		for _, s := range user.Streams {
+			if s.LearningTargets == nil {
+				s.LearningTargets = map[string][]int{
+					user.LearnerProfile.CurrentYear: []int{1000, 0},
 				}
-				user.LearnerProfile.CurrentYear = "2019"
+				s.Expertise = 1
 			}
-		*/
+		}
+
+		fmt.Println(user.Streams)
 
 		err = database.UpdateUser(db, user)
 		if err != nil {
@@ -284,9 +290,15 @@ func AddRatingTargetHandler(w http.ResponseWriter, req *http.Request) {
 
 	// Determine learning category values
 
-	if user.Interests == nil {
-		user.Interests = &models.InterestMap{}
+	stringArray := []string{}
+
+	for _, v := range user.Streams {
+		for _, practice := range v.Practices {
+			stringArray = append(stringArray, practice.Name)
+		}
 	}
+
+	fmt.Println(stringArray)
 
 	wv := WebView{
 		User:         user,
@@ -294,6 +306,7 @@ func AddRatingTargetHandler(w http.ResponseWriter, req *http.Request) {
 		IsLoggedIn:   loggedIn,
 		SessionUser:  username,
 		IsAdmin:      isAdmin,
+		StringArray:  stringArray,
 		Architecture: baseArchitecture,
 	}
 
@@ -311,47 +324,56 @@ func AddRatingTargetHandler(w http.ResponseWriter, req *http.Request) {
 			panic(err)
 		}
 
+		fmt.Println("Form: ")
 		fmt.Println(req.Form)
 
-		for _, stream := range baseArchitecture {
-			for _, iStream := range user.Interests.Streams {
-				if iStream.Name == stream.Name {
-					// Pull data from form
-					skill := req.FormValue(fmt.Sprintf("%s-Skill", iStream.Name))
-					sN, err := strconv.Atoi(skill)
-					if err != nil {
-						log.Panic(err)
-						sN = 1
-					}
+		for k, v := range user.Streams {
 
-					iStream.Expertise = sN
+			// Reset practices
+			v.Practices = map[string]*models.Practice{}
 
-					target := req.FormValue(fmt.Sprintf("%s-Target", iStream.Name))
-					tN, err := strconv.Atoi(target)
-					if err != nil {
-						log.Panic(err)
-						tN = 1000
-					}
+			// Pull data from form
 
-					if iStream.LearningTargets == nil {
-						iStream.LearningTargets = map[string][]int{
-							user.LearnerProfile.CurrentYear: []int{tN, 0},
-						}
-					} else {
-						iStream.LearningTargets[user.LearnerProfile.CurrentYear][0] = tN
-					}
-
-					for _, p := range stream.Practices {
-						if req.FormValue(p.Name) != "" {
-							iStream.Practices = append(iStream.Practices, p)
-						}
-					}
-
-				} // End inner loop
+			// Get Skill Rating
+			skill := req.FormValue(fmt.Sprintf("%s-Skill", k))
+			sN, err := strconv.Atoi(skill)
+			if err != nil {
+				log.Panic(err)
+				sN = 1
 			}
-		}
 
-		fmt.Println(user.Interests.Streams)
+			// Set Skill rating
+			v.Expertise = sN
+
+			// Get Learning Target
+			target := req.FormValue(fmt.Sprintf("%s-Target", k))
+			tN, err := strconv.Atoi(target)
+			if err != nil {
+				log.Panic(err)
+				tN = 1000
+			}
+
+			// Set learning target for currentYear
+			v.LearningTargets[user.LearnerProfile.CurrentYear][0] = tN
+
+			// Add practices to user.Stream
+			for _, stream := range baseArchitecture {
+				if stream.Name == k {
+					for pk, pv := range stream.Practices {
+						if req.FormValue(pk) != "" {
+							fmt.Println("Found " + pk)
+							_, ok := v.Practices[pk]
+							if !ok {
+								user.Streams[k].Practices[pk] = pv
+							}
+						}
+					}
+				}
+			}
+
+		} // End upper loop
+
+		fmt.Println(user.Streams)
 
 		err = database.UpdateUser(db, user)
 		if err != nil {
@@ -364,5 +386,4 @@ func AddRatingTargetHandler(w http.ResponseWriter, req *http.Request) {
 
 		http.Redirect(w, req, url, http.StatusFound)
 	}
-
 }

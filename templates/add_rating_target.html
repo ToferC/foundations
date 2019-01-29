@@ -8,8 +8,8 @@
 
 {{ $user := .User}}
 {{ $lp := $user.LearnerProfile}}
-{{ $interests := $user.Interests.Streams }}
 {{ $architecture := .Architecture }}
+{{ $stringArray := .StringArray }}
 
 
       <div class="container">
@@ -21,23 +21,23 @@
             <form action="" method="POST">
 
                   
-                  {{ range $s := $interests }}
-                  <h4><strong>{{ $s.Name }}</strong></h4>
+                  {{ range $k, $s := $user.Streams }}
+                  <h4><strong>{{ $k }}</strong></h4>
                   <br>
                   <h5>I am a(n):</h5>
 
                   <div class="btn-group btn-group-toggle" data-toggle="buttons">
                       <label class="btn btn-primary {{ if eq $s.Expertise 1 }}active{{ end }}">
-                        <input type="radio" name="{{ $s.Name }}-Skill" value="1" id="option1" autocomplete="off" checked> Novice
+                        <input type="radio" name="{{ $s.Name }}-Skill" value="1" id="option1" autocomplete="off" {{ if eq $s.Expertise 1 }}checked{{ end }}> Novice
                       </label>
                       <label class="btn btn-primary {{ if eq $s.Expertise 2 }}active{{ end }}">
-                        <input type="radio" name="{{ $s.Name }}-Skill" value="2" id="option2" autocomplete="off"> Experienced
+                        <input type="radio" name="{{ $s.Name }}-Skill" value="2" id="option2" autocomplete="off" {{ if eq $s.Expertise 2 }}checked{{ end }}> Experienced
                       </label>
                       <label class="btn btn-primary {{ if eq $s.Expertise 3 }}active{{ end }}">
-                        <input type="radio" name="{{ $s.Name }}-Skill" value="3" id="option3" autocomplete="off"> Professional
+                        <input type="radio" name="{{ $s.Name }}-Skill" value="3" id="option3" autocomplete="off" {{ if eq $s.Expertise 3 }}checked{{ end }}> Professional
                       </label>
                       <label class="btn btn-primary {{ if eq $s.Expertise 4 }}active{{ end }}">
-                          <input type="radio" name="{{ $s.Name }}-Skill" value="4" id="option4" autocomplete="off"> Expert
+                          <input type="radio" name="{{ $s.Name }}-Skill" value="4" id="option4" autocomplete="off" {{ if eq $s.Expertise 4 }}checked{{ end }}> Expert
                         </label>
                     </div>
                     <br><br>
@@ -68,12 +68,12 @@
                       {{ range $stream := $architecture }}
                         {{ if eq $s.Name $stream.Name}}
                           {{ range $p := $stream.Practices }}
-                            <label class="btn btn-primary">
-                              <input type="checkbox" name="{{ $p.Name }}" autocomplete="off">{{ $p.Name }}
+                            <label class="btn btn-{{ if isInString $stringArray $p.Name }}success active{{else}}primary{{end}}">
+                              <input type="checkbox" name="{{ $p.Name }}" autocomplete="off" {{ if isInString $stringArray $p.Name }}checked{{end}}>{{ $p.Name }}
                             </label>
                           {{ end }} <!-- End practice range -->
                         {{ end }} <!-- End if-->
-                      {{ end }} <!-- End range-->
+                      {{ end }} <!-- End architecture Stream range-->
                     </div>
                     <hr>
                     {{ end }} <!-- End master loop -->
@@ -82,9 +82,9 @@
 
             </div>
 
+          </form>
             
             <hr>
-    </form>
     </div>
       </div>
 {{end}}

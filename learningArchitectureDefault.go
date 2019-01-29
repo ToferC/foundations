@@ -12,32 +12,32 @@ var baseArchitecture = []models.Stream{
 			Path: "https://s3.amazonaws.com/foundationsapp/static/digital+government.png",
 		},
 		Description: "“The use of digital technologies, as an integrated part of governments’ modernisation strategies, to create public value. Relies on a digital government ecosystem comprised of government actors, non-governmental organisations, businesses, citizens’ associations and individuals which supports the production of and access to data, services and content through interactions with the government.",
-		Practices: []*models.Practice{
-			&models.Practice{
+		Practices: map[string]*models.Practice{
+			"Agile": &models.Practice{
 				Name: "Agile",
 			},
-			&models.Practice{
+			"User-Centric Design": &models.Practice{
 				Name: "User-Centric Design",
 			},
-			&models.Practice{
+			"Open by Default": &models.Practice{
 				Name: "Open by Default",
 			},
-			&models.Practice{
+			"Open Standards & Solutions": &models.Practice{
 				Name: "Open Standards & Solutions",
 			},
-			&models.Practice{
+			"Security & Privacy": &models.Practice{
 				Name: "Security & Privacy",
 			},
-			&models.Practice{
+			"Accessibility": &models.Practice{
 				Name: "Accessibility",
 			},
-			&models.Practice{
+			"Empowering People": &models.Practice{
 				Name: "Empowering People",
 			},
-			&models.Practice{
+			"Ethical & Responsible Use": &models.Practice{
 				Name: "Ethical & Responsible Use",
 			},
-			&models.Practice{
+			"Collaboration": &models.Practice{
 				Name: "Collaboration",
 			},
 		},
@@ -49,23 +49,23 @@ var baseArchitecture = []models.Stream{
 			Path: "https://s3.amazonaws.com/foundationsapp/static/digital_literacy.jpg",
 		},
 		Description: "the ability to use a range of technological tools for varied purposes.",
-		Practices: []*models.Practice{
-			&models.Practice{
+		Practices: map[string]*models.Practice{
+			"Creativity & Collaboration": &models.Practice{
 				Name: "Creativity & Collaboration",
 			},
-			&models.Practice{
+			"Curation": &models.Practice{
 				Name: "Curation",
 			},
-			&models.Practice{
+			"Understanding Technology": &models.Practice{
 				Name: "Understanding Technology",
 			},
-			&models.Practice{
-				Name: "Critical Thinking & Evaluation",
+			"Critical Thinking": &models.Practice{
+				Name: "Critical Thinking",
 			},
-			&models.Practice{
+			"Cultural & Social Impacts": &models.Practice{
 				Name: "Cultural & Social Impacts",
 			},
-			&models.Practice{
+			"Problem Solving": &models.Practice{
 				Name: "Problem Solving",
 			},
 		},
@@ -77,35 +77,35 @@ var baseArchitecture = []models.Stream{
 			Path: "https://s3.amazonaws.com/foundationsapp/static/design.jpg",
 		},
 		Description: "User experience design (UX, UXD, UED or XD) is the process of enhancing user satisfaction with a product by improving the usability, accessibility, and pleasure provided in the interaction with the product.",
-		Practices: []*models.Practice{
-			&models.Practice{
+		Practices: map[string]*models.Practice{
+			"Design Thinking": &models.Practice{
 				Name: "Design Thinking",
 			},
-			&models.Practice{
+			"Design Research": &models.Practice{
 				Name: "Design Research",
 			},
-			&models.Practice{
+			"Content Design": &models.Practice{
 				Name: "Content Design",
 			},
-			&models.Practice{
+			"Information Architecture": &models.Practice{
 				Name: "Information Architecture",
 			},
-			&models.Practice{
+			"Service Design": &models.Practice{
 				Name: "Service Design",
 			},
-			&models.Practice{
+			"User Interface": &models.Practice{
 				Name: "User Interface",
 			},
-			&models.Practice{
+			"Interaction Design": &models.Practice{
 				Name: "Interaction Design",
 			},
-			&models.Practice{
+			"Data Visualization": &models.Practice{
 				Name: "Data Visualization",
 			},
-			&models.Practice{
+			"Usability Testing": &models.Practice{
 				Name: "Usability Testing",
 			},
-			&models.Practice{
+			"Prototyping & Iteration": &models.Practice{
 				Name: "Prototyping & Iteration",
 			},
 		},
@@ -117,35 +117,35 @@ var baseArchitecture = []models.Stream{
 			Path: "https://s3.amazonaws.com/foundationsapp/static/leadership.jpg",
 		},
 		Description: "Digital leadership is the strategic use of a company's digital assets to achieve business goals. Digital leadership can be addressed at both organizational and individual levels.",
-		Practices: []*models.Practice{
-			&models.Practice{
+		Practices: map[string]*models.Practice{
+			"User-Centred Service Design": &models.Practice{
 				Name: "User-Centred Service Design",
 			},
-			&models.Practice{
+			"Leading Agile Teams": &models.Practice{
 				Name: "Leading Agile Teams",
 			},
-			&models.Practice{
+			"Leading Agile Projects": &models.Practice{
 				Name: "Leading Agile Projects",
 			},
-			&models.Practice{
+			"Leading Change": &models.Practice{
 				Name: "Leading Change",
 			},
-			&models.Practice{
+			"Communications": &models.Practice{
 				Name: "Communications",
 			},
-			&models.Practice{
+			"Disruptive Trends": &models.Practice{
 				Name: "Disruptive Trends",
 			},
-			&models.Practice{
+			"Digital Governance": &models.Practice{
 				Name: "Digital Governance",
 			},
-			&models.Practice{
+			"Agile Sponsorship": &models.Practice{
 				Name: "Agile Sponsorship",
 			},
-			&models.Practice{
+			"Fostering Innovation": &models.Practice{
 				Name: "Fostering Innovation",
 			},
-			&models.Practice{
+			"Openness & Collaboration": &models.Practice{
 				Name: "Openness & Collaboration",
 			},
 		},
@@ -157,35 +157,35 @@ var baseArchitecture = []models.Stream{
 			Path: "https://s3.amazonaws.com/foundationsapp/static/disruptive.png",
 		},
 		Description: " Disruptive technologies are those that significantly alter the way businesses or entire industries operate. Often times, these technologies force companies to alter the way they approach their business, or risk losing market share or becoming irrelevant.",
-		Practices: []*models.Practice{
-			&models.Practice{
+		Practices: map[string]*models.Practice{
+			"Biotechnology": &models.Practice{
 				Name: "Biotechnology",
 			},
-			&models.Practice{
+			"Intelligence / Cognitive Augmentation": &models.Practice{
 				Name: "Intelligence / Cognitive Augmentation",
 			},
-			&models.Practice{
+			"Foresight": &models.Practice{
 				Name: "Foresight",
 			},
-			&models.Practice{
+			"IoT / Networks": &models.Practice{
 				Name: "IoT / Networks",
 			},
-			&models.Practice{
+			"3d Printing": &models.Practice{
 				Name: "3d Printing",
 			},
-			&models.Practice{
+			"Drones / Robotics": &models.Practice{
 				Name: "Drones / Robotics",
 			},
-			&models.Practice{
+			"Blockchain / Distributed Systems": &models.Practice{
 				Name: "Blockchain / Distributed Systems",
 			},
-			&models.Practice{
+			"VR / Augmented Reality": &models.Practice{
 				Name: "VR / Augmented Reality",
 			},
-			&models.Practice{
+			"AI": &models.Practice{
 				Name: "AI",
 			},
-			&models.Practice{
+			"Micro / Nano-materials": &models.Practice{
 				Name: "Micro / Nano-materials",
 			},
 		},
@@ -197,41 +197,41 @@ var baseArchitecture = []models.Stream{
 			Path: "https://s3.amazonaws.com/foundationsapp/static/data.jpg",
 		},
 		Description: "Data analysis is a process of inspecting, cleansing, transforming, and modeling data with the goal of discovering useful information, informing conclusions, and supporting decision-making.",
-		Practices: []*models.Practice{
-			&models.Practice{
+		Practices: map[string]*models.Practice{
+			"Data Access": &models.Practice{
 				Name: "Data Access",
 			},
-			&models.Practice{
+			"Data Cleaning": &models.Practice{
 				Name: "Data Cleaning",
 			},
-			&models.Practice{
+			"Data Manipulation": &models.Practice{
 				Name: "Data Manipulation",
 			},
-			&models.Practice{
+			"Coding Basics": &models.Practice{
 				Name: "Coding Basics",
 			},
-			&models.Practice{
+			"Pandas / DataFrames": &models.Practice{
 				Name: "Pandas / DataFrames",
 			},
-			&models.Practice{
+			"Natural Language Processing": &models.Practice{
 				Name: "Natural Language Processing",
 			},
-			&models.Practice{
+			"Network Analysis": &models.Practice{
 				Name: "Network Analysis",
 			},
-			&models.Practice{
+			"Geo-informatics": &models.Practice{
 				Name: "Geo-informatics",
 			},
-			&models.Practice{
+			"Statistical Analysis": &models.Practice{
 				Name: "Statistical Analysis",
 			},
-			&models.Practice{
+			"Data Visualization": &models.Practice{
 				Name: "Data Visualization",
 			},
-			&models.Practice{
+			"Streaming Data": &models.Practice{
 				Name: "Streaming Data",
 			},
-			&models.Practice{
+			"Storytelling": &models.Practice{
 				Name: "Storytelling",
 			},
 		},
@@ -243,33 +243,36 @@ var baseArchitecture = []models.Stream{
 			Path: "https://s3.amazonaws.com/foundationsapp/static/ai.jpg",
 		},
 		Description: "Machine learning is an application of artificial intelligence (AI) that provides systems the ability to automatically learn and improve from experience without being explicitly programmed. Machine learning focuses on the development of computer programs that can access data and use it learn for themselves.",
-		Practices: []*models.Practice{
-			&models.Practice{
+		Practices: map[string]*models.Practice{
+			"Unsupervised Learning": &models.Practice{
 				Name: "Unsupervised Learning",
 			},
-			&models.Practice{
+			"Supervised Learning": &models.Practice{
 				Name: "Supervised Learning",
 			},
-			&models.Practice{
+			"Reinforcement Learning": &models.Practice{
 				Name: "Reinforcement Learning",
 			},
-			&models.Practice{
+			"LSTMs": &models.Practice{
 				Name: "LSTMs",
 			},
-			&models.Practice{
+			"GANs": &models.Practice{
 				Name: "GANs",
 			},
-			&models.Practice{
+			"Deep Learning / Neural Networks": &models.Practice{
 				Name: "Deep Learning / Neural Networks",
 			},
-			&models.Practice{
+			"Statistics": &models.Practice{
 				Name: "Statistics",
 			},
-			&models.Practice{
+			"Streaming Data": &models.Practice{
 				Name: "Streaming Data",
 			},
-			&models.Practice{
+			"Big Data": &models.Practice{
 				Name: "Big Data",
+			},
+			"Bias & Ethics": &models.Practice{
+				Name: "Bias & Ethics",
 			},
 		},
 	},
@@ -280,26 +283,26 @@ var baseArchitecture = []models.Stream{
 			Path: "https://s3.amazonaws.com/foundationsapp/static/devops.jpg",
 		},
 		Description: "DevOps is the combination of cultural philosophies, practices, and tools that increases an organization's ability to deliver applications and services at high velocity: evolving and improving products at a faster pace than organizations using traditional software development and infrastructure management processes.",
-		Practices: []*models.Practice{
-			&models.Practice{
+		Practices: map[string]*models.Practice{
+			"Cloud": &models.Practice{
 				Name: "Cloud Services",
 			},
-			&models.Practice{
+			"APIs": &models.Practice{
 				Name: "APIs",
 			},
-			&models.Practice{
+			"Automation": &models.Practice{
 				Name: "Automation",
 			},
-			&models.Practice{
+			"Testing": &models.Practice{
 				Name: "Testing",
 			},
-			&models.Practice{
+			"Containers": &models.Practice{
 				Name: "Containers",
 			},
-			&models.Practice{
+			"Cluster": &models.Practice{
 				Name: "Cluster-Computing",
 			},
-			&models.Practice{
+			"Micro": &models.Practice{
 				Name: "Micro-services",
 			},
 		},

@@ -13,9 +13,9 @@ type User struct {
 	Password       string
 	IsAdmin        bool            `schema:"-"`
 	LearnerProfile *LearnerProfile `schema:"-"`
-	Interests      *InterestMap    `schema:"-"`
-	CreatedAt      time.Time       `sql:"default:now()" schema:"-"`
-	UpdatedAt      time.Time       `schema:"-"`
+	Streams        map[string]*Stream
+	CreatedAt      time.Time `sql:"default:now()" schema:"-"`
+	UpdatedAt      time.Time `schema:"-"`
 }
 
 func (u User) String() string {
