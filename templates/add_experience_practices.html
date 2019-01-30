@@ -7,31 +7,37 @@
 {{define "content"}}
 
 {{ $e := .Experience}}
+{{ $lr := .LearningResource }}
 
       <div class="container">
         <hr>
         <div class="row">
           <div class="col-sm-12 col-md-12 col-lg-12">
-            <h3>What areas of {{ $e.Stream.Name }} did this experience touch on?</h3>
+            <h4>What {{ $e.Stream.Name }} practices did this experience touch on?</h4>
             <p>Choose as many as you need.</p>
             <form action="" method="POST">
 
-                <h4>Practices</h4>
+              <div class="btn-group-toggle" data-toggle="buttons">
+                
+                {{ range $stream := .Architecture }}
+                {{ if eq $e.Stream.Name $stream.Name}}
+                {{ range $p := $stream.Practices }}
+                <label class="btn btn-primary">
+                  <input type="checkbox" name="{{ $p.Name }}" autocomplete="off">{{ $p.Name }}
+                </label>
+                {{ end }} <!-- End practice range -->
+                {{ end }} <!-- End if-->
+                {{ end }} <!-- End architecture Stream range-->
+              </div>
+              <hr>
               
-                    <div class="btn-group-toggle" data-toggle="buttons">
-                      
-                            {{ range $stream := .Architecture }}
-                              {{ if eq $e.Stream.Name $stream.Name}}
-                                {{ range $p := $stream.Practices }}
-                                  <label class="btn btn-primary">
-                                    <input type="checkbox" name="{{ $p.Name }}" autocomplete="off">{{ $p.Name }}
-                                  </label>
-                                {{ end }} <!-- End practice range -->
-                              {{ end }} <!-- End if-->
-                            {{ end }} <!-- End architecture Stream range-->
-                          </div>
-                          <hr>
-
+              {{ if eq $lr.Title "" }}
+              <div class="form-group">
+                  <label class="form-group-text" id="LearningResource.Title-addon">Uh oh</label>
+                  <input type="text" class="form-control" aria-describedby="LearningResource.Title-addon" name="Title" placeholder="We couldn't find a title. Please name your experience." required>
+              </div>
+              {{ end }}
+              
               <button class="brn btn-primary" type="submit" value="Save">Add Experience Practices</button>
 
             </div>

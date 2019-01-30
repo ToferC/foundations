@@ -20,14 +20,15 @@ type WebUser struct {
 
 // WebView is a framework to send objects & data to a Web view
 type WebView struct {
-	User        *models.User
-	Episode     *models.Episode
-	Experience  *models.Experience
-	IsAuthor    bool
-	SessionUser string
-	IsLoggedIn  string
-	IsAdmin     string
-	UserFrame   bool
+	User             *models.User
+	Episode          *models.Episode
+	Experience       *models.Experience
+	LearningResource *models.LearningResource
+	IsAuthor         bool
+	SessionUser      string
+	IsLoggedIn       string
+	IsAdmin          string
+	UserFrame        bool
 
 	Episodes          []*models.Episode
 	Experiences       []*models.Experience

@@ -25,7 +25,7 @@ type Experience struct {
 	Difficulty         int
 	Points             int
 	Depth              int
-	Comments           string
+	Comments           []string
 	Tags               []string
 }
 
@@ -44,6 +44,12 @@ func (e *Experience) String() string {
 	if e.Practices != nil {
 		for _, p := range e.Practices {
 			text += fmt.Sprintf("%s | ", p.Name)
+		}
+	}
+
+	if e.Comments != nil {
+		for _, c := range e.Comments {
+			text += fmt.Sprintf("%s | ", c)
 		}
 	}
 

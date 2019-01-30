@@ -15,17 +15,24 @@
             <h3>Learning experiences happen everywhere. Tell us about yours.</h3>
             <p>Answer the questions below to tell us about your learning learning experience.</p>
             <form action="" method="POST">
-
+              <hr>
               
                 <div class="form-group">
-                  <label class="form-group-text" id="LearningResource.Path-addon">URL</label>
-                  <input type="text" class="form-control" aria-describedby="LearningResource.Path-addon" name="LearningResource.Path" placeholder="What is the link to your experience?" required>
+                  <label class="form-group-text" id="LearningResource.Path-addon">What is the link to your experience?</label>
+                  <input type="url" class="form-control" aria-describedby="LearningResource.Path-addon" name="LearningResource.Path" placeholder="Paste your URL here..." required>
                 </div>
               
-              <div class="form-group">
-                <label class="form-group-text" id="Comments-addon">Comments</label>
-                <input type="text" class="form-control" aria-describedby="Comments-addon" name="Comments" placeholder="What did you like or dislike about this content?">
-              </div>
+                <label>How would you describe the learning experience?</label>
+              <label>Choose as many tags as you need.</label>
+
+              <div class="btn-group-toggle text-center" data-toggle="buttons">
+              {{ range $s := .StringArray }}
+              <label class="btn btn-primary">
+                  <input type="checkbox" name="{{ $s }}" autocomplete="off">{{ $s }}
+              </label>
+              {{ end }}
+            </div>
+            <hr>
 
               <div class="form-group">
                     <label class="form-group-text" id="Stream-addon">What digital stream does this belong to?</label>

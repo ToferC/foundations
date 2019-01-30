@@ -125,6 +125,16 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 
 	ex := &models.Experience{}
 
+	feedbackStrings := []string{
+		"Accessible",
+		"Clear",
+		"Entertaining",
+		"Relevant",
+		"Informative",
+		"Insightful",
+		"Useful",
+	}
+
 	wv := WebView{
 		Experience:   ex,
 		IsAuthor:     true,
@@ -134,6 +144,7 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 		Counter:      numToArray(7),
 		BigCounter:   numToArray(15),
 		Architecture: baseArchitecture,
+		StringArray:  feedbackStrings,
 	}
 
 	if req.Method == "GET" {
@@ -170,15 +181,18 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 		scrapeArray, err := getWebPageDetails(ex.LearningResource.Path, "title")
 		if err != nil {
 			fmt.Println("Not a valid Web page or page lacking title")
-			ex.LearningResource.Title = fmt.Sprintf("%s | %s | %s learning resource",
-				user.UserName,
-				verb,
-				ex.Stream)
+			ex.LearningResource.Title = ""
 		} else {
 			ex.LearningResource.Title = scrapeArray[0]
 		}
 		ex.LearningResource.AddedOn = time.Now()
 		// ex.LearningResource.Author = username
+
+		for _, s := range feedbackStrings {
+			if req.FormValue(s) != "" {
+				ex.Comments = append(ex.Comments, s)
+			}
+		}
 
 		ex.UserName = username
 		ex.Verb = verb
@@ -285,17 +299,23 @@ func AddExperiencePracticesHandler(w http.ResponseWriter, req *http.Request) {
 		http.Redirect(w, req, "/", 302)
 	}
 
+	lr, err := database.PKLoadLearningResource(db, ex.LearningResourceID)
+	if err != nil {
+		fmt.Println("Couldn't load LearningResource")
+	}
+
 	ex.Practices = []*models.Practice{}
 
 	wv := WebView{
-		Experience:   ex,
-		IsAuthor:     true,
-		SessionUser:  username,
-		IsLoggedIn:   loggedIn,
-		IsAdmin:      isAdmin,
-		Counter:      numToArray(7),
-		BigCounter:   numToArray(15),
-		Architecture: baseArchitecture,
+		Experience:       ex,
+		IsAuthor:         true,
+		SessionUser:      username,
+		IsLoggedIn:       loggedIn,
+		IsAdmin:          isAdmin,
+		Counter:          numToArray(7),
+		BigCounter:       numToArray(15),
+		Architecture:     baseArchitecture,
+		LearningResource: lr,
 	}
 
 	if req.Method == "GET" {
@@ -310,6 +330,10 @@ func AddExperiencePracticesHandler(w http.ResponseWriter, req *http.Request) {
 		err := req.ParseForm()
 		if err != nil {
 			panic(err)
+		}
+
+		if lr.Title == "" {
+			lr.Title = req.FormValue("Title")
 		}
 
 		// Add practices to user.Stream
@@ -327,6 +351,12 @@ func AddExperiencePracticesHandler(w http.ResponseWriter, req *http.Request) {
 
 		// Save Experience in Database
 		_, err = database.UpdateExperience(db, ex)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		// Save Experience in Database
+		err = database.UpdateLearningResource(db, lr)
 		if err != nil {
 			log.Fatal(err)
 		}
