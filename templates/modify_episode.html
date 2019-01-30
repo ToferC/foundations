@@ -47,7 +47,7 @@
               {{ if $episode.Videos }}
               {{ range $i, $video := $episode.Videos }}
               <div class="form-group">
-                <label class="form-group-text" id="Videos.{{ $i }}.Title-addon">Video { $i }} Title</label>
+                <label class="form-group-text" id="Videos.{{ $i }}.Title-addon">Video {{ $i }} Title</label>
                 <input type="text" class="form-control" aria-describedby="Videos.{{ $i }}.Title-addon" name="Videos.{{ $i }}.Title" value ="{{ $video.Title }}">
               </div>
 
@@ -60,8 +60,6 @@
                 <label class="form-group-text" id="Videos.{{ $i }}.Path-addon">Video {{ $i }} URL</label>
                 <input type="text" class="form-control" aria-describedby="Videos.{{ $i }}.Path-addon" name="Videos.{{ $i }}.Path" value ="{{ $video.Path }}">
               </div>
-
-              <br>
 
               {{ end }} <!-- End Videos -->
 
@@ -84,7 +82,6 @@
 
               {{ end }} <!-- End IF -->
 
-              <br>
               <h4>Podcasts</h4>
               {{ if $episode.Podcasts }}
               {{ range $i, $podcast := $episode.Podcasts }}
@@ -102,8 +99,6 @@
                 <label class="form-group-text" id="Podcasts.{{ $i }}.Path-addon">Podcasts {{ $i }} URL</label>
                 <input type="text" class="form-control" aria-describedby="Podcasts.{{ $i }}.Path-addon" name="Podcasts.{{ $i }}.Path" value ="{{ $podcast.Path }}">
               </div>
-
-              <hr>
 
               {{ end }} <!-- End Podcasts -->
 
@@ -124,11 +119,10 @@
                 <input type="text" class="form-control" aria-describedby="Podcasts.0.Path-addon" name="Podcasts.0.Path" value ="" placeholder="Enter Share URL">
               </div>
 
-              <hr> 
               {{ end }} <!-- End IF -->
 
 
-              <h4>Tags</h4>
+              <p>If you want, you can add one or more personal tags to describe your experience.</p>
 
               <div class="form-row">
               {{ range $i, $tag := $episode.Tags }}
@@ -142,7 +136,7 @@
               </div>
 
              <br>
-              <button class="btn btn-primary" type="submit" value="Save">Save</button>
+              <button class="btn btn-primary" type="submit" value="Save">Update Episode</button>
 
             </div>
 
