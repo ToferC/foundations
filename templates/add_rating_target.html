@@ -25,21 +25,22 @@
                   <h3><strong>{{ $k }}</strong></h3>
                   <p>{{ $s.Description }}</p>
                   <hr>
-                  <h4>Select your current skill level and your learning target for {{ $user.LearnerProfile.CurrentYear }}</h4>
-                  <h5>I am a(n):</h5>
+                  <h5>How much do you know about {{ $k }}? How much do you want to learn in {{ $user.LearnerProfile.CurrentYear }}</h5>
+                  <hr>
+                  <h5>I know:</h5>
 
                   <div class="btn-group btn-group-toggle" data-toggle="buttons">
                       <label class="btn btn-primary {{ if eq $s.Expertise 1 }}active{{ end }}">
-                        <input type="radio" name="{{ $s.Name }}-Skill" value="1" id="option1" autocomplete="off" {{ if eq $s.Expertise 1 }}checked{{ end }}> Beginner
+                        <input type="radio" name="{{ $s.Name }}-Skill" value="1" id="option1" autocomplete="off" {{ if eq $s.Expertise 1 }}checked{{ end }}> A little
                       </label>
                       <label class="btn btn-primary {{ if eq $s.Expertise 2 }}active{{ end }}">
-                        <input type="radio" name="{{ $s.Name }}-Skill" value="2" id="option2" autocomplete="off" {{ if eq $s.Expertise 2 }}checked{{ end }}> Experienced
+                        <input type="radio" name="{{ $s.Name }}-Skill" value="2" id="option2" autocomplete="off" {{ if eq $s.Expertise 2 }}checked{{ end }}> A fair amount
                       </label>
                       <label class="btn btn-primary {{ if eq $s.Expertise 3 }}active{{ end }}">
-                        <input type="radio" name="{{ $s.Name }}-Skill" value="3" id="option3" autocomplete="off" {{ if eq $s.Expertise 3 }}checked{{ end }}> Professional
+                        <input type="radio" name="{{ $s.Name }}-Skill" value="3" id="option3" autocomplete="off" {{ if eq $s.Expertise 3 }}checked{{ end }}> Lots
                       </label>
                       <label class="btn btn-primary {{ if eq $s.Expertise 4 }}active{{ end }}">
-                          <input type="radio" name="{{ $s.Name }}-Skill" value="4" id="option4" autocomplete="off" {{ if eq $s.Expertise 4 }}checked{{ end }}> Expert
+                          <input type="radio" name="{{ $s.Name }}-Skill" value="4" id="option4" autocomplete="off" {{ if eq $s.Expertise 4 }}checked{{ end }}> All the things
                         </label>
                     </div>
                     <br><br>
@@ -61,10 +62,8 @@
                         </label>
                     </div>
 
-                    <br><br>
-                    <h5>I'm interested in the following areas:</h5>
-                    <!-- Need to add active & checked based on selected -->
-                    <p>Choose one or more {{ $k }} areas that you'd like to explore.</p>
+                    <br><hr>
+                    <h5>Choose one or more practices to explore:</h5>
                     
                     <div class="btn-group-toggle" data-toggle="buttons">
                       
@@ -81,7 +80,7 @@
                     <hr>
                     {{ end }} <!-- End master loop -->
 
-              <button class="brn btn-primary" type="submit" value="Save">Save your preferences</button>
+              <button class="btn btn-primary" type="submit" value="Save">Save your preferences</button>
 
             </div>
 

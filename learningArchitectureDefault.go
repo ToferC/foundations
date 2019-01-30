@@ -284,7 +284,7 @@ var baseArchitecture = []models.Stream{
 		},
 		Description: "DevOps is the combination of cultural philosophies, practices, and tools that increases an organization's ability to deliver applications and services at high velocity: evolving and improving products at a faster pace than organizations using traditional software development and infrastructure management processes.",
 		Practices: map[string]*models.Practice{
-			"Cloud": &models.Practice{
+			"Cloud Services": &models.Practice{
 				Name: "Cloud Services",
 			},
 			"APIs": &models.Practice{
@@ -299,12 +299,65 @@ var baseArchitecture = []models.Stream{
 			"Containers": &models.Practice{
 				Name: "Containers",
 			},
-			"Cluster": &models.Practice{
+			"Cluster-Computing": &models.Practice{
 				Name: "Cluster-Computing",
 			},
-			"Micro": &models.Practice{
+			"Micro-Services": &models.Practice{
 				Name: "Micro-services",
 			},
 		},
 	},
+	// Stream
+	models.Stream{
+		Name: "Development",
+		Image: &models.Image{
+			Path: "https://s3.amazonaws.com/foundationsapp/static/coding.jpeg",
+		},
+		Description: "Software development is the process of conceiving, specifying, designing, programming, documenting, testing, and bug fixing involved in creating and maintaining applications, frameworks, or other software components.",
+		Practices: map[string]*models.Practice{
+			"Open Source": &models.Practice{
+				Name: "Open Source",
+			},
+			"Git & GitHub": &models.Practice{
+				Name: "Git & GitHub",
+			},
+			"Command Line": &models.Practice{
+				Name: "Command Line",
+			},
+			"Environments": &models.Practice{
+				Name: "Environments",
+			},
+			"Packages & Libraries": &models.Practice{
+				Name: "Packages & Libraries",
+			},
+			"Programming Languages": &models.Practice{
+				Name: "Programming Languages",
+			},
+			"Web Development": &models.Practice{
+				Name: "Web Development",
+			},
+			"Mobile Development": &models.Practice{
+				Name: "Mobile Development",
+			},
+			"Front-End Development": &models.Practice{
+				Name: "Front-End Development",
+			},
+			"Back-End Development": &models.Practice{
+				Name: "Back-End Development",
+			},
+			"Databases": &models.Practice{
+				Name: "Databases",
+			},
+			"APIs": &models.Practice{
+				Name: "APIs",
+			},
+		},
+	},
+}
+
+var skillMap = map[int]string{
+	1: "Beginner",
+	2: "Experienced",
+	3: "Professional",
+	4: "Expert",
 }

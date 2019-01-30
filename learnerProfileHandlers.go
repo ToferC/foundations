@@ -125,6 +125,7 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 		Experiences:       exps,
 		CategoryMap:       categories,
 		UserFrame:         true,
+		NumMap:            skillMap,
 	}
 
 	// Render page
@@ -215,8 +216,8 @@ func AddLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 		user.LearnerProfile.CurrentYear = currentYear
 
 		for _, stream := range baseArchitecture {
+			_, ok := user.Streams[stream.Name]
 			if req.FormValue(stream.Name) != "" {
-				_, ok := user.Streams[stream.Name]
 				if !ok {
 					user.Streams[stream.Name] = &models.Stream{
 						Name:        stream.Name,
@@ -225,6 +226,12 @@ func AddLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 						Image:       stream.Image,
 						Selected:    true,
 					}
+					fmt.Println("Added stream " + stream.Name)
+				}
+			} else {
+				if ok {
+					delete(user.Streams, stream.Name)
+					fmt.Println("Deleted Stream " + stream.Name)
 				}
 			}
 		}

@@ -44,6 +44,7 @@ type WebView struct {
 	MidCounter  []int
 	BigCounter  []int
 	StringArray []string
+	NumMap      map[int]string
 
 	Flashes []interface{}
 }

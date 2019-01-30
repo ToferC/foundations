@@ -11,125 +11,105 @@
 {{ $counter := .Counter }}
 
       <div class="container">
-        <hr>
+        
         <div class="row">
           <div class="col-sm-12 col-md-12 col-lg-12">
-            <h3>New Episode Form</h3>
-            <p>Fill in the fields below to create your episode</p>
+            <h3>Write your masterpiece.</h3>
+            <p>Fill in the fields below to create your episode or story.</p>
             <form action="" method="POST" enctype="multipart/form-data">
 
-              <div class="input-group">
-                  <div class="input-group-prepend">
-                <span class="input-group-text" id="name-addon">Title</span>
-                </div>
-                <input type="text" class="form-control" aria-describedby="name-addon" name="Title" value ="{{ $episode.Title }}">
+              <div class="form-group">
+                <label class="form-group-text" id="name-addon">Title</label>
+                <input type="text" class="form-control" aria-describedby="name-addon" name="Title" placeholder="Your amazing blog title...">
               </div>
 
-              <div class="input-group">
-                <div class="input-group-prepend">
-                <span class="input-group-text" id="SubTitle-addon">SubTitle</span>
-                </div>
-                <input type="text" class="form-control" aria-describedby="SubTitle-addon" name="SubTitle" value ="{{ $episode.SubTitle }}">
+              <div class="form-group">
+                <label class="form-group-text" id="Tagline-addon">Tagline</label>
+                <input type="text" class="form-control" aria-describedby="Tagline-addon" name="Tagline" placeholder="Your cool tagline...">
               </div>
 
-              <div class="input-group">
-                <div class="input-group-prepend">
-                <span class="input-group-text" id="Tagline-addon">Tagline</span>
-                </div>
-                <input type="text" class="form-control" aria-describedby="Tagline-addon" name="Tagline" value ="{{ $episode.Tagline }}">
-              </div>
-
-              <hr>
+              
 
                 <label for="Body">Write your awesome blog here using Markdown</label>
-                <textarea class="form-control" aria-describedby="Body-addon" name="Body" rows="50" value ="{{ $episode.Body }}">{{ $episode.Body }}</textarea>
+                <textarea class="form-control" aria-describedby="Body-addon" name="Body" rows="50" placeholder="Your groovy blog..."></textarea>
 
-              <hr>
+              
 
               <label for="Image">Primary Image</label>
-              <div class="input-group">
+              <div class="form-group">
                 <div class="custom-file">
                   <input type="file" name="ImagePath" class="custom-file-input" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
                   <label class="custom-file-label" for="inputGroupFile">Choose file</label>
+                  <small id="fileHelpBlock" class="form-text text-muted">
+                    Upload an image file from your computer to act as the splash image for your blog.
+                  </small>
                 </div>
               </div>
 
               <hr>
-              <h4>Add Video</h4>
-              <div class="input-group">
-                <div class="input-group-prepend">
-                <span class="input-group-text" id="Videos.0.Title-addon">Videos.0.Title</span>
-                </div>
-                <input type="text" class="form-control" aria-describedby="Videos.0.Title-addon" name="Videos.0.Title" value ="">
+              <br>
+              <h5>Add a Video</h5>
+              <div class="form-group">
+                <label class="form-group-text" id="Videos.0.Title-addon">Video Title</label>
+                <input type="text" class="form-control" aria-describedby="Videos.0.Title-addon" name="Videos.0.Title" placeholder="Add your video title here">
               </div>
 
-              <div class="input-group">
-                <div class="input-group-prepend">
-                <span class="input-group-text" id="Videos.0.Description-addon">Videos.0.Description</span>
-                </div>
-                <input type="text" class="form-control" aria-describedby="Videos.0.Description-addon" name="Videos.0.Description" value ="">
+              <div class="form-group">
+                <label class="form-group-text" id="Videos.0.Description-addon">Video Description</label>
+                <input type="text" class="form-control" aria-describedby="Videos.0.Description-addon" name="Videos.0.Description" placeholder="Add your video description here">
               </div>
 
-              <div class="input-group">
-                <div class="input-group-prepend">
-                <span class="input-group-text" id="Videos.0.Path-addon">Videos.0.URL</span>
-                </div>
-                <input type="text" class="form-control" aria-describedby="Videos.0.Path-addon" name="Videos.0.Path" value ="" placeholder="Enter YouTube Share URL">
+              <div class="form-group">
+                <label class="form-group-text" id="Videos.0.Path-addon">Video URL</label>
+                <input type="text" class="form-control" aria-describedby="Videos.0.Path-addon" name="Videos.0.Path" value="" placeholder="Enter YouTube Share URL">
               </div>
 
-              <hr>
-              <h4>Add Podcast</h4>
-              <div class="input-group">
-                <div class="input-group-prepend">
-                <span class="input-group-text" id="Podcasts.0.Title-addon">Podcasts.0.Title</span>
-                </div>
-                <input type="text" class="form-control" aria-describedby="Podcasts.0.Title-addon" name="Podcasts.0.Title" value ="">
+              <br>
+
+              <h5>Add a Podcast</h5>
+              <div class="form-group">
+                <label class="form-group-text" id="Podcasts.0.Title-addon">Podcast Title</label>
+                <input type="text" class="form-control" aria-describedby="Podcasts.0.Title-addon" name="Podcasts.0.Title" placeholder="Add your podcast title here">
               </div>
 
-              <div class="input-group">
-                <div class="input-group-prepend">
-                <span class="input-group-text" id="Podcasts.0.Description-addon">Podcasts.0.Description</span>
-                </div>
-                <input type="text" class="form-control" aria-describedby="Podcasts.0.Description-addon" name="Podcasts.0.Description" value ="">
+              <div class="form-group">
+                <label class="form-group-text" id="Podcasts.0.Description-addon">Podcast Description</label>
+                <input type="text" class="form-control" aria-describedby="Podcasts.0.Description-addon" name="Podcasts.0.Description" placeholder="Add your podcast description here">
               </div>
 
-              <div class="input-group">
-                <div class="input-group-prepend">
-                <span class="input-group-text" id="Podcasts.0.Path-addon">Podcasts.0.URL</span>
-                </div>
+              <div class="form-group">
+                <label class="form-group-text" id="Podcasts.0.Path-addon">Podcast URL</label>
                 <input type="text" class="form-control" aria-describedby="Podcasts.0.Path-addon" name="Podcasts.0.Path" value ="" placeholder="Enter Soundcloud Share URL">
               </div>
 
-              <hr>
+              <br>
 
-              <div class="input-group">
-                <div class="input-group-prepend">
-                <span class="input-group-text" id="Tags-addon">Tag 1</span>
-                </div>
+              <p>If you want, you can enter one or more tags to help others find your blog.</p>
+              <div class="form-row">
+              <div class="col">
+                <label class="form-group-text" id="Tags-addon">Tag 1</label>
                 <input type="text" class="form-control" aria-describedby="Tags-addon" name="Tags" value ="">
               </div>
 
-              <div class="input-group">
-                <div class="input-group-prepend">
-                <span class="input-group-text" id="Tags-addon">Tags 2</span>
-                </div>
+              <div class="col">
+                <label class="form-group-text" id="Tags-addon">Tag 2</label>
                 <input type="text" class="form-control" aria-describedby="Tags-addon" name="Tags" value ="">
               </div>
 
-              <div class="input-group">
-                <div class="input-group-prepend">
-                <span class="input-group-text" id="Tags-addon">Tags 3</span>
-                </div>
+              <div class="col">
+                <label class="form-group-text" id="Tags-addon">Tag 3</label>
                 <input type="text" class="form-control" aria-describedby="Tags-addon" name="Tags" value ="">
               </div>
+              </div>
 
-             <hr>
-              <button class="brn btn-primary" type="submit" value="Save">Save</button>
+              <br>
+             
+              <button class="btn btn-primary" type="submit" value="Save">Save Blog</button>
 
             </div>
 
             
-            <hr>
+            
     </form>
     </div>
       </div>
