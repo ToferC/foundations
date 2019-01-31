@@ -163,6 +163,7 @@ func main() {
 	r.HandleFunc("/modify/{id}", ModifyEpisodeHandler)
 	r.HandleFunc("/delete/{id}", DeleteEpisodeHandler)
 
+	r.HandleFunc("/add_first_experience", AddFirstExperienceHandler)
 	r.HandleFunc("/add_experience/{verb}/", AddExperienceHandler)
 	r.HandleFunc("/add_experience_practices/{id}", AddExperiencePracticesHandler)
 	r.HandleFunc("/delete_experience/{id}", DeleteExperienceHandler)

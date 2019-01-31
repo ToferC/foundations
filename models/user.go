@@ -16,6 +16,7 @@ type User struct {
 	Streams        map[string]*Stream
 	CreatedAt      time.Time `sql:"default:now()" schema:"-"`
 	UpdatedAt      time.Time `schema:"-"`
+	Onboarded      bool
 }
 
 func (u User) String() string {

@@ -392,8 +392,60 @@ func AddRatingTargetHandler(w http.ResponseWriter, req *http.Request) {
 			fmt.Println("Saved LearnerProfile to user LearnerProfile")
 		}
 
-		url := "/learner_profile/"
+		var url string
+
+		if user.Onboarded {
+			url = "/learner_profile/"
+		} else {
+			url = "/add_first_experience"
+		}
 
 		http.Redirect(w, req, url, http.StatusFound)
 	}
+}
+
+// AddFirstExperienceHandler renders a Learner's profile in a Web page
+func AddFirstExperienceHandler(w http.ResponseWriter, req *http.Request) {
+
+	session, err := sessions.Store.Get(req, "session")
+
+	if err != nil {
+		log.Println("error identifying session")
+		// in case of error
+	}
+
+	// Prlp for user authentication
+	sessionMap := getUserSessionValues(session)
+
+	username := sessionMap["username"]
+	loggedIn := sessionMap["loggedin"]
+	isAdmin := sessionMap["isAdmin"]
+
+	user, err := database.LoadUser(db, username)
+	if err != nil {
+		log.Fatal(err)
+		fmt.Println("Unable to load User")
+		http.Redirect(w, req, "/", http.StatusSeeOther)
+	}
+
+	// Validate that User == Author
+	IsAuthor := false
+
+	if username == user.UserName || isAdmin == "true" {
+		IsAuthor = true
+	} else {
+		http.Redirect(w, req, "/", 302)
+	}
+
+	wv := WebView{
+		User:        user,
+		IsAuthor:    IsAuthor,
+		IsLoggedIn:  loggedIn,
+		SessionUser: username,
+		IsAdmin:     isAdmin,
+		UserFrame:   true,
+	}
+
+	// Render page
+	Render(w, "templates/add_first_experience.html", wv)
 }

@@ -161,6 +161,8 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 			panic(err)
 		}
 
+		fmt.Println(req.Form)
+
 		// Map default Experience to Character.Experiences
 
 		user, err := database.LoadUser(db, username)
@@ -248,6 +250,12 @@ func AddExperienceHandler(w http.ResponseWriter, req *http.Request) {
 			user.Streams[ex.Stream.Name].Expertise = 1
 		}
 
+		// Switch onboarding tag for user
+		if !user.Onboarded {
+			user.Onboarded = true
+		}
+
+		// Update user
 		err = database.UpdateUser(db, user)
 		if err != nil {
 			log.Panic(err)
