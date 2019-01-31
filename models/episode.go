@@ -21,6 +21,7 @@ type Episode struct {
 	Tags              []string
 	LearningPoints    []*LearningPoint
 	LearningResources []*LearningResource
+	Experience        *Experience
 	DigitalStandards  []string
 	BannerImage       *Image
 	slug              string `schema:"-"`
