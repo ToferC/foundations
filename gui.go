@@ -52,6 +52,16 @@ type WebView struct {
 	Flashes []interface{}
 }
 
+var fontMap = map[string]string{
+	"read":        `<i class="fas fa-book"></i>`,
+	"watch":       `<i class="fab fa-youtube"></i>`,
+	"listen":      `<i class="fas fa-podcast"></i>`,
+	"participate": `<i class="fas fa-users"></i>`,
+	"practice":    `<i class="fas fa-pen"></i>`,
+	"study":       `<i class="fas fa-university"></i>`,
+	"do":          `<i class="fas fa-tools"></i>`,
+}
+
 // SplitLines transfomrs results text string into slice
 func SplitLines(s string) []string {
 	sli := strings.Split(s, "/n")
