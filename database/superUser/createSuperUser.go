@@ -15,7 +15,7 @@ import (
 var db *pg.DB
 
 func init() {
-	os.Setenv("DBUser", "data")
+	os.Setenv("DBUser", "chris")
 	os.Setenv("DBPass", "12345")
 	os.Setenv("DBName", "foundations")
 }

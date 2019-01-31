@@ -1,0 +1,39 @@
+{{ define "title"}}
+
+<title>User Index</title>
+
+{{ end }}
+
+{{define "content"}}
+
+      <div class="container">
+        <div class="row">
+
+      <div class="col-sm-12 col-md-12 col-lg-12">
+        <h3>User Admin</h3>
+        <table style="width:100%">
+            <tr>
+                <th>UserName</th>
+                <th>Admin</th>
+                <th>Email</th>
+                <th>Streams</th>
+                <th>Points</th>
+                <th>Link</th>
+            </tr>
+            {{ range .Users }}
+            <tr>
+                <td>{{ .UserName }}</td>
+                <td>{{if .IsAdmin }}True{{end}}</td>
+                <td>{{ .Email }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            {{ end }}
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+{{end}}

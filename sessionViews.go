@@ -52,7 +52,7 @@ func UserIndexHandler(w http.ResponseWriter, req *http.Request) {
 		UserFrame:   true,
 	}
 
-	Render(w, "templates/index_users.html", wu)
+	Render(w, "templates/user_index.html", wu)
 }
 
 func googleLoginFunc() http.Handler {

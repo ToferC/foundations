@@ -167,6 +167,8 @@ func main() {
 	r.HandleFunc("/add_experience_practices/{id}", AddExperiencePracticesHandler)
 	r.HandleFunc("/delete_experience/{id}", DeleteExperienceHandler)
 
+	r.HandleFunc("/user_index/", UserIndexHandler)
+
 	http.Handle("/", r)
 
 	log.Fatal(http.ListenAndServe(":"+port, r))
