@@ -14,6 +14,7 @@
 {{ $targets := $user.LearnerProfile.LearningTargets}}
 {{ $currentYear := $user.LearnerProfile.CurrentYear }}
 {{ $categorymap := .CategoryMap}}
+{{ $fontMap := .StringMap }}
 {{ $progress := percent (index $categorymap "currentTotal") (index $categorymap "targetTotal") }}
 
 
@@ -49,7 +50,7 @@
     <div class="col-md-4">
         <div class="card mb-4 box-shadow">
     <div class="card-body"></a>
-        <h5 class="card-title">{{ $e.LearningResource.Title }}</h5>
+        <h5 class="card-title">{{ noEscape (index $fontMap $e.Verb) }} {{ $e.LearningResource.Title }}</h5>
         <h6 class="card-subtitle mb-2 text-muted">{{ $e.Stream.Name }}</h6>
         <hr>
         <h6 class="card-subtitle mb-2 text-muted">{{ range $p := $e.Practices }}{{ $p.Name }} | {{ end }}</h6>

@@ -47,6 +47,7 @@ type WebView struct {
 	BigCounter  []int
 	StringArray []string
 	NumMap      map[int]string
+	StringMap   map[string]string
 
 	Flashes []interface{}
 }
@@ -76,6 +77,10 @@ func sliceFormat(sl []string) string {
 	}
 
 	return strings.TrimSuffix(text, " | ")
+}
+
+func noEscape(s string) template.HTML {
+	return template.HTML(s)
 }
 
 func subtract(a, b int) int {
@@ -132,6 +137,7 @@ func Render(w http.ResponseWriter, filename string, data interface{}) {
 		"sliceString": sliceString,
 		"isInString":  isInString,
 		"sliceFormat": sliceFormat,
+		"noEscape":    noEscape,
 	}
 
 	baseTemplate := "templates/layout.html"

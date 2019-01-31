@@ -111,7 +111,8 @@ func getWebPageDetails(url string, targets ...string) ([]string, error) {
 
 	response, err := http.Get(url)
 	if err != nil {
-		log.Fatal(err)
+		log.Panic(err)
+		return []string{}, err
 	}
 	defer response.Body.Close()
 
