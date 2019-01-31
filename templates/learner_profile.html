@@ -33,7 +33,7 @@
         <div class="progress" style="height: 20px;">
             <div class="progress-bar" role="progressbar" aria-valuenow="{{ index $v.LearningTargets $currentYear 1 }}" aria-valuemin="0" aria-valuemax='{{ index $v.LearningTargets $currentYear 0 }}' style='width:{{percent (index $v.LearningTargets $currentYear 1) (index $v.LearningTargets $currentYear 0) }}%'>{{ index $v.LearningTargets $currentYear 1 }} / {{ index $v.LearningTargets $currentYear 0 }} pts</div>
         </div>
-        <p><strong>Interests:</strong>: {{ range $pk, $pv := $v.Practices }}
+        <p><strong>Interests:</strong> {{ range $pk, $pv := $v.Practices }}
                 {{ $pv.Name }} | 
             {{ end }}</p>
             <hr>
@@ -55,12 +55,11 @@
         <h6 class="card-subtitle mb-2 text-muted">{{ range $p := $e.Practices }}{{ $p.Name }} | {{ end }}</h6>
         <hr>
         <p class="card-text">
-            {{ $e.Comments }}
-            <br>
             Value: {{ $e.Value }}<br> 
             Time: {{ $e.Time }}<br>
             Difficulty: {{ $e.Difficulty }}<br>
-            Tags: {{ range $tag := $e.Tags }}{{ $tag }} | {{ end }}</p>
+            {{ if $e.Comments }}Comments: {{ sliceFormat $e.Comments }}<br>{{ end }}
+            {{ if $e.Tags }}Tags: {{ sliceFormat $e.Tags }}{{ end }}</p>
         </p>
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">

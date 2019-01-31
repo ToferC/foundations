@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 	"strings"
@@ -66,6 +67,17 @@ func sliceString(s string, i int) string {
 	return s[:l]
 }
 
+func sliceFormat(sl []string) string {
+
+	text := ""
+
+	for _, s := range sl {
+		text += fmt.Sprintf("%s | ", s)
+	}
+
+	return strings.TrimSuffix(text, " | ")
+}
+
 func subtract(a, b int) int {
 	return a - b
 }
@@ -119,6 +131,7 @@ func Render(w http.ResponseWriter, filename string, data interface{}) {
 		"isIn":        isIn,
 		"sliceString": sliceString,
 		"isInString":  isInString,
+		"sliceFormat": sliceFormat,
 	}
 
 	baseTemplate := "templates/layout.html"
