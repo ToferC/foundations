@@ -11,7 +11,7 @@ var baseArchitecture = []models.Stream{
 		Image: &models.Image{
 			Path: "https://s3.amazonaws.com/foundationsapp/static/digital+government.png",
 		},
-		Description: "“The use of digital technologies, as an integrated part of governments’ modernisation strategies, to create public value. Relies on a digital government ecosystem comprised of government actors, non-governmental organisations, businesses, citizens’ associations and individuals which supports the production of and access to data, services and content through interactions with the government.",
+		Description: "The use of digital technologies, as an integrated part of governments’ modernisation strategies, to create public value. Relies on a digital government ecosystem comprised of government actors, non-governmental organisations, businesses, citizens’ associations and individuals which supports the production of and access to data, services and content through interactions with the government.",
 		Practices: map[string]*models.Practice{
 			"Agile": &models.Practice{
 				Name: "Agile",
@@ -28,8 +28,8 @@ var baseArchitecture = []models.Stream{
 			"Security & Privacy": &models.Practice{
 				Name: "Security & Privacy",
 			},
-			"Accessibility": &models.Practice{
-				Name: "Accessibility",
+			"Inclusive Design": &models.Practice{
+				Name: "Inclusive Design",
 			},
 			"Empowering People": &models.Practice{
 				Name: "Empowering People",
@@ -48,25 +48,25 @@ var baseArchitecture = []models.Stream{
 		Image: &models.Image{
 			Path: "https://s3.amazonaws.com/foundationsapp/static/digital_literacy.jpg",
 		},
-		Description: "the ability to use a range of technological tools for varied purposes.",
+		Description: "Digital literacy is the ability to use a range of technological tools for varied purposes and to understand the digital environment sufficiently to make well-informed decisions and understand the art of the possible.",
 		Practices: map[string]*models.Practice{
-			"Creativity & Collaboration": &models.Practice{
-				Name: "Creativity & Collaboration",
+			"Using Information & Data": &models.Practice{
+				Name: "Using Information & Data",
 			},
-			"Curation": &models.Practice{
-				Name: "Curation",
+			"Using Tools & Technology": &models.Practice{
+				Name: "Using tools & technology",
 			},
-			"Understanding Technology": &models.Practice{
-				Name: "Understanding Technology",
+			"Community Building": &models.Practice{
+				Name: "Community Building",
 			},
-			"Critical Thinking": &models.Practice{
-				Name: "Critical Thinking",
+			"Critical Thinking & Evaluation": &models.Practice{
+				Name: "Critical Thinking & Evaluation",
 			},
-			"Cultural & Social Impacts": &models.Practice{
-				Name: "Cultural & Social Impacts",
+			"Digital Citizenship": &models.Practice{
+				Name: "Digital Citizenship",
 			},
-			"Problem Solving": &models.Practice{
-				Name: "Problem Solving",
+			"Creativity & Problem Solving": &models.Practice{
+				Name: "Creativity & Problem Solving",
 			},
 		},
 	},
@@ -78,6 +78,9 @@ var baseArchitecture = []models.Stream{
 		},
 		Description: "User experience design (UX, UXD, UED or XD) is the process of enhancing user satisfaction with a product by improving the usability, accessibility, and pleasure provided in the interaction with the product.",
 		Practices: map[string]*models.Practice{
+			"Inclusive Design": &models.Practice{
+				Name: "Inclusive Design",
+			},
 			"Design Thinking": &models.Practice{
 				Name: "Design Thinking",
 			},
@@ -99,8 +102,8 @@ var baseArchitecture = []models.Stream{
 			"Interaction Design": &models.Practice{
 				Name: "Interaction Design",
 			},
-			"Data Visualization": &models.Practice{
-				Name: "Data Visualization",
+			"Visual Design": &models.Practice{
+				Name: "Visual Design",
 			},
 			"Usability Testing": &models.Practice{
 				Name: "Usability Testing",
@@ -198,8 +201,8 @@ var baseArchitecture = []models.Stream{
 		},
 		Description: "Data analysis is a process of inspecting, cleansing, transforming, and modeling data with the goal of discovering useful information, informing conclusions, and supporting decision-making.",
 		Practices: map[string]*models.Practice{
-			"Data Access": &models.Practice{
-				Name: "Data Access",
+			"Data Collection": &models.Practice{
+				Name: "Data Collection",
 			},
 			"Data Cleaning": &models.Practice{
 				Name: "Data Cleaning",
@@ -207,8 +210,11 @@ var baseArchitecture = []models.Stream{
 			"Data Manipulation": &models.Practice{
 				Name: "Data Manipulation",
 			},
-			"Coding Basics": &models.Practice{
-				Name: "Coding Basics",
+			"Data Modeling": &models.Practice{
+				Name: "Data Manipulation",
+			},
+			"Programming": &models.Practice{
+				Name: "Programming",
 			},
 			"Pandas / DataFrames": &models.Practice{
 				Name: "Pandas / DataFrames",

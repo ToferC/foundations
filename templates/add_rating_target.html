@@ -30,16 +30,16 @@
                   <h5>I know:</h5>
 
                   <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                      <label class="btn btn-primary {{ if eq $s.Expertise 1 }}active{{ end }}">
+                      <label class="btn btn-success {{ if eq $s.Expertise 1 }}active{{ end }}">
                         <input type="radio" name="{{ $s.Name }}-Skill" value="1" id="option1" autocomplete="off" {{ if eq $s.Expertise 1 }}checked{{ end }}> A little
                       </label>
-                      <label class="btn btn-primary {{ if eq $s.Expertise 2 }}active{{ end }}">
+                      <label class="btn btn-success {{ if eq $s.Expertise 2 }}active{{ end }}">
                         <input type="radio" name="{{ $s.Name }}-Skill" value="2" id="option2" autocomplete="off" {{ if eq $s.Expertise 2 }}checked{{ end }}> A fair amount
                       </label>
-                      <label class="btn btn-primary {{ if eq $s.Expertise 3 }}active{{ end }}">
+                      <label class="btn btn-success {{ if eq $s.Expertise 3 }}active{{ end }}">
                         <input type="radio" name="{{ $s.Name }}-Skill" value="3" id="option3" autocomplete="off" {{ if eq $s.Expertise 3 }}checked{{ end }}> Lots
                       </label>
-                      <label class="btn btn-primary {{ if eq $s.Expertise 4 }}active{{ end }}">
+                      <label class="btn btn-success {{ if eq $s.Expertise 4 }}active{{ end }}">
                           <input type="radio" name="{{ $s.Name }}-Skill" value="4" id="option4" autocomplete="off" {{ if eq $s.Expertise 4 }}checked{{ end }}> All the things
                         </label>
                     </div>
@@ -48,16 +48,16 @@
                   <h5>In {{ $user.LearnerProfile.CurrentYear }}, I want to learn:</h5>
 
                   <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                      <label class="btn btn-primary {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 1000 }}active{{ end }}">
+                      <label class="btn btn-success {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 1000 }}active{{ end }}">
                         <input type="radio" name="{{ $s.Name }}-Target" value="1000" id="option1" autocomplete="off" {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 1000 }}checked{{ end }}> A little
                       </label>
-                      <label class="btn btn-primary {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 5000 }}active{{ end }}">
+                      <label class="btn btn-success {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 5000 }}active{{ end }}">
                         <input type="radio" name="{{ $s.Name }}-Target" value="5000" id="option2" autocomplete="off" {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 5000 }}checked{{ end }}> A fair amount
                       </label>
-                      <label class="btn btn-primary {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 10000 }}active{{ end }}">
+                      <label class="btn btn-success {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 10000 }}active{{ end }}">
                         <input type="radio" name="{{ $s.Name }}-Target" value="10000" id="option3" autocomplete="off" {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 10000 }}checked{{ end }}> Lots
                       </label>
-                      <label class="btn btn-primary {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 25000 }}active{{ end }}">
+                      <label class="btn btn-success {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 25000 }}active{{ end }}">
                           <input type="radio" name="{{ $s.Name }}-Target" value="25000" id="option4" autocomplete="off" {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 25000 }}checked{{ end }}> All the things
                         </label>
                     </div>
@@ -70,8 +70,8 @@
                       {{ range $stream := $architecture }}
                         {{ if eq $s.Name $stream.Name}}
                           {{ range $p := $stream.Practices }}
-                            <label class="btn btn-{{ if isInString $stringArray $p.Name }}success active{{else}}primary{{end}}">
-                              <input type="checkbox" name="{{ $p.Name }}" autocomplete="off" {{ if isInString $stringArray $p.Name }}checked{{end}}>{{ $p.Name }}
+                            <label class="btn btn-{{ if isInString $stringArray $p.Name }}success active{{else}}success{{end}}">
+                              <input type="checkbox" name="{{ $p.Name }}" autocomplete="off" {{ if isInString $stringArray $p.Name }}checked{{end}}> {{ $p.Name }}
                             </label>
                           {{ end }} <!-- End practice range -->
                         {{ end }} <!-- End if-->

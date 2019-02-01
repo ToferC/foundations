@@ -42,20 +42,25 @@
                         <h5 class="card-title">{{ $s.Name }}</h5>
                 
                         <p class="card-text">
-                            {{ sliceString $s.Description 128 }}
+                            {{ $s.Description }}
                         </p>
                         <hr>
+                        <h6 class="card-subtitle mb-2 text-muted">Practices: </h6>
+                          {{ range $p := $s.Practices }}
+                            <a href="#" class="btn btn-secondary disabled" disabled>{{ $p.Name }}</a>
+                          {{ end }} <!-- End practice range -->
+                    <hr>
                         <div class="d-flex justify-content-between align-items-center">
                                 {{ if isInString $stringArray $s.Name }}
                             <div class="btn-group-toggle" data-toggle="buttons">
                                 <label class="btn btn-success active">
-                                    <input type="checkbox" name="{{ $s.Name }}" autocomplete="off" checked>Selected
+                                    <input type="checkbox" name="{{ $s.Name }}" autocomplete="off" checked> Select
                                 </label>
                             </div>
                             {{ else }}
                             <div class="btn-group-toggle" data-toggle="buttons">
-                                    <label class="btn btn-primary">
-                                        <input type="checkbox" name="{{ $s.Name }}" autocomplete="off">Select
+                                    <label class="btn btn-success">
+                                        <input type="checkbox" name="{{ $s.Name }}" autocomplete="off"> Select
                                     </label>
                                 </div>
                             {{ end }}
