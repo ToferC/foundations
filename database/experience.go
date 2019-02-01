@@ -31,22 +31,26 @@ func UpdateExperience(db *pg.DB, e *models.Experience) (int64, error) {
 	return e.ID, err
 }
 
-// ListExperiences queries Experience names and add to slice
-func ListExperiences(db *pg.DB) ([]*models.Experience, error) {
-	var es []*models.Experience
+// LoadStreamExperiences queries Experience names and add to slice
+func LoadStreamExperiences(db *pg.DB, name string) ([]*models.Experience, error) {
+	var temp, exs []*models.Experience
 
-	_, err := db.Query(&es, `SELECT * FROM experiences`)
+	err := db.Model(&temp).
+		Column("experience.*", "LearningResource").
+		Select()
 
 	if err != nil {
 		panic(err)
 	}
 
 	// Print names and PK
-	for i, e := range es {
-
-		fmt.Println(i, e)
+	for i, e := range temp {
+		if e.Stream.Name == name {
+			fmt.Println(i, e)
+			exs = append(exs, e)
+		}
 	}
-	return es, nil
+	return exs, nil
 }
 
 // ListUserExperiences queries Character names and add to slice

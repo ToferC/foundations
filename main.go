@@ -168,6 +168,8 @@ func main() {
 	r.HandleFunc("/add_experience_practices/{id}", AddExperiencePracticesHandler)
 	r.HandleFunc("/delete_experience/{id}", DeleteExperienceHandler)
 
+	r.HandleFunc("/view_stream/{stream}", ViewStreamHandler)
+
 	r.HandleFunc("/user_index/", UserIndexHandler)
 
 	http.Handle("/", r)

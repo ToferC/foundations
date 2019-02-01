@@ -32,7 +32,7 @@ func ListUserExperiencesHandler(w http.ResponseWriter, req *http.Request) {
 	loggedIn := sessionMap["loggedin"]
 	isAdmin := sessionMap["isAdmin"]
 
-	experiences, err := database.ListExperiences(db)
+	experiences, err := database.ListUserExperiences(db, username)
 	if err != nil {
 		panic(err)
 	}

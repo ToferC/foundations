@@ -24,6 +24,7 @@ type WebView struct {
 	User             *models.User
 	Episode          *models.Episode
 	Experience       *models.Experience
+	Stream           *models.Stream
 	LearningResource *models.LearningResource
 	IsAuthor         bool
 	SessionUser      string
