@@ -155,13 +155,14 @@ func AddEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	wv := WebView{
-		Episode:     &ep,
-		IsAuthor:    true,
-		SessionUser: username,
-		IsLoggedIn:  loggedIn,
-		IsAdmin:     isAdmin,
-		Counter:     numToArray(7),
-		BigCounter:  numToArray(15),
+		Episode:      &ep,
+		IsAuthor:     true,
+		SessionUser:  username,
+		IsLoggedIn:   loggedIn,
+		IsAdmin:      isAdmin,
+		Counter:      numToArray(7),
+		BigCounter:   numToArray(15),
+		Architecture: baseArchitecture,
 	}
 
 	if req.Method == "GET" {
