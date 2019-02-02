@@ -34,13 +34,13 @@
                         <input type="radio" name="{{ $s.Name }}-Skill" value="1" id="option1" autocomplete="off" {{ if eq $s.Expertise 1 }}checked{{ end }}> A little
                       </label>
                       <label class="btn btn-success {{ if eq $s.Expertise 2 }}active{{ end }}">
-                        <input type="radio" name="{{ $s.Name }}-Skill" value="2" id="option2" autocomplete="off" {{ if eq $s.Expertise 2 }}checked{{ end }}> A fair amount
+                        <input type="radio" name="{{ $s.Name }}-Skill" value="2" id="option2" autocomplete="off" {{ if eq $s.Expertise 2 }}checked{{ end }}> Some
                       </label>
                       <label class="btn btn-success {{ if eq $s.Expertise 3 }}active{{ end }}">
                         <input type="radio" name="{{ $s.Name }}-Skill" value="3" id="option3" autocomplete="off" {{ if eq $s.Expertise 3 }}checked{{ end }}> Lots
                       </label>
                       <label class="btn btn-success {{ if eq $s.Expertise 4 }}active{{ end }}">
-                          <input type="radio" name="{{ $s.Name }}-Skill" value="4" id="option4" autocomplete="off" {{ if eq $s.Expertise 4 }}checked{{ end }}> All the things
+                          <input type="radio" name="{{ $s.Name }}-Skill" value="4" id="option4" autocomplete="off" {{ if eq $s.Expertise 4 }}checked{{ end }}> All things
                         </label>
                     </div>
                     <br><br>
@@ -52,13 +52,13 @@
                         <input type="radio" name="{{ $s.Name }}-Target" value="1000" id="option1" autocomplete="off" {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 1000 }}checked{{ end }}> A little
                       </label>
                       <label class="btn btn-success {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 5000 }}active{{ end }}">
-                        <input type="radio" name="{{ $s.Name }}-Target" value="5000" id="option2" autocomplete="off" {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 5000 }}checked{{ end }}> A fair amount
+                        <input type="radio" name="{{ $s.Name }}-Target" value="5000" id="option2" autocomplete="off" {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 5000 }}checked{{ end }}> Some
                       </label>
                       <label class="btn btn-success {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 10000 }}active{{ end }}">
                         <input type="radio" name="{{ $s.Name }}-Target" value="10000" id="option3" autocomplete="off" {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 10000 }}checked{{ end }}> Lots
                       </label>
                       <label class="btn btn-success {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 25000 }}active{{ end }}">
-                          <input type="radio" name="{{ $s.Name }}-Target" value="25000" id="option4" autocomplete="off" {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 25000 }}checked{{ end }}> All the things
+                          <input type="radio" name="{{ $s.Name }}-Target" value="25000" id="option4" autocomplete="off" {{ if eq (index $s.LearningTargets $user.LearnerProfile.CurrentYear 0) 25000 }}checked{{ end }}> All things
                         </label>
                     </div>
 

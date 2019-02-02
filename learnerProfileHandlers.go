@@ -443,7 +443,7 @@ func AddFirstExperienceHandler(w http.ResponseWriter, req *http.Request) {
 		IsLoggedIn:  loggedIn,
 		SessionUser: username,
 		IsAdmin:     isAdmin,
-		UserFrame:   true,
+		UserFrame:   false,
 	}
 
 	// Render page
