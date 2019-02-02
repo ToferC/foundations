@@ -1,6 +1,6 @@
 {{ define "title"}}
 
-<title>Create your Learner Profile</title>
+<title>Learning Stream: {{.Stream.Name }}</title>
 
 {{ end }}
 
@@ -41,6 +41,7 @@
             <hr>
                   
             <h4>Practices: </h4>
+            <p>Practices are the are more concentrated domains of learning the {{ $stream.Name }} stream. They are the "things you can do".</p>
                     <div class="btn-group-toggle text-center" data-toggle="buttons">
                       
                         {{ range $p := $stream.Practices }}
@@ -51,6 +52,7 @@
                     <hr>
 
                     <h3>Experiences</h3>
+                    <p>These are the experiences that other learners have tracked in the {{ $stream.Name }} stream.</p>
                     <div class="row">
                     {{ range $e := $experiences }}
                     <div class="col-md-4">

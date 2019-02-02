@@ -12,49 +12,6 @@ import (
 	"github.com/toferc/foundations/models"
 )
 
-// UserIndexHandler handles the basic roster rendering for the app
-func UserIndexHandler(w http.ResponseWriter, req *http.Request) {
-
-	// Get session values or redirect to Login
-	session, err := sessions.Store.Get(req, "session")
-
-	if err != nil {
-		log.Println("error identifying session")
-		http.Redirect(w, req, "/login/", 302)
-		return
-		// in case of error
-	}
-
-	// Prep for user authentication
-	sessionMap := getUserSessionValues(session)
-
-	username := sessionMap["username"]
-	loggedIn := sessionMap["loggedin"]
-	isAdmin := sessionMap["isAdmin"]
-
-	fmt.Println(session)
-
-	if isAdmin != "true" {
-		http.Redirect(w, req, "/", 302)
-		return
-	}
-
-	users, err := database.ListUsers(db)
-	if err != nil {
-		panic(err)
-	}
-
-	wu := WebUser{
-		SessionUser: username,
-		IsLoggedIn:  loggedIn,
-		IsAdmin:     isAdmin,
-		Users:       users,
-		UserFrame:   true,
-	}
-
-	Render(w, "templates/user_index.html", wu)
-}
-
 func googleLoginFunc() http.Handler {
 
 	newUser := false

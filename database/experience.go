@@ -43,7 +43,7 @@ func LoadStreamExperiences(db *pg.DB, name string) ([]*models.Experience, error)
 		panic(err)
 	}
 
-	// Print names and PK
+	// Add stream experiences to Slice -- Need DB work here
 	for i, e := range temp {
 		if e.Stream.Name == name {
 			fmt.Println(i, e)

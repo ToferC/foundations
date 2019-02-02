@@ -19,6 +19,9 @@
                 <th>Streams</th>
                 <th>Points</th>
                 <th>Link</th>
+                <th>Make Admin</th>
+                <th>Delete</th>
+
             </tr>
             {{ range .Users }}
             <tr>
@@ -27,7 +30,9 @@
                 <td>{{ .Email }}</td>
                 <td></td>
                 <td></td>
-                <td></td>
+                <td><a href="/user_view/{{ .ID }}">Link</a></td>
+                <td><a href="/make_admin/{{ .ID }}">Make Admin</a></td>
+                <td><a href="/delete_user/{{ .ID }}">Delete</a></td>
             </tr>
             {{ end }}
         </table>

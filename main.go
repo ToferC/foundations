@@ -171,6 +171,9 @@ func main() {
 	r.HandleFunc("/view_stream/{stream}", ViewStreamHandler)
 
 	r.HandleFunc("/user_index/", UserIndexHandler)
+	r.HandleFunc("/user_view/{id}", UserViewHandler)
+	r.HandleFunc("/make_admin/{id}", MakeAdminHandler)
+	r.HandleFunc("/delete_user/{id}", DeleteUserHandler)
 
 	http.Handle("/", r)
 
