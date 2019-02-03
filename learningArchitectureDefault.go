@@ -11,6 +11,7 @@ var baseArchitecture = []models.Stream{
 		Image: &models.Image{
 			Path: "https://s3.amazonaws.com/foundationsapp/static/digital+government.png",
 		},
+		Slug:        "digital_government",
 		Description: "The use of digital technologies, as an integrated part of governments’ modernisation strategies, to create public value. Relies on a digital government ecosystem comprised of government actors, non-governmental organisations, businesses, citizens’ associations and individuals which supports the production of and access to data, services and content through interactions with the government.",
 		Practices: map[string]*models.Practice{
 			"Agile": &models.Practice{
@@ -48,6 +49,7 @@ var baseArchitecture = []models.Stream{
 		Image: &models.Image{
 			Path: "https://s3.amazonaws.com/foundationsapp/static/digital_literacy.jpg",
 		},
+		Slug:        "digital_literacy",
 		Description: "Digital literacy is the ability to use a range of technological tools for varied purposes and to understand the digital environment sufficiently to make well-informed decisions and understand the art of the possible.",
 		Practices: map[string]*models.Practice{
 			"Using Information & Data": &models.Practice{
@@ -76,6 +78,7 @@ var baseArchitecture = []models.Stream{
 		Image: &models.Image{
 			Path: "https://s3.amazonaws.com/foundationsapp/static/design.jpg",
 		},
+		Slug:        "design",
 		Description: "User experience design (UX, UXD, UED or XD) is the process of enhancing user satisfaction with a product by improving the usability, accessibility, and pleasure provided in the interaction with the product.",
 		Practices: map[string]*models.Practice{
 			"Inclusive Design": &models.Practice{
@@ -119,6 +122,7 @@ var baseArchitecture = []models.Stream{
 		Image: &models.Image{
 			Path: "https://s3.amazonaws.com/foundationsapp/static/leadership.jpg",
 		},
+		Slug:        "leadership",
 		Description: "Digital leadership is the strategic use of a company's digital assets to achieve business goals. Digital leadership can be addressed at both organizational and individual levels.",
 		Practices: map[string]*models.Practice{
 			"User-Centred Service Design": &models.Practice{
@@ -159,6 +163,7 @@ var baseArchitecture = []models.Stream{
 		Image: &models.Image{
 			Path: "https://s3.amazonaws.com/foundationsapp/static/disruptive.png",
 		},
+		Slug:        "disruptive_technology",
 		Description: " Disruptive technologies are those that significantly alter the way businesses or entire industries operate. Often times, these technologies force companies to alter the way they approach their business, or risk losing market share or becoming irrelevant.",
 		Practices: map[string]*models.Practice{
 			"Biotechnology": &models.Practice{
@@ -199,6 +204,7 @@ var baseArchitecture = []models.Stream{
 		Image: &models.Image{
 			Path: "https://s3.amazonaws.com/foundationsapp/static/data.jpg",
 		},
+		Slug:        "data_analysis",
 		Description: "Data analysis is a process of inspecting, cleansing, transforming, and modeling data with the goal of discovering useful information, informing conclusions, and supporting decision-making.",
 		Practices: map[string]*models.Practice{
 			"Data Collection": &models.Practice{
@@ -248,6 +254,7 @@ var baseArchitecture = []models.Stream{
 		Image: &models.Image{
 			Path: "https://s3.amazonaws.com/foundationsapp/static/ai.jpg",
 		},
+		Slug:        "ai_machine_learning",
 		Description: "Machine learning is an application of artificial intelligence (AI) that provides systems the ability to automatically learn and improve from experience without being explicitly programmed. Machine learning focuses on the development of computer programs that can access data and use it learn for themselves.",
 		Practices: map[string]*models.Practice{
 			"Unsupervised Learning": &models.Practice{
@@ -288,6 +295,7 @@ var baseArchitecture = []models.Stream{
 		Image: &models.Image{
 			Path: "https://s3.amazonaws.com/foundationsapp/static/devops.jpg",
 		},
+		Slug:        "devops",
 		Description: "DevOps is the combination of cultural philosophies, practices, and tools that increases an organization's ability to deliver applications and services at high velocity: evolving and improving products at a faster pace than organizations using traditional software development and infrastructure management processes.",
 		Practices: map[string]*models.Practice{
 			"Cloud Services": &models.Practice{
@@ -319,6 +327,7 @@ var baseArchitecture = []models.Stream{
 		Image: &models.Image{
 			Path: "https://s3.amazonaws.com/foundationsapp/static/coding.jpeg",
 		},
+		Slug:        "development",
 		Description: "Software development is the process of conceiving, specifying, designing, programming, documenting, testing, and bug fixing involved in creating and maintaining applications, frameworks, or other software components.",
 		Practices: map[string]*models.Practice{
 			"Open Source": &models.Practice{

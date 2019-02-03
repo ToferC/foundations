@@ -37,11 +37,12 @@ func ListLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	wv := WebView{
-		SessionUser: username,
-		IsLoggedIn:  loggedIn,
-		IsAdmin:     isAdmin,
-		Users:       users,
-		UserFrame:   true,
+		SessionUser:  username,
+		IsLoggedIn:   loggedIn,
+		IsAdmin:      isAdmin,
+		Users:        users,
+		UserFrame:    true,
+		Architecture: baseArchitecture,
 	}
 	Render(w, "templates/learners.html", wv)
 }
@@ -89,10 +90,20 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 	lrs := []*models.LearningResource{}
 	lrStrings := []string{}
 
+	cYear := user.LearnerProfile.CurrentYear
+
+	// Loop over experiences and set up data
 	for _, ex := range exps {
+		// Add Learning Resources to Slice
 		if !isInString(lrStrings, ex.LearningResource.Path) {
 			lrs = append(lrs, ex.LearningResource)
 			lrStrings = append(lrStrings, ex.LearningResource.Path)
+		}
+		// Update current learning based on experiences
+		for k, v := range user.Streams {
+			if ex.Stream.Name == k {
+				v.LearningTargets[cYear][1] += ex.Points
+			}
 		}
 	}
 
@@ -101,8 +112,8 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 	var targetTotal, currentTotal int
 
 	for _, s := range user.Streams {
-		targetTotal += s.LearningTargets[user.LearnerProfile.CurrentYear][0]
-		currentTotal += s.LearningTargets[user.LearnerProfile.CurrentYear][1]
+		targetTotal += s.LearningTargets[cYear][0]
+		currentTotal += s.LearningTargets[cYear][1]
 	}
 
 	categories := map[string]int{
@@ -127,6 +138,7 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 		UserFrame:         true,
 		NumMap:            skillMap,
 		StringMap:         fontMap,
+		Architecture:      baseArchitecture,
 	}
 
 	// Render page
@@ -438,12 +450,13 @@ func AddFirstExperienceHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	wv := WebView{
-		User:        user,
-		IsAuthor:    IsAuthor,
-		IsLoggedIn:  loggedIn,
-		SessionUser: username,
-		IsAdmin:     isAdmin,
-		UserFrame:   false,
+		User:         user,
+		IsAuthor:     IsAuthor,
+		IsLoggedIn:   loggedIn,
+		SessionUser:  username,
+		IsAdmin:      isAdmin,
+		UserFrame:    false,
+		Architecture: baseArchitecture,
 	}
 
 	// Render page

@@ -96,9 +96,10 @@ func LoginFunc(w http.ResponseWriter, req *http.Request) {
 	isAdmin := sessionMap["isAdmin"]
 
 	wv := WebView{
-		SessionUser: username,
-		IsLoggedIn:  loggedIn,
-		IsAdmin:     isAdmin,
+		SessionUser:  username,
+		IsLoggedIn:   loggedIn,
+		IsAdmin:      isAdmin,
+		Architecture: baseArchitecture,
 	}
 
 	switch req.Method {
@@ -156,9 +157,10 @@ func SignUpFunc(w http.ResponseWriter, req *http.Request) {
 	isAdmin := sessionMap["isAdmin"]
 
 	wv := WebView{
-		SessionUser: username,
-		IsLoggedIn:  loggedIn,
-		IsAdmin:     isAdmin,
+		SessionUser:  username,
+		IsLoggedIn:   loggedIn,
+		IsAdmin:      isAdmin,
+		Architecture: baseArchitecture,
 	}
 
 	if req.Method == "POST" {

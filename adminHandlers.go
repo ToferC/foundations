@@ -151,6 +151,7 @@ func UserViewHandler(w http.ResponseWriter, req *http.Request) {
 		UserFrame:         true,
 		NumMap:            skillMap,
 		StringMap:         fontMap,
+		Architecture:      baseArchitecture,
 	}
 
 	Render(w, "templates/user_view.html", wv)
@@ -260,11 +261,12 @@ func DeleteUserHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	wv := WebView{
-		User:        user,
-		IsLoggedIn:  loggedIn,
-		SessionUser: username,
-		IsAdmin:     isAdmin,
-		UserFrame:   false,
+		User:         user,
+		IsLoggedIn:   loggedIn,
+		SessionUser:  username,
+		IsAdmin:      isAdmin,
+		UserFrame:    false,
+		Architecture: baseArchitecture,
 	}
 
 	if req.Method == "GET" {

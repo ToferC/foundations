@@ -51,11 +51,12 @@ func SplashPageHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	wv := WebView{
-		SessionUser: username,
-		IsLoggedIn:  loggedIn,
-		IsAdmin:     isAdmin,
-		Episodes:    episodes,
-		UserFrame:   true,
+		SessionUser:  username,
+		IsLoggedIn:   loggedIn,
+		IsAdmin:      isAdmin,
+		Episodes:     episodes,
+		UserFrame:    true,
+		Architecture: baseArchitecture,
 	}
 	Render(w, "templates/episodes.html", wv)
 }
@@ -111,13 +112,14 @@ func EpisodeHandler(w http.ResponseWriter, req *http.Request) {
 	output := template.HTML(blackfriday.Run(input))
 
 	wv := WebView{
-		Episode:     ep,
-		IsAuthor:    IsAuthor,
-		IsLoggedIn:  loggedIn,
-		SessionUser: username,
-		IsAdmin:     isAdmin,
-		Markdown:    output,
-		UserFrame:   true,
+		Episode:      ep,
+		IsAuthor:     IsAuthor,
+		IsLoggedIn:   loggedIn,
+		SessionUser:  username,
+		IsAdmin:      isAdmin,
+		Markdown:     output,
+		UserFrame:    true,
+		Architecture: baseArchitecture,
 	}
 
 	// Render page
@@ -311,13 +313,14 @@ func ModifyEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	wv := WebView{
-		Episode:     ep,
-		IsAuthor:    IsAuthor,
-		SessionUser: username,
-		IsLoggedIn:  loggedIn,
-		IsAdmin:     isAdmin,
-		Counter:     numToArray(9),
-		BigCounter:  numToArray(15),
+		Episode:      ep,
+		IsAuthor:     IsAuthor,
+		SessionUser:  username,
+		IsLoggedIn:   loggedIn,
+		IsAdmin:      isAdmin,
+		Counter:      numToArray(9),
+		BigCounter:   numToArray(15),
+		Architecture: baseArchitecture,
 	}
 
 	if req.Method == "GET" {
@@ -452,12 +455,13 @@ func DeleteEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	wv := WebView{
-		Episode:     ep,
-		IsAuthor:    IsAuthor,
-		SessionUser: username,
-		IsLoggedIn:  loggedIn,
-		IsAdmin:     isAdmin,
-		Markdown:    output,
+		Episode:      ep,
+		IsAuthor:     IsAuthor,
+		SessionUser:  username,
+		IsLoggedIn:   loggedIn,
+		IsAdmin:      isAdmin,
+		Markdown:     output,
+		Architecture: baseArchitecture,
 	}
 
 	if req.Method == "GET" {

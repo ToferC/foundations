@@ -38,11 +38,12 @@ func ListUserExperiencesHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	wv := WebView{
-		SessionUser: username,
-		IsLoggedIn:  loggedIn,
-		IsAdmin:     isAdmin,
-		Experiences: experiences,
-		UserFrame:   true,
+		SessionUser:  username,
+		IsLoggedIn:   loggedIn,
+		IsAdmin:      isAdmin,
+		Experiences:  experiences,
+		UserFrame:    true,
+		Architecture: baseArchitecture,
 	}
 	Render(w, "templates/experiences.html", wv)
 }
@@ -83,11 +84,12 @@ func ViewExperienceHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	wv := WebView{
-		Experience:  ex,
-		IsLoggedIn:  loggedIn,
-		SessionUser: username,
-		IsAdmin:     isAdmin,
-		UserFrame:   true,
+		Experience:   ex,
+		IsLoggedIn:   loggedIn,
+		SessionUser:  username,
+		IsAdmin:      isAdmin,
+		UserFrame:    true,
+		Architecture: baseArchitecture,
 	}
 
 	// Render page
@@ -419,13 +421,14 @@ func ModifyExperienceHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	wv := WebView{
-		Experience:  ex,
-		IsAuthor:    IsAuthor,
-		SessionUser: username,
-		IsLoggedIn:  loggedIn,
-		IsAdmin:     isAdmin,
-		Counter:     numToArray(9),
-		BigCounter:  numToArray(15),
+		Experience:   ex,
+		IsAuthor:     IsAuthor,
+		SessionUser:  username,
+		IsLoggedIn:   loggedIn,
+		IsAdmin:      isAdmin,
+		Counter:      numToArray(9),
+		BigCounter:   numToArray(15),
+		Architecture: baseArchitecture,
 	}
 
 	if req.Method == "GET" {
@@ -509,11 +512,12 @@ func DeleteExperienceHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	wv := WebView{
-		Experience:  ex,
-		IsAuthor:    IsAuthor,
-		SessionUser: username,
-		IsLoggedIn:  loggedIn,
-		IsAdmin:     isAdmin,
+		Experience:   ex,
+		IsAuthor:     IsAuthor,
+		SessionUser:  username,
+		IsLoggedIn:   loggedIn,
+		IsAdmin:      isAdmin,
+		Architecture: baseArchitecture,
 	}
 
 	if req.Method == "GET" {

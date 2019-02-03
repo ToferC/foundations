@@ -40,8 +40,9 @@ func AboutHandler(w http.ResponseWriter, req *http.Request) {
 	fmt.Println(um)
 
 	wv := WebView{
-		SessionUser: username,
-		UserFrame:   true,
+		SessionUser:  username,
+		UserFrame:    true,
+		Architecture: baseArchitecture,
 	}
 
 	// Render page

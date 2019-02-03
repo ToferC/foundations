@@ -29,7 +29,25 @@
                                   <div class="card-block px-3">
                                     <h4 class="card-title">{{ $stream.Name }}</h4>
                                     <p class="card-text">{{ $stream.Description }}</p>
-                                    <a href="#" class="btn btn-primary">Read More</a>
+                                  </div>
+                                </div>
+                                <div class="col-md-12 px-3">
+                                    <div class="card-text px-3">
+                                        <hr>
+                                        <p>Practices include: </p>
+                                        <div class="btn-group-toggle text-center" data-toggle="buttons">
+                          
+                                                {{ range $p := $stream.Practices }}
+                                                  <a href="#">{{ $p.Name }}</a> | 
+                                                {{ end }} <!-- End practice range -->
+                        
+                                            </div>
+                                        <hr>
+                                        <a href="#" class="btn btn-primary">Read More</a>
+                                        {{ if ne .SessionUser ""}}
+                                        <a class="btn btn-primary" href="/add_stream/{{ $stream.Slug }}">Add Stream</a>
+                                        {{ end }}
+                                    </div>
                                   </div>
                                 </div>
                       
@@ -39,51 +57,39 @@
                       </section>
                  
             <hr>
-                  
-            <h4>Practices: </h4>
-            <p>Practices are the are more concentrated domains of learning the {{ $stream.Name }} stream. They are the "things you can do".</p>
-                    <div class="btn-group-toggle text-center" data-toggle="buttons">
-                      
-                        {{ range $p := $stream.Practices }}
-                          <a href="#" class="btn btn-secondary disabled" disabled>{{ $p.Name }}</a>
-                        {{ end }} <!-- End practice range -->
+                    <section>
 
-                    </div>
-                    <hr>
-
-                    <h3>Experiences</h3>
-                    <p>These are the experiences that other learners have tracked in the {{ $stream.Name }} stream.</p>
-                    <div class="row">
-                    {{ range $e := $experiences }}
-                    <div class="col-md-4">
-                        <div class="card mb-4 box-shadow">
-                    <div class="card-body"></a>
-                        <h5 class="card-title">{{ noEscape (index $fontMap $e.Verb) }} {{ $e.LearningResource.Title }}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">{{ $e.Stream.Name }} > {{ range $p := $e.Practices }}{{ $p.Name }} | {{ end }}</h6>
-                        <p>{{ $e.UserName }}</p>
-                        <hr>
-                        <p class="card-text">
-                            Value: {{ $e.Value }}<br> 
-                            Time: {{ $e.Time }}<br>
-                            Difficulty: {{ $e.Difficulty }}<br>
-                            {{ if $e.Comments }}Comments: {{ sliceFormat $e.Comments }}<br>{{ end }}
-                            {{ if $e.Tags }}Tags: {{ sliceFormat $e.Tags }}{{ end }}
-                        </p>
-                        <div class="d-flex justify-content-between align-items-center">
-                          <div class="btn-group">
-                            <a class="btn btn-sm btn-primary"
-                            href="{{ $e.LearningResource.Path }}">View</a>
-                                <a class="btn btn-sm btn-danger" href="/delete_experience/{{ $e.ID }}">Delete</a>
+                        <h3>Experiences</h3>
+                        <p>These are the experiences that other learners have tracked in the {{ $stream.Name }} stream.</p>
+                        <div class="row">
+                        {{ range $e := $experiences }}
+                        <div class="col-md-4">
+                            <div class="card mb-4 box-shadow">
+                        <div class="card-body"></a>
+                            <h5 class="card-title">{{ noEscape (index $fontMap $e.Verb) }} {{ $e.LearningResource.Title }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ $e.Stream.Name }} > {{ range $p := $e.Practices }}{{ $p.Name }} | {{ end }}</h6>
+                            <p>{{ $e.UserName }}</p>
+                            <hr>
+                            <p class="card-text">
+                                Value: {{ $e.Value }}<br> 
+                                Time: {{ $e.Time }}<br>
+                                Difficulty: {{ $e.Difficulty }}<br>
+                                {{ if $e.Comments }}Comments: {{ sliceFormat $e.Comments }}<br>{{ end }}
+                                {{ if $e.Tags }}Tags: {{ sliceFormat $e.Tags }}{{ end }}
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                              <div class="btn-group">
+                                <a class="btn btn-sm btn-primary"
+                                href="{{ $e.LearningResource.Path }}">View</a>
+                                    <a class="btn btn-sm btn-danger" href="/delete_experience/{{ $e.ID }}">Delete</a>
+                              </div>
+                            </div>
+                          </div>
                           </div>
                         </div>
-                      </div>
-                      </div>
-                    </div>
-                    {{ end }}
-                      </div>
-
-              <button class="btn btn-primary" type="submit" value="Save">Add Stream</button>
-
+                        {{ end }}
+                          </div>
+                    </section>
             </div>
             
             <hr>
