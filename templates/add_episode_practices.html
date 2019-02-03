@@ -1,0 +1,44 @@
+{{ define "title"}}
+
+<title>Add Episode Practices for {{ .Episode.Title }}</title>
+
+{{ end }}
+
+{{define "content"}}
+
+{{ $ep := .Episode}}
+{{ $e := $ep.Experience }}
+{{ $stringArray := .StringArray }}
+
+      <div class="container">
+        <hr>
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+            <h4>What {{ $e.Stream.Name }} practices does {{ $ep.Title }} touch on?</h4>
+            <p>Choose as many as you need.</p>
+            <form action="" method="POST">
+
+              <div class="btn-group-toggle" data-toggle="buttons">
+                
+                {{ range $stream := .Architecture }}
+                {{ if eq $e.Stream.Name $stream.Name}}
+                {{ range $p := $stream.Practices }}
+                    <label class="btn btn-{{ if isInString $stringArray $p.Name }}success active{{else}}success{{end}}">
+                        <input type="checkbox" name="{{ $p.Name }}" autocomplete="off" {{ if isInString $stringArray $p.Name }}checked{{end}}> {{ $p.Name }}
+                    </label>
+                {{ end }} <!-- End practice range -->
+                {{ end }} <!-- End if-->
+                {{ end }} <!-- End architecture Stream range-->
+              </div>
+              <hr>
+              
+              <button class="brn btn-primary" type="submit" value="Save">Add Episode Practices</button>
+
+            </div>
+
+            
+            <hr>
+    </form>
+    </div>
+      </div>
+{{end}}

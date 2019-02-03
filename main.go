@@ -160,6 +160,7 @@ func main() {
 
 	r.HandleFunc("/view_episode/{id}", EpisodeHandler)
 	r.HandleFunc("/new/", AddEpisodeHandler)
+	r.HandleFunc("/add_episode_practices/{id}", AddEpisodePracticesHandler)
 	r.HandleFunc("/modify/{id}", ModifyEpisodeHandler)
 	r.HandleFunc("/delete/{id}", DeleteEpisodeHandler)
 

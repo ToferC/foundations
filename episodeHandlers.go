@@ -251,11 +251,133 @@ func AddEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 
 		fmt.Println(ep.Tags)
 
+		for _, stream := range baseArchitecture {
+			if ep.Experience.Stream.Name == stream.Name {
+				ep.Experience.Stream = &models.Stream{
+					Name:        stream.Name,
+					Practices:   map[string]*models.Practice{},
+					Description: stream.Description,
+					Image:       stream.Image,
+					Slug:        stream.Slug,
+				}
+				fmt.Println("Added stream " + stream.Name)
+			}
+		}
+
 		err = database.SaveEpisode(db, &ep)
 		if err != nil {
 			log.Panic(err)
 		} else {
 			fmt.Println("Saved Episode")
+		}
+
+		url := fmt.Sprintf("/add_episode_practices/%d", ep.ID)
+
+		http.Redirect(w, req, url, http.StatusFound)
+	}
+}
+
+// AddEpisodePracticesHandler creates a user-generated episode
+func AddEpisodePracticesHandler(w http.ResponseWriter, req *http.Request) {
+
+	// Get session values or redirect to Login
+	session, err := sessions.Store.Get(req, "session")
+
+	if err != nil {
+		log.Println("error identifying session")
+		http.Redirect(w, req, "/login/", 302)
+		return
+		// in case of error
+	}
+
+	// Prep for user authentication
+	sessionMap := getUserSessionValues(session)
+
+	username := sessionMap["username"]
+	loggedIn := sessionMap["loggedin"]
+	isAdmin := sessionMap["isAdmin"]
+
+	if username == "" {
+		// Add user message
+		http.Redirect(w, req, "/", 302)
+	}
+
+	vars := mux.Vars(req)
+	pk := vars["id"]
+
+	id, err := strconv.Atoi(pk)
+	if err != nil {
+		http.Redirect(w, req, "/", http.StatusSeeOther)
+	}
+
+	ep, err := database.PKLoadEpisode(db, int64(id))
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// Track existing practices
+	stringArray := []string{}
+
+	for _, practice := range ep.Experience.Practices {
+		stringArray = append(stringArray, practice.Name)
+	}
+
+	// Validate that User == Author
+	IsAuthor := false
+
+	if username == ep.Author.UserName || isAdmin == "true" {
+		IsAuthor = true
+	} else {
+		http.Redirect(w, req, "/", 302)
+	}
+
+	wv := WebView{
+		Episode:      ep,
+		IsAuthor:     IsAuthor,
+		SessionUser:  username,
+		IsLoggedIn:   loggedIn,
+		IsAdmin:      isAdmin,
+		Counter:      numToArray(7),
+		BigCounter:   numToArray(15),
+		StringArray:  stringArray,
+		Architecture: baseArchitecture,
+	}
+
+	if req.Method == "GET" {
+
+		// Render page
+		Render(w, "templates/add_episode_practices.html", wv)
+
+	}
+
+	if req.Method == "POST" { // POST
+
+		err := req.ParseForm()
+		if err != nil {
+			panic(err)
+		}
+
+		ep.Experience.Practices = []*models.Practice{}
+
+		// Add practices to user.Stream
+		for _, stream := range baseArchitecture {
+			if stream.Name == ep.Experience.Stream.Name {
+				for pk, pv := range stream.Practices {
+					if req.FormValue(pk) != "" {
+						ep.Experience.Practices = append(ep.Experience.Practices, pv)
+					}
+				}
+			}
+		}
+
+		fmt.Println(ep)
+
+		// Update Episode
+		err = database.UpdateEpisode(db, ep)
+		if err != nil {
+			panic(err)
+		} else {
+			fmt.Println("Saved")
 		}
 
 		url := fmt.Sprintf("/view_episode/%d", ep.ID)
@@ -303,6 +425,12 @@ func ModifyEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 		}
 	}
 
+	if len(ep.Tags) < 3 {
+		for i := 0; i < 3; i++ {
+			ep.Tags = append(ep.Tags, "")
+		}
+	}
+
 	// Validate that User == Author
 	IsAuthor := false
 
@@ -314,6 +442,7 @@ func ModifyEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 
 	wv := WebView{
 		Episode:      ep,
+		Stream:       ep.Experience.Stream,
 		IsAuthor:     IsAuthor,
 		SessionUser:  username,
 		IsLoggedIn:   loggedIn,
@@ -387,6 +516,19 @@ func ModifyEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 			v.Path = ConvertURLToEmbededURL(v.Path)
 		}
 
+		for _, stream := range baseArchitecture {
+			if ep.Experience.Stream.Name == stream.Name {
+				ep.Experience.Stream = &models.Stream{
+					Name:        stream.Name,
+					Practices:   map[string]*models.Practice{},
+					Description: stream.Description,
+					Image:       stream.Image,
+					Slug:        stream.Slug,
+				}
+				fmt.Println("Added stream " + stream.Name)
+			}
+		}
+
 		// Insert Episode into App archive
 		err = database.UpdateEpisode(db, ep)
 		if err != nil {
@@ -397,7 +539,7 @@ func ModifyEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 
 		fmt.Println(ep)
 
-		url := fmt.Sprintf("/view_episode/%d", ep.ID)
+		url := fmt.Sprintf("/add_episode_practices/%d", ep.ID)
 
 		http.Redirect(w, req, url, http.StatusSeeOther)
 	}

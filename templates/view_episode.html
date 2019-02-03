@@ -55,16 +55,8 @@
         </ul>
         <hr>
 
-        <p>Learning Points</p>
-        {{ range $lp := $episode.LearningPoints }}
-          <p>{{ $lp }}</p>
-        {{ end }}
-        <hr>
-
-        <p>Digital Standards</p>
-        {{ range $ds := $episode.DigitalStandards }}
-          <p>{{ $ds }}</p>
-        {{ end }}
+        <h4>Learning Architecture</h4>
+        <h6 class="card-subtitle mb-2 text-muted"><a href="/view_stream/{{ $episode.Experience.Stream.Slug }}">{{ $episode.Experience.Stream.Name }} > </a> {{ range $p := $episode.Experience.Practices }}{{ $p.Name }} | {{ end }}</h6>
         <hr>
 
         <p>Likes: {{ $episode.Likes }}</p>
