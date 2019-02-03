@@ -44,15 +44,16 @@ func UserIndexHandler(w http.ResponseWriter, req *http.Request) {
 		panic(err)
 	}
 
-	wu := WebUser{
-		SessionUser: username,
-		IsLoggedIn:  loggedIn,
-		IsAdmin:     isAdmin,
-		Users:       users,
-		UserFrame:   true,
+	wv := WebView{
+		SessionUser:  username,
+		IsLoggedIn:   loggedIn,
+		IsAdmin:      isAdmin,
+		Users:        users,
+		UserFrame:    true,
+		Architecture: baseArchitecture,
 	}
 
-	Render(w, "templates/user_index.html", wu)
+	Render(w, "templates/user_index.html", wv)
 }
 
 // UserViewHandler handles the basic roster rendering for the app

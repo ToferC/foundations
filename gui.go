@@ -9,19 +9,10 @@ import (
 	"github.com/toferc/foundations/models"
 )
 
-// WebUser represents a generic user struct
-type WebUser struct {
-	IsAuthor    bool
-	SessionUser string
-	IsLoggedIn  string
-	IsAdmin     string
-	Users       []*models.User
-	UserFrame   bool
-}
-
 // WebView is a framework to send objects & data to a Web view
 type WebView struct {
 	User             *models.User
+	Users            []*models.User
 	Episode          *models.Episode
 	Experience       *models.Experience
 	Stream           *models.Stream
@@ -40,8 +31,6 @@ type WebView struct {
 	Architecture []models.Stream
 
 	CategoryMap map[string]int
-
-	Users []*models.User
 
 	Counter     []int
 	MidCounter  []int
