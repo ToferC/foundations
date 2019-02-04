@@ -56,7 +56,7 @@ var baseArchitecture = []models.Stream{
 				Name: "Using Information & Data",
 			},
 			"Using Tools & Technology": &models.Practice{
-				Name: "Using tools & technology",
+				Name: "Using Tools & technology",
 			},
 			"Community Building": &models.Practice{
 				Name: "Community Building",
@@ -69,6 +69,9 @@ var baseArchitecture = []models.Stream{
 			},
 			"Creativity & Problem Solving": &models.Practice{
 				Name: "Creativity & Problem Solving",
+			},
+			"Privacy & Security": &models.Practice{
+				Name: "Privacy & Security",
 			},
 		},
 	},
@@ -217,7 +220,7 @@ var baseArchitecture = []models.Stream{
 				Name: "Data Manipulation",
 			},
 			"Data Modeling": &models.Practice{
-				Name: "Data Manipulation",
+				Name: "Data Modeling",
 			},
 			"Programming": &models.Practice{
 				Name: "Programming",
@@ -280,6 +283,9 @@ var baseArchitecture = []models.Stream{
 			},
 			"Streaming Data": &models.Practice{
 				Name: "Streaming Data",
+			},
+			"Data Pipelines": &models.Practice{
+				Name: "Data Pipelines",
 			},
 			"Big Data": &models.Practice{
 				Name: "Big Data",
