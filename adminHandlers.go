@@ -106,7 +106,7 @@ func UserViewHandler(w http.ResponseWriter, req *http.Request) {
 		http.Redirect(w, req, "/", 302)
 	}
 
-	exps, err := database.ListUserExperiences(db, username)
+	exps, err := database.ListUserExperiences(db, user.UserName)
 	if err != nil {
 		log.Fatal(err)
 	}
