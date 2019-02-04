@@ -51,7 +51,7 @@
         <div class="card mb-4 box-shadow">
     <div class="card-body"></a>
         <h5 class="card-title">{{ noEscape (index $fontMap $e.Verb) }} {{ $e.LearningResource.Title }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{{ $e.Stream.Name }} > {{ range $p := $e.Practices }}{{ $p.Name }} | {{ end }}</h6>
+        <h6 class="card-subtitle mb-2 text-muted"><a href="/view_stream/{{ $e.Stream.Slug }}">{{ $e.Stream.Name }}</a> > {{ range $p := $e.Practices }}{{ $p.Name }} | {{ end }}</h6>
         <hr>
         <p class="card-text">
             Value: {{ $e.Value }}<br> 
