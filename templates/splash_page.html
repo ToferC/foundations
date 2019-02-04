@@ -1,0 +1,53 @@
+{{ define "title"}}
+
+<title>Digital Academy Foundations - Episodes</title>
+
+{{ end }}
+
+{{define "content"}}
+{{ $user := .SessionUser }}
+{{ $IsAdmin := .IsAdmin }}
+{{ $episode := .Episode }}
+
+<h3>Episodes</h3>
+
+      <div class="container">
+        <div class="row">
+          {{ range .Episodes }}
+          <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+              <a href="/view_episode/{{ .Slug }}">
+              <img class ="card-img-top" data-src="" alt="Thumbnail"
+              style="width: 100%; height: 50%; display: block;" src="https://s3.amazonaws.com/foundationsapp{{ .Image.Path }}"
+              data-holder-rendered="true">
+              <div class="card-body"></a>
+                <h5 class="card-title">{{ .Title }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted"></h6>
+                <h6>{{ .Author.UserName }}</h6>
+
+                <p class="card-text">
+                  {{ .Tagline }}
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <a class="btn btn-sm btn-primary"
+                    href="/view_episode/{{ .Slug }}">View</a>
+                    {{ if eq $user .Author.UserName }}
+                      <a class="btn btn-sm btn-primary" href="/modify/{{ .Slug }}">Modify</a>
+                    {{ end }}
+                    {{ if eq $IsAdmin "true" }}
+                    <a class="btn btn-sm btn-danger"
+                    href="/delete/{{ .ID }}">Delete</a>
+                    {{ end }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {{ end }}
+      </div>
+    </div>
+
+
+
+{{end}}

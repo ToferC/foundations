@@ -67,9 +67,7 @@ func ListUserExperiences(db *pg.DB, username string) ([]*models.Experience, erro
 	}
 
 	// Print names and PK
-	for i, ex := range exs {
-		fmt.Println(i, ex.LearningResource.Title, ex.LearningResource.ID, ex.LearningResourceID)
-	}
+
 	return exs, nil
 }
 

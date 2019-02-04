@@ -1,0 +1,190 @@
+{{ define "title"}}
+
+<title>Add Curated Experience to Learning Profile</title>
+
+{{ end }}
+
+{{define "content"}}
+
+{{ $e := .Experience}}
+{{ $episode := .Episode }}
+{{ $stream := .Stream }}
+{{ $stringArray := .StringArray }}
+{{ $architecture := .Architecture }}
+
+      <div class="container">
+        <hr>
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-12">
+            <h3 class="text-center">Thank you for tracking your learning. Fill in your personal experience below.</h3>
+            <form action="" method="POST">
+              <hr>
+              
+                <label>How would you describe the learning experience?</label>
+              <label>Choose as many tags as you need.</label>
+
+              <div class="btn-group-toggle text-center" data-toggle="buttons">
+              {{ range $s := .StringArray }}
+              <label class="btn btn-success">
+                  <input type="checkbox" name="{{ $s }}" autocomplete="off"> {{ $s }}
+              </label>
+              {{ end }}
+            </div>
+            <hr>
+
+              <h4>What {{ $e.Stream.Name }} practices does {{ $episode.Title }} touch on?</h4>
+            <p>Choose as many as you need.</p>
+
+              <div class="btn-group-toggle" data-toggle="buttons">
+                
+                {{ range $p := $stream.Practices }}
+                    <label class="btn btn-{{ if isInString $stringArray $p.Name }}success active{{else}}success{{end}}">
+                        <input type="checkbox" name="{{ $p.Name }}" autocomplete="off" {{ if isInString $stringArray $p.Name }}checked{{end}}> {{ $p.Name }}
+                    </label>
+                {{ end }} <!-- End practice range -->
+
+              </div>
+              <hr>
+             
+              <div class="form-group">
+                    <label>How long did it take?</label>
+                     <div class="form-check">
+                         <input class="form-check-input" type="radio" name="Experience.Time" id="timeRadios1" value="1" {{ if eq 1 $episode.Experience.Time }}checked{{end}}>
+                         <label class="form-check-label" for="timeRadios1">
+                           A few minutes
+                         </label>
+                     </div>
+       
+                     <div class="form-check">
+                         <input class="form-check-input" type="radio" name="Experience.Time" id="timeRadios2" value="2" {{ if eq 2 $episode.Experience.Time }}checked{{end}}>
+                         <label class="form-check-label" for="timeRadios2">
+                           30 - 60 minutes
+                         </label>
+                     </div>
+       
+                     <div class="form-check">
+                         <input class="form-check-input" type="radio" name="Experience.Time" id="timeRadios3" value="3" {{ if eq 3 $episode.Experience.Time }}checked{{end}}>
+                         <label class="form-check-label" for="timeRadios3">
+                           A few hours
+                         </label>
+                     </div>
+       
+                     <div class="form-check">
+                         <input class="form-check-input" type="radio" name="Experience.Time" id="timeRadios4" value="4" {{ if eq 4 $episode.Experience.Time }}checked{{end}}>
+                         <label class="form-check-label" for="timeRadios4">
+                           A few days
+                         </label>
+                     </div>
+       
+                     <div class="form-check">
+                         <input class="form-check-input" type="radio" name="Experience.Time" id="timeRadios5" value="5" {{ if eq 5 $episode.Experience.Time }}checked{{end}}>
+                         <label class="form-check-label" for="timeRadios5">
+                           Weeks
+                         </label>
+                     </div>
+                   </div>
+                   <hr>
+       
+                   <div class="form-group">
+                       <label>How valuable was it?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="Experience.Value" id="valueRadios1" value="1" {{ if eq 1 $episode.Experience.Time }}checked{{end}}>
+                            <label class="form-check-label" for="valueRadios1">
+                              Little value
+                            </label>
+                        </div>
+        
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="Experience.Value" id="valueRadios2" value="2" {{ if eq 2 $episode.Experience.Value }}checked{{end}}>
+                            <label class="form-check-label" for="valueRadios2">
+                              Pretty useful
+                            </label>
+                        </div>
+        
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="Experience.Value" id="valueRadios3" value="3" {{ if eq 3 $episode.Experience.Value }}checked{{end}}>
+                            <label class="form-check-label" for="valueRadios3">
+                              Solid learning
+                            </label>
+                        </div>
+        
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="Experience.Value" id="valueRadios4" value="4" {{ if eq 4 $episode.Experience.Value }}checked{{end}}>
+                            <label class="form-check-label" for="valueRadios4">
+                              Very good content
+                            </label>
+                        </div>
+        
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="Experience.Value" id="valueRadios5" value="5" {{ if eq 5 $episode.Experience.Value }}checked{{end}}>
+                            <label class="form-check-label" for="valueRadios5">
+                               Amazing learning experience
+                            </label>
+                        </div>
+                      </div>
+                      <hr>
+       
+                      <div class="form-group">
+                         <label>How difficult was it?</label>
+                          <div class="form-check">
+                              <input class="form-check-input" type="radio" name="Experience.Difficulty" id="difficultyRadios1" value="1" {{ if eq 1 $episode.Experience.Difficulty }}checked{{end}}>
+                              <label class="form-check-label" for="difficultyRadios1">
+                                Easy
+                              </label>
+                          </div>
+          
+                          <div class="form-check">
+                              <input class="form-check-input" type="radio" name="Experience.Difficulty" id="difficultyRadios2" value="2" {{ if eq 2 $episode.Experience.Difficulty }}checked{{end}}>
+                              <label class="form-check-label" for="difficultyRadios2">
+                                Some tricky concepts
+                              </label>
+                          </div>
+          
+                          <div class="form-check">
+                              <input class="form-check-input" type="radio" name="Experience.Difficulty" id="difficultyRadios3" value="3" {{ if eq 3 $episode.Experience.Difficulty }}checked{{end}}>
+                              <label class="form-check-label" for="difficultyRadios3">
+                                Moderately difficult
+                              </label>
+                          </div>
+          
+                          <div class="form-check">
+                              <input class="form-check-input" type="radio" name="Experience.Difficulty" id="difficultyRadios4" value="4" {{ if eq 4 $episode.Experience.Difficulty }}checked{{end}}>
+                              <label class="form-check-label" for="difficultyRadios4">
+                                Advanced
+                              </label>
+                          </div>
+          
+                          <div class="form-check">
+                              <input class="form-check-input" type="radio" name="Experience.Difficulty" id="difficultyRadios5" value="5" {{ if eq 5 $episode.Experience.Difficulty }}checked{{end}}>
+                              <label class="form-check-label" for="difficultyRadios5">
+                                 My brain hurts!
+                              </label>
+                          </div>
+                        </div>
+                        <hr>
+       
+                 <p>If you want, you can change the author's supplied tags one add more personal tags to describe your experience. This will help us give you better suggestions later.</p>
+       
+                 <div class="form-row">
+                   {{ range $i, $t := $episode.Tags }}
+                   <div class="col">
+                   <label class="form-group-text" id="Tags-addon">Tag {{ add $i 1 }}</label>
+                   <input type="text" class="form-control" aria-describedby="Tags-addon" name="Tags" placeholder="Enter tag here" value="{{ $t }}">
+                   </div>
+                   {{ end }}
+                 </div>
+                 <br>
+             
+            </div>
+            <br>
+
+              <button class="btn btn-primary" type="submit" value="Save">Record Experience</button>
+
+            </div>
+
+            
+            <hr>
+    </form>
+    </div>
+      </div>
+{{end}}

@@ -24,7 +24,7 @@ type Episode struct {
 	Experience        *Experience
 	DigitalStandards  []string
 	BannerImage       *Image
-	slug              string `schema:"-"`
+	Slug              string `schema:"-"`
 }
 
 // Edit represents an edit to content

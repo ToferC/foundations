@@ -541,3 +541,208 @@ func DeleteExperienceHandler(w http.ResponseWriter, req *http.Request) {
 		http.Redirect(w, req, url, http.StatusSeeOther)
 	}
 }
+
+// Curated Experiences
+
+// AddCuratedExperienceHandler creates a user-generated experience
+func AddCuratedExperienceHandler(w http.ResponseWriter, req *http.Request) {
+
+	// Get session values or redirect to Login
+	session, err := sessions.Store.Get(req, "session")
+
+	if err != nil {
+		log.Println("error identifying session")
+		http.Redirect(w, req, "/login/", 302)
+		return
+		// in case of error
+	}
+
+	// Prex for user authentication
+	sessionMap := getUserSessionValues(session)
+
+	username := sessionMap["username"]
+	loggedIn := sessionMap["loggedin"]
+	isAdmin := sessionMap["isAdmin"]
+
+	if username == "" {
+		// Add user message
+		http.Redirect(w, req, "/", 302)
+	}
+
+	vars := mux.Vars(req)
+	verb := "read"
+	slug := vars["slug"]
+
+	ep, err := database.SlugLoadEpisode(db, slug)
+	if err != nil {
+		log.Println(err)
+		http.Redirect(w, req, "/", 302)
+	}
+
+	if len(ep.Tags) < 3 {
+		for i := 0; i < 3; i++ {
+			ep.Tags = append(ep.Tags, "")
+		}
+	}
+
+	ex := ep.Experience
+
+	ex.LearningResource = &models.LearningResource{}
+
+	lr := &models.LearningResource{
+		Title:       ep.Title,
+		Description: ep.Tagline,
+		AddedOn:     time.Now(),
+		Author:      ep.Author.UserName,
+		Path: fmt.Sprintf("%s/view_episode/%s",
+			req.URL.Host,
+			slug),
+	}
+
+	stream := &models.Stream{}
+
+	// get raw stream model for form
+	for _, s := range baseArchitecture {
+		if s.Name == ex.Stream.Name {
+			stream = &s
+			break
+		}
+	}
+
+	feedbackStrings := []string{
+		"Accessible",
+		"Clear",
+		"Entertaining",
+		"Relevant",
+		"Informative",
+		"Insightful",
+		"Useful",
+	}
+
+	wv := WebView{
+		Experience:   ex,
+		Episode:      ep,
+		Stream:       stream,
+		IsAuthor:     true,
+		SessionUser:  username,
+		IsLoggedIn:   loggedIn,
+		IsAdmin:      isAdmin,
+		Counter:      numToArray(7),
+		BigCounter:   numToArray(15),
+		Architecture: baseArchitecture,
+		StringArray:  feedbackStrings,
+	}
+
+	if req.Method == "GET" {
+
+		// Render page
+		Render(w, "templates/add_curated_experience.html", wv)
+
+	}
+
+	if req.Method == "POST" { // POST
+
+		err := req.ParseForm()
+		if err != nil {
+			panic(err)
+		}
+
+		fmt.Println(req.Form)
+
+		// Map default Experience to Character.Experiences
+
+		user, err := database.LoadUser(db, username)
+		if err != nil {
+			fmt.Println(err)
+			http.Redirect(w, req, "/", 302)
+		}
+
+		// Pull form values into Experience via gorilla/schema
+		err = decoder.Decode(ex, req.PostForm)
+		if err != nil {
+			panic(err)
+		}
+
+		// Add other Experience fields
+
+		for _, s := range feedbackStrings {
+			if req.FormValue(s) != "" {
+				ex.Comments = append(ex.Comments, s)
+			}
+		}
+
+		ex.UserName = username
+		ex.Verb = verb
+		ex.OccurredAt = time.Now()
+
+		// See if LearningResource exists and create if needed
+		lrExists := database.LearningResourceExists(db, lr.Path)
+		fmt.Println(lrExists)
+
+		if !lrExists {
+			fmt.Println("Learning Resource not found in DB")
+			err = database.SaveLearningResource(db, lr)
+			if err != nil {
+				log.Fatal(err)
+			} else {
+				fmt.Println("Saved Learning Resource")
+				ex.LearningResource = lr
+			}
+		} else {
+			fmt.Println("Learning resource found in DB")
+			ex.LearningResource, _ = database.LoadLearningResource(db, lr.Path)
+		}
+
+		// Determine Points for experience - default calculation
+
+		ex.Points = (ex.Time + ex.Value + ex.Difficulty) * 100
+		ex.LearningResourceID = ex.LearningResource.ID
+
+		fmt.Println(ex)
+
+		// Save Experience in Database
+		_, err = database.SaveExperience(db, ex)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		// See if user already tracking learning stream
+		streams := user.Streams
+
+		foundStream := false
+
+		for k, v := range streams {
+			if k == ex.Stream.Name {
+				v.LearningTargets[user.LearnerProfile.CurrentYear][1] += ex.Points
+				foundStream = true
+			}
+		}
+
+		if !foundStream {
+			// Learning is learning in a new stream. Open it at the basic level
+			user.Streams[ex.Stream.Name] = ex.Stream
+			user.Streams[ex.Stream.Name].LearningTargets = map[string][]int{
+				user.LearnerProfile.CurrentYear: []int{1000, ex.Points},
+			}
+
+			user.Streams[ex.Stream.Name].Expertise = 1
+		}
+
+		// Switch onboarding tag for user
+		if !user.Onboarded {
+			user.Onboarded = true
+		}
+
+		// Update user
+		err = database.UpdateUser(db, user)
+		if err != nil {
+			log.Panic(err)
+		} else {
+			fmt.Println("Saved Experience to user LearnerProfile")
+		}
+
+		url := "/learner_profile/"
+
+		http.Redirect(w, req, url, http.StatusFound)
+	}
+}

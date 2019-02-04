@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/gosimple/slug"
 	blackfriday "gopkg.in/russross/blackfriday.v2"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -58,7 +59,7 @@ func SplashPageHandler(w http.ResponseWriter, req *http.Request) {
 		UserFrame:    true,
 		Architecture: baseArchitecture,
 	}
-	Render(w, "templates/episodes.html", wv)
+	Render(w, "templates/splash_page.html", wv)
 }
 
 // EpisodeHandler renders a character in a Web page
@@ -79,18 +80,9 @@ func EpisodeHandler(w http.ResponseWriter, req *http.Request) {
 	isAdmin := sessionMap["isAdmin"]
 
 	vars := mux.Vars(req)
-	pk := vars["id"]
+	slug := vars["slug"]
 
-	if len(pk) == 0 {
-		http.Redirect(w, req, "/", http.StatusSeeOther)
-	}
-
-	id, err := strconv.Atoi(pk)
-	if err != nil {
-		http.Redirect(w, req, "/", http.StatusSeeOther)
-	}
-
-	ep, err := database.PKLoadEpisode(db, int64(id))
+	ep, err := database.SlugLoadEpisode(db, slug)
 	if err != nil {
 		fmt.Println(err)
 		fmt.Println("Unable to load Episode")
@@ -264,6 +256,8 @@ func AddEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 			}
 		}
 
+		ep.Slug = slug.Make(fmt.Sprintf("%s-%s", ep.Author.UserName, ep.Title))
+
 		err = database.SaveEpisode(db, &ep)
 		if err != nil {
 			log.Panic(err)
@@ -271,7 +265,7 @@ func AddEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 			fmt.Println("Saved Episode")
 		}
 
-		url := fmt.Sprintf("/add_episode_practices/%d", ep.ID)
+		url := fmt.Sprintf("/add_episode_practices/%s", ep.Slug)
 
 		http.Redirect(w, req, url, http.StatusFound)
 	}
@@ -303,16 +297,12 @@ func AddEpisodePracticesHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	vars := mux.Vars(req)
-	pk := vars["id"]
+	slugString := vars["slug"]
 
-	id, err := strconv.Atoi(pk)
-	if err != nil {
-		http.Redirect(w, req, "/", http.StatusSeeOther)
-	}
-
-	ep, err := database.PKLoadEpisode(db, int64(id))
+	ep, err := database.SlugLoadEpisode(db, slugString)
 	if err != nil {
 		fmt.Println(err)
+		http.Redirect(w, req, "/", 302)
 	}
 
 	// Track existing practices
@@ -370,6 +360,8 @@ func AddEpisodePracticesHandler(w http.ResponseWriter, req *http.Request) {
 			}
 		}
 
+		ep.Slug = slug.Make(fmt.Sprintf("%s-%s", ep.Author.UserName, ep.Title))
+
 		fmt.Println(ep)
 
 		// Update Episode
@@ -380,7 +372,7 @@ func AddEpisodePracticesHandler(w http.ResponseWriter, req *http.Request) {
 			fmt.Println("Saved")
 		}
 
-		url := fmt.Sprintf("/view_episode/%d", ep.ID)
+		url := fmt.Sprintf("/view_episode/%s", ep.Slug)
 
 		http.Redirect(w, req, url, http.StatusFound)
 	}
@@ -407,22 +399,12 @@ func ModifyEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 	isAdmin := sessionMap["isAdmin"]
 
 	vars := mux.Vars(req)
-	pk := vars["id"]
+	slug := vars["slug"]
 
-	id, err := strconv.Atoi(pk)
-	if err != nil {
-		http.Redirect(w, req, "/", http.StatusSeeOther)
-	}
-
-	ep, err := database.PKLoadEpisode(db, int64(id))
+	ep, err := database.SlugLoadEpisode(db, slug)
 	if err != nil {
 		fmt.Println(err)
-	}
-
-	if ep.Author == nil {
-		ep.Author = &models.User{
-			UserName: "",
-		}
+		http.Redirect(w, req, "/", 302)
 	}
 
 	if len(ep.Tags) < 3 {
@@ -539,7 +521,7 @@ func ModifyEpisodeHandler(w http.ResponseWriter, req *http.Request) {
 
 		fmt.Println(ep)
 
-		url := fmt.Sprintf("/add_episode_practices/%d", ep.ID)
+		url := fmt.Sprintf("/add_episode_practices/%s", ep.Slug)
 
 		http.Redirect(w, req, url, http.StatusSeeOther)
 	}

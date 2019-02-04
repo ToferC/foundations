@@ -158,14 +158,15 @@ func main() {
 	r.HandleFunc("/add_learner_profile", AddLearnerProfileHandler)
 	r.HandleFunc("/add_rating_target", AddRatingTargetHandler)
 
-	r.HandleFunc("/view_episode/{id}", EpisodeHandler)
-	r.HandleFunc("/new/", AddEpisodeHandler)
-	r.HandleFunc("/add_episode_practices/{id}", AddEpisodePracticesHandler)
-	r.HandleFunc("/modify/{id}", ModifyEpisodeHandler)
+	r.HandleFunc("/view_episode/{slug}", EpisodeHandler)
+	r.HandleFunc("/add_episode/", AddEpisodeHandler)
+	r.HandleFunc("/add_episode_practices/{slug}", AddEpisodePracticesHandler)
+	r.HandleFunc("/modify/{slug}", ModifyEpisodeHandler)
 	r.HandleFunc("/delete/{id}", DeleteEpisodeHandler)
 
 	r.HandleFunc("/add_first_experience", AddFirstExperienceHandler)
 	r.HandleFunc("/add_experience/{verb}/", AddExperienceHandler)
+	r.HandleFunc("/add_curated_experience/{slug}", AddCuratedExperienceHandler)
 	r.HandleFunc("/add_experience_practices/{id}", AddExperiencePracticesHandler)
 	r.HandleFunc("/delete_experience/{id}", DeleteExperienceHandler)
 

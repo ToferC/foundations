@@ -64,6 +64,23 @@ func PKLoadEpisode(db *pg.DB, pk int64) (*models.Episode, error) {
 	return e, nil
 }
 
+// SlugLoadEpisode loads a single episode from the DB by pk
+func SlugLoadEpisode(db *pg.DB, slug string) (*models.Episode, error) {
+	// Select user by Primary Key
+	e := &models.Episode{}
+	err := db.Model(e).
+		Where("slug = ?", slug).
+		Select()
+
+	if err != nil {
+		fmt.Println(err)
+		return &models.Episode{}, err
+	}
+
+	fmt.Println("Episode loaded From DB")
+	return e, nil
+}
+
 // DeleteEpisode deletes a single episode from DB by ID
 func DeleteEpisode(db *pg.DB, pk int64) error {
 
