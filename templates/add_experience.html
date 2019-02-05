@@ -34,7 +34,7 @@
             <hr>
 
               <div class="form-group">
-                    <label class="form-group-text" data-toggle="buttons" id="Stream-addon">What digital stream does this belong to?</label><br>
+                    <label class="form-group-text text-center" data-toggle="buttons" id="Stream-addon">What digital stream does this belong to?</label><br>
                     {{ range $s := .Architecture }}
                     <label class="btn btn-success">
                         <input type="radio" name="Stream.Name" value="{{ $s.Name }}" autocomplete="off"> {{ $s.Name }}

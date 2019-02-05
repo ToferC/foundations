@@ -92,6 +92,11 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 
 	cYear := user.LearnerProfile.CurrentYear
 
+	// Reset LearningTargets
+	for _, v := range user.Streams {
+		v.LearningTargets[cYear][1] = 0
+	}
+
 	// Loop over experiences and set up data
 	for _, ex := range exps {
 		// Add Learning Resources to Slice

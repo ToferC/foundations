@@ -713,7 +713,6 @@ func AddCuratedExperienceHandler(w http.ResponseWriter, req *http.Request) {
 
 		for k, v := range streams {
 			if k == ex.Stream.Name {
-				v.LearningTargets[user.LearnerProfile.CurrentYear][1] += ex.Points
 				foundStream = true
 			}
 		}
@@ -722,7 +721,7 @@ func AddCuratedExperienceHandler(w http.ResponseWriter, req *http.Request) {
 			// Learning is learning in a new stream. Open it at the basic level
 			user.Streams[ex.Stream.Name] = ex.Stream
 			user.Streams[ex.Stream.Name].LearningTargets = map[string][]int{
-				user.LearnerProfile.CurrentYear: []int{1000, ex.Points},
+				user.LearnerProfile.CurrentYear: []int{1000, 0},
 			}
 
 			user.Streams[ex.Stream.Name].Expertise = 1

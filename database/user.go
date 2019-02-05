@@ -2,8 +2,10 @@ package database
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/go-pg/pg"
+	"github.com/toferc/foundations/database"
 	"github.com/toferc/foundations/models"
 )
 
@@ -34,6 +36,21 @@ func SaveUser(db *pg.DB, u *models.User) error {
 
 //UpdateUser updates user info
 func UpdateUser(db *pg.DB, u *models.User) error {
+
+	exps, err := database.ListUserExperiences(db, username)
+	if err != nil {
+		log.Println(err)
+		exps = []*models.Experience{}
+	}
+
+	// Update points based on experiences
+	for _, ex := range exps {
+		for k, v := range u.Streams {
+			if ex.Stream.Name == k {
+				v.LearningTargets[u.LearnerProfile.CurrentYear][1] += ex.Points
+			}
+		}
+	}
 
 	err := db.Update(u)
 	if err != nil {
