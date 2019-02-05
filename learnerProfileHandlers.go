@@ -92,23 +92,12 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 
 	cYear := user.LearnerProfile.CurrentYear
 
-	// Reset LearningTargets
-	for _, v := range user.Streams {
-		v.LearningTargets[cYear][1] = 0
-	}
-
 	// Loop over experiences and set up data
 	for _, ex := range exps {
 		// Add Learning Resources to Slice
 		if !isInString(lrStrings, ex.LearningResource.Path) {
 			lrs = append(lrs, ex.LearningResource)
 			lrStrings = append(lrStrings, ex.LearningResource.Path)
-		}
-		// Update current learning based on experiences
-		for k, v := range user.Streams {
-			if ex.Stream.Name == k {
-				v.LearningTargets[cYear][1] += ex.Points
-			}
 		}
 	}
 
@@ -131,6 +120,12 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 		categories["max"] += ex.Points
 	}
 
+	slugMap := map[string]string{}
+
+	for _, stream := range baseArchitecture {
+		slugMap[stream.Name] = stream.Slug
+	}
+
 	wv := WebView{
 		User:              user,
 		IsAuthor:          IsAuthor,
@@ -143,6 +138,7 @@ func ViewLearnerProfileHandler(w http.ResponseWriter, req *http.Request) {
 		UserFrame:         true,
 		NumMap:            skillMap,
 		StringMap:         fontMap,
+		StringMap2:        slugMap,
 		Architecture:      baseArchitecture,
 	}
 

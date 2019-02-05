@@ -38,6 +38,7 @@ type WebView struct {
 	StringArray []string
 	NumMap      map[int]string
 	StringMap   map[string]string
+	StringMap2  map[string]string
 
 	Flashes []interface{}
 }
