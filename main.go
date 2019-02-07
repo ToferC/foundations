@@ -178,6 +178,13 @@ func main() {
 	r.HandleFunc("/make_admin/{id}", MakeAdminHandler)
 	r.HandleFunc("/delete_user/{id}", DeleteUserHandler)
 
+	// API
+	r.HandleFunc("/experience", GetExperiences).Methods("GET")
+	r.HandleFunc("/experience/{id}", GetExperience).Methods("GET")
+	r.HandleFunc("/experience/{id}", CreateExperience).Methods("POST")
+	r.HandleFunc("/experience/{id}", DeleteExperience).Methods("DELETE")
+	r.HandleFunc("/experience/{id}", UpdateExperience).Methods("PUT")
+
 	http.Handle("/", r)
 
 	log.Fatal(http.ListenAndServe(":"+port, r))

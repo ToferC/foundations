@@ -71,6 +71,23 @@ func ListUserExperiences(db *pg.DB, username string) ([]*models.Experience, erro
 	return exs, nil
 }
 
+// ListExperiences queries Character names and add to slice
+func ListExperiences(db *pg.DB) ([]*models.Experience, error) {
+	var exs []*models.Experience
+
+	err := db.Model(&exs).
+		Column("experience.*", "LearningResource").
+		Select()
+
+	if err != nil {
+		return []*models.Experience{}, err
+	}
+
+	// Print names and PK
+
+	return exs, nil
+}
+
 // PKLoadExperience loads a single experience from the DB by pk
 func PKLoadExperience(db *pg.DB, pk int64) (*models.Experience, error) {
 	// Select experience by Primary Key
