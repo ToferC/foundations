@@ -82,6 +82,7 @@ func main() {
 			Email:    email,
 			Password: hashedPassword,
 			IsAdmin:  true,
+			Role:     "admin",
 		}
 
 		database.SaveUser(db, &user)

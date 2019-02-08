@@ -29,7 +29,8 @@ func createSchema(db *pg.DB) error {
 		(*models.LearningPoint)(nil),
 		(*models.KnowledgePoint)(nil),
 		(*models.LearningResource)(nil),
-		(*models.User)(nil)} {
+		(*models.User)(nil),
+		(*models.Relationship)(nil)} {
 		err := db.CreateTable(model, &orm.CreateTableOptions{
 			Temp:        false,
 			IfNotExists: true,

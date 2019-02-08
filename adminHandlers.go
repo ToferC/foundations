@@ -200,6 +200,7 @@ func MakeAdminHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	user.IsAdmin = true
+	user.Role = "admin"
 
 	err = database.UpdateUser(db, user)
 	if err != nil {

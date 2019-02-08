@@ -179,11 +179,12 @@ func main() {
 	r.HandleFunc("/delete_user/{id}", DeleteUserHandler)
 
 	// API
-	r.HandleFunc("/experience", GetExperiences).Methods("GET")
-	r.HandleFunc("/experience/{id}", GetExperience).Methods("GET")
-	r.HandleFunc("/experience/{id}", CreateExperience).Methods("POST")
-	r.HandleFunc("/experience/{id}", DeleteExperience).Methods("DELETE")
-	r.HandleFunc("/experience/{id}", UpdateExperience).Methods("PUT")
+	r.HandleFunc("/api/experience", GetExperiences).Methods("GET")
+	r.HandleFunc("/api/experience/user/{id}", GetUserExperiences).Methods("GET")
+	r.HandleFunc("/api/experience/{id}", GetExperience).Methods("GET")
+	r.HandleFunc("/api/experience/{id}", CreateExperience).Methods("POST")
+	r.HandleFunc("/api/experience/{id}", DeleteExperience).Methods("DELETE")
+	r.HandleFunc("/api/experience/{id}", UpdateExperience).Methods("PUT")
 
 	http.Handle("/", r)
 

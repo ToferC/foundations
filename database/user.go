@@ -20,6 +20,9 @@ func SaveUser(db *pg.DB, u *models.User) error {
 		CurrentYear:     "2019",
 	}
 
+	u.Role = "user"
+	u.Language = "en-ca"
+
 	u.Streams = map[string]*models.Stream{}
 
 	// Save User in Database
@@ -55,6 +58,18 @@ func UpdateUser(db *pg.DB, u *models.User) error {
 				v.LearningTargets[u.LearnerProfile.CurrentYear][1] += ex.Points
 			}
 		}
+	}
+
+	if u.Language == "" {
+		u.Language = "en-ca"
+	}
+
+	if u.Role == "" {
+		u.Role = "user"
+	}
+
+	if u.IsAdmin {
+		u.Role = "admin"
 	}
 
 	// Update user

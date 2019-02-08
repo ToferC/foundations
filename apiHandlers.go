@@ -34,16 +34,72 @@ func GetExperiences(w http.ResponseWriter, req *http.Request) {
 	loggedIn := sessionMap["loggedin"]
 	isAdmin := sessionMap["isAdmin"]
 
-	fmt.Println(loggedIn, isAdmin)
+	fmt.Println(loggedIn, isAdmin, username)
 
 	fmt.Println(session)
 
-	if username == "" {
-		http.Redirect(w, req, "/", 302)
-		return
-	}
+	/*
+		if username == "" {
+			http.Redirect(w, req, "/", 302)
+			return
+		}
+	*/
 
 	exps, err := database.ListExperiences(db)
+	if err != nil {
+		log.Println(err)
+	}
+
+	json.NewEncoder(w).Encode(exps)
+}
+
+// GetUserExperiences handles the basic roster rendering for the app
+func GetUserExperiences(w http.ResponseWriter, req *http.Request) {
+
+	// Get session values or redirect to Login
+	session, err := sessions.Store.Get(req, "session")
+
+	if err != nil {
+		log.Println("error identifying session")
+		http.Redirect(w, req, "/login/", 302)
+		return
+		// in case of error
+	}
+
+	// Prep for user authentication
+	sessionMap := getUserSessionValues(session)
+
+	username := sessionMap["username"]
+	loggedIn := sessionMap["loggedin"]
+	isAdmin := sessionMap["isAdmin"]
+
+	fmt.Println(loggedIn, isAdmin, username)
+
+	fmt.Println(session)
+
+	/*
+		if username == "" {
+			http.Redirect(w, req, "/", 302)
+			return
+		}
+	*/
+
+	vars := mux.Vars(req)
+	idString := vars["id"]
+
+	pk, err := strconv.Atoi(idString)
+	if err != nil {
+		pk = 0
+		log.Println(err)
+	}
+
+	user, err := database.PKLoadUser(db, int64(pk))
+	if err != nil {
+		log.Println(err)
+		fmt.Println("Unable to load User")
+	}
+
+	exps, err := database.ListUserExperiences(db, user.UserName)
 	if err != nil {
 		log.Println(err)
 	}
@@ -71,14 +127,16 @@ func GetExperience(w http.ResponseWriter, req *http.Request) {
 	loggedIn := sessionMap["loggedin"]
 	isAdmin := sessionMap["isAdmin"]
 
-	fmt.Println(loggedIn, isAdmin)
+	fmt.Println(loggedIn, isAdmin, username)
 
 	fmt.Println(session)
 
-	if username == "" {
-		http.Redirect(w, req, "/", 302)
-		return
-	}
+	/*
+		if username == "" {
+			http.Redirect(w, req, "/", 302)
+			return
+		}
+	*/
 
 	vars := mux.Vars(req)
 	idString := vars["id"]
@@ -117,7 +175,7 @@ func CreateExperience(w http.ResponseWriter, req *http.Request) {
 	loggedIn := sessionMap["loggedin"]
 	isAdmin := sessionMap["isAdmin"]
 
-	fmt.Println(loggedIn, isAdmin)
+	fmt.Println(loggedIn, isAdmin, username)
 
 	fmt.Println(session)
 
@@ -173,7 +231,7 @@ func UpdateExperience(w http.ResponseWriter, req *http.Request) {
 	loggedIn := sessionMap["loggedin"]
 	isAdmin := sessionMap["isAdmin"]
 
-	fmt.Println(loggedIn, isAdmin)
+	fmt.Println(loggedIn, isAdmin, username)
 
 	fmt.Println(session)
 
@@ -203,6 +261,7 @@ func UpdateExperience(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
+	fmt.Println("Updating Experience")
 
 	json.NewEncoder(w).Encode(experience)
 }
@@ -227,7 +286,7 @@ func DeleteExperience(w http.ResponseWriter, req *http.Request) {
 	loggedIn := sessionMap["loggedin"]
 	isAdmin := sessionMap["isAdmin"]
 
-	fmt.Println(loggedIn, isAdmin)
+	fmt.Println(loggedIn, isAdmin, username)
 
 	fmt.Println(session)
 
