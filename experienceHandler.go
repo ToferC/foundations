@@ -11,6 +11,7 @@ import (
 	"github.com/thewhitetulip/Tasks/sessions"
 	"github.com/toferc/foundations/database"
 	"github.com/toferc/foundations/models"
+	"github.com/toferc/foundations/services"
 )
 
 // ListUserExperiencesHandler renders the basic character roster page
@@ -367,6 +368,16 @@ func AddExperiencePracticesHandler(w http.ResponseWriter, req *http.Request) {
 		err = database.UpdateLearningResource(db, lr)
 		if err != nil {
 			log.Fatal(err)
+		}
+
+		user, err := database.LoadUser(db, ex.UserName)
+		if err != nil {
+			log.Println(err)
+		} else {
+			services.SendMail(user.Email,
+				fmt.Sprintf("You gained %d points in %s", ex.Points, ex.Stream.Name),
+				fmt.Sprintf("<h4>Details:</h4><h4>%s</h4><p>%s</p>", lr.Title, ex),
+				mailPassword)
 		}
 
 		url := "/learner_profile/"

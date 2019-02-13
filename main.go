@@ -25,10 +25,11 @@ import (
 )
 
 var (
-	db       *pg.DB
-	svc      *s3.S3
-	uploader *s3manager.Uploader
-	decoder  = schema.NewDecoder()
+	db           *pg.DB
+	svc          *s3.S3
+	uploader     *s3manager.Uploader
+	decoder      = schema.NewDecoder()
+	mailPassword string
 )
 
 // MaxMemory is the max upload size for images
@@ -83,9 +84,12 @@ func main() {
 			log.Fatal("Error loading .env file")
 		}
 
+		mailPassword = os.Getenv("GMAIL_PASSWORD")
+
 		configGoogleOAUTH()
 
 		callback = "http://localhost:8080/google/callback"
+
 	}
 
 	defer db.Close()

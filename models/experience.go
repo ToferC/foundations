@@ -34,11 +34,10 @@ func (e *Experience) String() string {
 	tString := e.OccurredAt.Format("2006-01-02")
 	text := ""
 
-	text += fmt.Sprintf("\n[%s] %s | Topic: %s, Learning Resource: %s",
+	text += fmt.Sprintf("\n[%s] %s | Topic: %s",
 		tString,
 		e.Verb,
 		e.Stream.Name,
-		e.LearningResource.Title,
 	)
 
 	if e.Practices != nil {
