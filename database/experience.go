@@ -46,7 +46,7 @@ func LoadStreamExperiences(db *pg.DB, name string) ([]*models.Experience, error)
 	// Add stream experiences to Slice -- Need DB work here
 	for i, e := range temp {
 		if e.Stream != nil {
-			if e.Stream.Name == name {
+			if e.Stream != nil {
 				fmt.Println(i, e)
 				exs = append(exs, e)
 			}

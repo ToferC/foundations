@@ -23,7 +23,7 @@
                 {{ if eq $e.Stream.Name $stream.Name}}
                 {{ range $p := $stream.Practices }}
                 <label class="btn btn-success">
-                  <input type="checkbox" name="{{ $p.Name }}" autocomplete="off" required> {{ $p.Name }}
+                  <input type="checkbox" name="{{ $p.Name }}" autocomplete="off"> {{ $p.Name }}
                 </label>
                 {{ end }} <!-- End practice range -->
                 {{ end }} <!-- End if-->
