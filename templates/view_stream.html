@@ -63,6 +63,7 @@
                         <p>These are the experiences that other learners have tracked in the {{ $stream.Name }} stream.</p>
                         <div class="row">
                         {{ range $e := $experiences }}
+                          {{ if $e.LearningResource }}
                         <div class="col-md-4">
                             <div class="card mb-4 box-shadow">
                         <div class="card-body"></a>
@@ -87,7 +88,8 @@
                           </div>
                           </div>
                         </div>
-                        {{ end }}
+                        {{ end }} <!-- End if LearningResource -->
+                        {{ end }} <!-- End Loop -->
                           </div>
                     </section>
             </div>

@@ -37,7 +37,7 @@
                     <label class="form-group-text text-center" data-toggle="buttons" id="Stream-addon">What digital stream does this belong to?</label><br>
                     {{ range $s := .Architecture }}
                     <label class="btn btn-success">
-                        <input type="radio" name="Stream.Name" value="{{ $s.Name }}" autocomplete="off"> {{ $s.Name }}
+                        <input type="radio" name="Stream.Name" value="{{ $s.Name }}" autocomplete="off" required> {{ $s.Name }}
                     </label>
                     {{ end }}
               </div>
