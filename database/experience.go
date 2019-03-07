@@ -47,8 +47,10 @@ func LoadStreamExperiences(db *pg.DB, name string) ([]*models.Experience, error)
 	for i, e := range temp {
 		if e.Stream != nil {
 			if e.Stream != nil {
-				fmt.Println(i, e)
-				exs = append(exs, e)
+				if e.Stream.Name == name {
+					fmt.Println(i, e)
+					exs = append(exs, e)
+				}
 			}
 		} else {
 			fmt.Println(e)
