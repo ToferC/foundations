@@ -71,7 +71,7 @@
                         {{ if eq $s.Name $stream.Name}}
                           {{ range $p := $stream.Practices }}
                             <label class="btn btn-{{ if isInString $stringArray $p.Name }}success active{{else}}success{{end}}">
-                              <input type="checkbox" name="{{ $p.Name }}" autocomplete="off" {{ if isInString $stringArray $p.Name }}checked{{end}} required> {{ $p.Name }}
+                              <input type="checkbox" name="{{ $p.Name }}" autocomplete="off" {{ if isInString $stringArray $p.Name }}checked{{end}}> {{ $p.Name }}
                             </label>
                           {{ end }} <!-- End practice range -->
                         {{ end }} <!-- End if-->
